@@ -784,6 +784,7 @@ _memdescAllocInternal
     MEMORY_DESCRIPTOR *pMemDesc
 )
 {
+    NV_PRINTF(LEVEL_ERROR, "NVIDIA-TRACE: Entering _memdescAllocInternal\n");
     OBJGPU                      *pGpu               = pMemDesc->pGpu;
     NV_STATUS                    status             = NV_OK;
     FB_ALLOC_INFO               *pFbAllocInfo       = NULL;
@@ -2549,6 +2550,7 @@ memdescCreateSubMem
     NvU64 Size
 )
 {
+    NV_PRINTF(LEVEL_ERROR, "NVIDIA-TRACE: Entering memdescCreateSubMem\n");
     NV_STATUS status;
     MEMORY_DESCRIPTOR *pMemDescNew;
     NvU32 subDevInst;
@@ -2984,6 +2986,7 @@ void memdescGetPtePhysAddrsForGpu(MEMORY_DESCRIPTOR *pMemDesc,
     // Get the PTE array that we should use for phys addr lookups based on the
     // MMU context. (see bug 1625121)
     //
+    NV_PRINTF(LEVEL_ERROR, "NVIDIA-TRACE: Entering memdescGetPtePhysAddrsForGpu\n");
     NvU64 i;
     NvU64 pageIndex;
     DMA_PAGE_ARRAY pageArray;
@@ -4289,6 +4292,7 @@ PIOVAMAPPING memdescGetIommuMap
     NvU32 iovaspaceId
 )
 {
+    NV_PRINTF(LEVEL_ERROR, "NVIDIA-TRACE: Entering memdescGetIommuMap\n");
     PIOVAMAPPING pIommuMap = pMemDesc->_pIommuMappings;
     while (pIommuMap != NULL)
     {
@@ -4378,6 +4382,7 @@ NV_STATUS memdescMapIommu
     NvU32 iovaspaceId
 )
 {
+    NV_PRINTF(LEVEL_ERROR, "NVIDIA-TRACE: Entering memdescMapIommu\n");
 #if (RMCFG_FEATURE_PLATFORM_UNIX || RMCFG_FEATURE_PLATFORM_MODS) && !NVCPU_IS_ARM
     if (iovaspaceId != NV_IOVA_DOMAIN_NONE)
     {
@@ -4453,6 +4458,7 @@ void memdescUnmapIommu
     NvU32 iovaspaceId
 )
 {
+    NV_PRINTF(LEVEL_ERROR, "NVIDIA-TRACE: Entering memdescUnmapIommu\n");
 #if (RMCFG_FEATURE_PLATFORM_UNIX || RMCFG_FEATURE_PLATFORM_MODS) && !NVCPU_IS_ARM
     PIOVAMAPPING pIovaMapping;
     OBJIOVASPACE *pIOVAS;

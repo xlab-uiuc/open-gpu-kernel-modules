@@ -188,6 +188,7 @@ clearCePceCacheAndForwardCtrlToGsp
     Subdevice *pSubdevice
 )
 {
+    NV_PRINTF(LEVEL_ERROR, "NVIDIA-TRACE: Entering clearCePceCacheAndForwardCtrlToGsp\n");
     OBJGPU *pGpu = GPU_RES_GET_GPU(pSubdevice);
     CALL_CONTEXT *pCallContext = resservGetTlsCallContext();
     RmCtrlParams *pRmCtrlParams = pCallContext->pControlParams;

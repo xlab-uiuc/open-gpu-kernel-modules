@@ -598,6 +598,7 @@ serverAllocClient
     RS_RES_ALLOC_PARAMS_INTERNAL *pParams
 )
 {
+    NV_PRINTF(LEVEL_ERROR, "NVIDIA-TRACE: Entering serverAllocClient\n");
     NV_STATUS     status;
     NvHandle      hClient = 0;
     RsClient     *pClient = NULL;
@@ -722,6 +723,7 @@ serverAllocResource
     RS_RES_ALLOC_PARAMS *pParams
 )
 {
+    NV_PRINTF(LEVEL_ERROR, "NVIDIA-TRACE: Entering serverAllocResource\n");
     NV_STATUS           status;
     NvU32               releaseFlags = 0;
     API_STATE          *pApiState;
@@ -883,6 +885,7 @@ serverAllocResourceUnderLock
     RS_RES_ALLOC_PARAMS *pParams
 )
 {
+    NV_PRINTF(LEVEL_ERROR, "NVIDIA-TRACE: Entering serverAllocResourceUnderLock\n");
     NV_STATUS   status;
     RsClient   *pClient = pParams->pClient;
     NvHandle    hResource = pParams->hResource;

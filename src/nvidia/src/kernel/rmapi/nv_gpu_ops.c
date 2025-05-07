@@ -2349,6 +2349,7 @@ static NV_STATUS getAddressSpaceInfo(struct gpuAddressSpace *vaSpace,
                                      OBJGPU *pGpu,
                                      UvmGpuAddressSpaceInfo *vaSpaceInfo)
 {
+    NV_PRINTF(LEVEL_ERROR, "NVIDIA-TRACE: Entering getAddressSpaceInfo\n");
     NV_STATUS status;
     NV0080_CTRL_DMA_ADV_SCHED_GET_VA_CAPS_PARAMS params = {0};
     OBJVASPACE *pVAS = NULL;
@@ -5403,6 +5404,7 @@ static void channelReleaseDummyAlloc(struct gpuChannel *channel)
 
 static RM_ENGINE_TYPE tsgEngineType(const struct gpuTsg *tsg)
 {
+    NV_PRINTF(LEVEL_ERROR, "NVIDIA-TRACE: Entering tsgEngineType\n");
     NV_ASSERT(tsg->engineType == UVM_GPU_CHANNEL_ENGINE_TYPE_CE || tsg->engineType == UVM_GPU_CHANNEL_ENGINE_TYPE_SEC2);
 
     if (tsg->engineType == UVM_GPU_CHANNEL_ENGINE_TYPE_SEC2)
@@ -5416,6 +5418,7 @@ static NV_STATUS channelAllocate(const gpuTsgHandle tsg,
                                  struct gpuChannel **channelHandle,
                                  gpuChannelInfo *channelInfo)
 {
+    NV_PRINTF(LEVEL_ERROR, "NVIDIA-TRACE: Entering channelAllocate\n");
     NV_STATUS status;
     nvGpuOpsLockSet acquiredLocks;
     struct gpuAddressSpace *vaSpace = NULL;
@@ -7614,6 +7617,7 @@ static NV_STATUS dupMemory(struct gpuDevice *device,
                            NvHandle *hDupMemory,
                            gpuMemoryInfo *pGpuMemoryInfo)
 {
+    NV_PRINTF(LEVEL_ERROR, "NVIDIA-TRACE: Entering dupMemory\n");
     NV_STATUS status = NV_OK;
     nvGpuOpsLockSet acquiredLocks;
     THREAD_STATE_NODE threadState;

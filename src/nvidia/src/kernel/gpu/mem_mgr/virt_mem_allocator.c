@@ -43,6 +43,7 @@ static NV_STATUS dmaInitRegistryOverrides(OBJGPU*, VirtMemAllocator*);
 NV_STATUS
 dmaConstructEngine_IMPL(OBJGPU *pGpu, VirtMemAllocator *pDma, ENGDESCRIPTOR engDesc)
 {
+    NV_PRINTF(LEVEL_ERROR, "NVIDIA-TRACE: Entering dmaConstructEngine_IMPL\n");
     NV_STATUS rmStatus;
 
     pGpu = ENG_GET_GPU(pDma);
@@ -70,6 +71,7 @@ dmaConstructEngine_IMPL(OBJGPU *pGpu, VirtMemAllocator *pDma, ENGDESCRIPTOR engD
 static NV_STATUS
 dmaInitRegistryOverrides(OBJGPU *pGpu, VirtMemAllocator *pDma)
 {
+    NV_PRINTF(LEVEL_ERROR, "NVIDIA-TRACE: Entering dmaInitRegistryOverrides\n");
     NV_STATUS rmStatus = NV_OK;
 
     return rmStatus;
@@ -77,6 +79,7 @@ dmaInitRegistryOverrides(OBJGPU *pGpu, VirtMemAllocator *pDma)
 
 NV_STATUS dmaStateInitLocked_IMPL(OBJGPU *pGpu, VirtMemAllocator *pDma)
 {
+    NV_PRINTF(LEVEL_ERROR, "NVIDIA-TRACE: Entering dmaStateInitLocked_IMPL\n");
     dmaInitGart_HAL(pGpu, pDma);
 
     return NV_OK;

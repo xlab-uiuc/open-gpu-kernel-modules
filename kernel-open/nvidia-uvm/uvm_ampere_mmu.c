@@ -38,6 +38,7 @@
 
 static NvU32 page_table_depth_ampere(NvU64 page_size)
 {
+    printk(KERN_INFO "NVIDIA-TRACE: page_table_depth_ampere\n");
     // The common-case is page_size == UVM_PAGE_SIZE_2M, hence the first check
     if (page_size == UVM_PAGE_SIZE_2M)
         return 3;
@@ -49,6 +50,7 @@ static NvU32 page_table_depth_ampere(NvU64 page_size)
 
 static NvU64 page_sizes_ampere(void)
 {
+    printk(KERN_INFO "NVIDIA-TRACE: page_sizes_ampere\n");
     return UVM_PAGE_SIZE_512M | UVM_PAGE_SIZE_2M | UVM_PAGE_SIZE_64K | UVM_PAGE_SIZE_4K;
 }
 
@@ -56,6 +58,7 @@ static uvm_mmu_mode_hal_t ampere_mmu_mode_hal;
 
 uvm_mmu_mode_hal_t *uvm_hal_mmu_mode_ampere(NvU64 big_page_size)
 {
+    printk(KERN_INFO "NVIDIA-TRACE: uvm_hal_mmu_mode_ampere\n");
     static bool initialized = false;
 
     UVM_ASSERT(big_page_size == UVM_PAGE_SIZE_64K || big_page_size == UVM_PAGE_SIZE_128K);
@@ -85,6 +88,7 @@ uvm_mmu_mode_hal_t *uvm_hal_mmu_mode_ampere(NvU64 big_page_size)
 
 NvU16 uvm_hal_ampere_mmu_client_id_to_utlb_id(NvU16 client_id)
 {
+    printk(KERN_INFO "NVIDIA-TRACE: uvm_hal_ampere_mmu_client_id_to_utlb_id\n");
     switch (client_id) {
         case NV_PFAULT_CLIENT_GPC_RAST:
         case NV_PFAULT_CLIENT_GPC_GCC:

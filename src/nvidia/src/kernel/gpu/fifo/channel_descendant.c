@@ -40,6 +40,7 @@ chandesConstruct_IMPL
     PARAM_TO_ENGDESC_FUNCTION *pParamToEngDescFn
 )
 {
+    NV_PRINTF(LEVEL_ERROR, "NVIDIA-TRACE: Entering chandesConstruct_IMPL\n");
     OBJGPU           *pGpu = GPU_RES_GET_GPU(pChannelDescendant);
     NV_STATUS         status = NV_OK;
     RsResourceRef    *pResourceRef = pCallContext->pResourceRef;
@@ -305,7 +306,7 @@ NV_STATUS mthdNoOperation
     NvU32   Data
 )
 {
-    NV_PRINTF(LEVEL_INFO, "Method NoOperation: Class=0x%x Data=0x%x\n",
+    NV_PRINTF(LEVEL_ERROR, "Method NoOperation: Class=0x%x Data=0x%x\n",
               Object->resourceDesc.externalClassId, Data);
     return (NV_OK);
 }
@@ -326,6 +327,7 @@ chandesCheckMemInterUnmap_IMPL
     NvBool bSubdeviceHandleProvided
 )
 {
+    NV_PRINTF(LEVEL_ERROR, "NVIDIA-TRACE: Entering chandesCheckMemInterUnmap_IMPL\n");
     if (bSubdeviceHandleProvided)
     {
         NV_PRINTF(LEVEL_ERROR, "Unicast DMA mappings of non-memory objects not supported.\n");

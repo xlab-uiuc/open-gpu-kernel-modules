@@ -296,6 +296,7 @@ virtmemConstruct_IMPL
     RS_RES_ALLOC_PARAMS_INTERNAL *pParams
 )
 {
+    NV_PRINTF(LEVEL_ERROR, "NVIDIA-TRACE: Entering virtmemConstruct_IMPL\n");
     Memory                      *pMemory               = staticCast(pVirtualMemory, Memory);
     NV_MEMORY_ALLOCATION_PARAMS *pAllocData            = pParams->pAllocParams;
     MEMORY_ALLOCATION_REQUEST    allocRequest          = {0};
@@ -1024,6 +1025,7 @@ _virtmemAllocKernelMapping
     Memory               *pMemoryInfo
 )
 {
+    NV_PRINTF(LEVEL_ERROR, "NVIDIA-TRACE: Entering _virtmemAllocKernelMapping\n");
     NV_STATUS  status              = NV_OK;
     NvBool     bCoherentCpuMapping = pGpu->getProperty(pGpu, PDB_PROP_GPU_COHERENT_CPU_MAPPING);
     NvU32      gpuSubDevInst;
@@ -1202,6 +1204,7 @@ virtmemMapTo_IMPL
     RS_RES_MAP_TO_PARAMS *pParams
 )
 {
+    NV_PRINTF(LEVEL_ERROR, "NVIDIA-TRACE: Entering virtmemMapTo_IMPL\n");
     NV_STATUS   status                = NV_ERR_NOT_SUPPORTED;
     Memory         *pMemory           = staticCast(pVirtualMemory, Memory);
     OBJGPU         *pGpu              = pParams->pGpu;
@@ -1582,6 +1585,7 @@ virtmemUnmapFrom_IMPL
     RS_RES_UNMAP_FROM_PARAMS *pParams
 )
 {
+    NV_PRINTF(LEVEL_ERROR, "NVIDIA-TRACE: Entering virtmemUnmapFrom_IMPL\n");
     OBJGPU     *pGpu              = pParams->pGpu;
     Memory     *pMemory           = staticCast(pVirtualMemory, Memory);
     RsClient   *pClient           = RES_GET_CLIENT(pVirtualMemory);

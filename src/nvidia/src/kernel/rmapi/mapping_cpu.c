@@ -174,6 +174,7 @@ memMap_IMPL
     RsCpuMapping *pCpuMapping
 )
 {
+    NV_PRINTF(LEVEL_ERROR, "NVIDIA-TRACE: Entering memMap_IMPL\n");
     OBJGPU *pGpu = NULL;
     KernelBus *pKernelBus = NULL;
     MemoryManager *pMemoryManager = NULL;
@@ -697,6 +698,7 @@ memUnmap_IMPL
     RsCpuMapping *pCpuMapping
 )
 {
+    NV_PRINTF(LEVEL_ERROR, "NVIDIA-TRACE: Entering memUnmap_IMPL\n");
     RmClient           *pClient             = dynamicCast(pCallContext->pClient, RmClient);
     OBJGPU             *pGpu                = pCpuMapping->pPrivate->pGpu;
     MEMORY_DESCRIPTOR  *pMemDesc            = pMemory->pMemDesc;
@@ -830,6 +832,7 @@ serverMap_Prologue
     RsServer *pServer, RS_CPU_MAP_PARAMS *pMapParams
 )
 {
+    NV_PRINTF(LEVEL_ERROR, "NVIDIA-TRACE: Entering serverMap_Prolouge\n");
     NV_STATUS           rmStatus;
     RmClient           *pClient;
     RsResourceRef      *pMemoryRef;
@@ -931,6 +934,7 @@ serverUnmap_Prologue
     RS_CPU_UNMAP_PARAMS *pUnmapParams
 )
 {
+    NV_PRINTF(LEVEL_ERROR, "NVIDIA-TRACE: Entering serverUnMap_Prolouge\n");
     OBJGPU *pGpu = NULL;
     NV_STATUS rmStatus;
     RmClient *pClient;
@@ -1044,6 +1048,7 @@ serverUnmap_Epilogue
     RS_CPU_UNMAP_PARAMS *pUnmapParams
 )
 {
+    NV_PRINTF(LEVEL_ERROR, "NVIDIA-TRACE: Entering serverUnmap_Epilouge\n");
     // do we need to detach?
     if (pUnmapParams->pProcessHandle != NULL)
     {
@@ -1084,6 +1089,7 @@ rmapiMapToCpu
     NvU32     flags
 )
 {
+    NV_PRINTF(LEVEL_ERROR, "NVIDIA-TRACE: Entering rmapiMapToCpu\n");
     NvP64     pCpuVirtAddrNvP64 = NvP64_NULL;
     NV_STATUS status;
 

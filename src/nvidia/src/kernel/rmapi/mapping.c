@@ -60,6 +60,7 @@ serverInterMap_Prologue
     NvU32 *pReleaseFlags
 )
 {
+    NV_PRINTF(LEVEL_ERROR, "NVIDIA-TRACE: Entering serverInterMap_Prologue\n");
     OBJGPU     *pGpu;
     Device     *pDevice;
     Subdevice  *pSubdevice;
@@ -187,6 +188,7 @@ serverInterMap_Epilogue
     NvU32 *pReleaseFlags
 )
 {
+    NV_PRINTF(LEVEL_ERROR, "NVIDIA-TRACE: Entering serverInterMap_Epilogue\n");
     serverResLock_Epilogue(pServer, LOCK_ACCESS_WRITE, pParams->pLockInfo, pReleaseFlags);
 }
 
@@ -197,6 +199,7 @@ serverInterUnmap_Prologue
     RS_INTER_UNMAP_PARAMS *pParams
 )
 {
+    NV_PRINTF(LEVEL_ERROR, "NVIDIA-TRACE: Entering serverInterUnmap_Prologue\n");
     OBJGPU       *pGpu        = NULL;
     Device       *pDevice     = NULL;
     Subdevice    *pSubdevice  = NULL;
@@ -257,6 +260,7 @@ serverInterUnmap_Epilogue
     RS_INTER_UNMAP_PARAMS *pParams
 )
 {
+    NV_PRINTF(LEVEL_ERROR, "NVIDIA-TRACE: Entering serverInterUnmap_Epilogue\n");
     RS_INTER_UNMAP_PRIVATE *pPrivate = pParams->pPrivate;
     OBJGPU *pGpu;
 
@@ -290,6 +294,7 @@ _rmapiRmUnmapMemoryDma
     API_SECURITY_INFO  *pSecInfo
 )
 {
+    NV_PRINTF(LEVEL_ERROR, "NVIDIA-TRACE: Entering _rmapiRmUnmapMemoryDma\n");
     RsClient           *pRsClient   = NULL;
 
     RS_INTER_UNMAP_PARAMS params;
@@ -328,6 +333,7 @@ rmapiMap
     NvU64    *pDmaOffset
 )
 {
+    NV_PRINTF(LEVEL_ERROR, "NVIDIA-TRACE: Entering rmapiMap\n");
     if (!pRmApi->bHasDefaultSecInfo)
         return NV_ERR_NOT_SUPPORTED;
 
@@ -350,6 +356,7 @@ rmapiMapWithSecInfo
     API_SECURITY_INFO *pSecInfo
 )
 {
+    NV_PRINTF(LEVEL_ERROR, "NVIDIA-TRACE: Entering rmapiMapWithSecInfo\n");
     NV_STATUS status;
     RM_API_CONTEXT rmApiContext = {0};
     RS_INTER_MAP_PARAMS params;
@@ -470,6 +477,7 @@ rmapiUnmap
     NvU64     size
 )
 {
+    NV_PRINTF(LEVEL_ERROR, "NVIDIA-TRACE: Entering rmapiUnmap\n");
     if (!pRmApi->bHasDefaultSecInfo)
         return NV_ERR_NOT_SUPPORTED;
 
@@ -490,6 +498,7 @@ rmapiUnmapWithSecInfo
     API_SECURITY_INFO *pSecInfo
 )
 {
+    NV_PRINTF(LEVEL_ERROR, "NVIDIA-TRACE: Entering rmapiUnmapWithSecInfo\n");
     NV_STATUS                     status;
     RM_API_CONTEXT                rmApiContext   = {0};
     RS_LOCK_INFO                  lockInfo;
@@ -549,6 +558,7 @@ rmapiUnmapWithSecInfoTls
     API_SECURITY_INFO *pSecInfo
 )
 {
+    NV_PRINTF(LEVEL_ERROR, "NVIDIA-TRACE: Entering rmapiUnmapWithSecInfoTls\n");
     THREAD_STATE_NODE threadState;
     NV_STATUS         status;
 

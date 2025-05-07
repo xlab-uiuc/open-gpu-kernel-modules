@@ -59,6 +59,7 @@ void notifyMethodComplete
     NV_STATUS CompletionStatus
 )
 {
+    NV_PRINTF(LEVEL_ERROR, "NVIDIA-TRACE: Entering notifyMethodComplete\n");
     if (pObject->bNotifyTrigger)
     {
         pObject->bNotifyTrigger = NV_FALSE;

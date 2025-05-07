@@ -49,11 +49,13 @@ bool uvm_rm_mem_mapped_on_gpu_proxy(uvm_rm_mem_t *rm_mem, uvm_gpu_t *gpu)
 
 bool uvm_rm_mem_mapped_on_cpu(uvm_rm_mem_t *rm_mem)
 {
+    printk(KERN_INFO "NVIDIA-TRACE: uvm_rm_mem_mapped_on_cpu\n");
     return uvm_processor_mask_test(&rm_mem->mapped_on, UVM_ID_CPU);
 }
 
 static void rm_mem_set_gpu_va(uvm_rm_mem_t *rm_mem, uvm_gpu_t *gpu, NvU64 va)
 {
+    printk(KERN_INFO "NVIDIA-TRACE: rm_mem_set_gpu_va\n");
     rm_mem->vas[uvm_id_value(gpu->id)] = va;
     uvm_processor_mask_set(&rm_mem->mapped_on, gpu->id);
 }
@@ -65,6 +67,7 @@ static void rm_mem_set_gpu_proxy_va(uvm_rm_mem_t *rm_mem, uvm_gpu_t *gpu, NvU64 
 
 static void rm_mem_set_cpu_va(uvm_rm_mem_t *rm_mem, void *va)
 {
+    printk(KERN_INFO "NVIDIA-TRACE: rm_mem_set_cpu_va\n");
     rm_mem->vas[UVM_ID_CPU_VALUE] = (uintptr_t) va;
     uvm_processor_mask_set(&rm_mem->mapped_on, UVM_ID_CPU);
 }
@@ -104,6 +107,7 @@ NvU64 uvm_rm_mem_get_gpu_proxy_va(uvm_rm_mem_t *rm_mem, uvm_gpu_t *gpu)
 
 uvm_gpu_address_t uvm_rm_mem_get_gpu_va(uvm_rm_mem_t *rm_mem, uvm_gpu_t *gpu, bool is_proxy_va_space)
 {
+    printk(KERN_INFO "NVIDIA-TRACE: uvm_rm_mem_get_gpu_va\n");
     uvm_gpu_address_t gpu_va = {0};
 
     gpu_va.aperture = UVM_APERTURE_MAX;
@@ -122,6 +126,7 @@ uvm_gpu_address_t uvm_rm_mem_get_gpu_va(uvm_rm_mem_t *rm_mem, uvm_gpu_t *gpu, bo
 
 void *uvm_rm_mem_get_cpu_va(uvm_rm_mem_t *rm_mem)
 {
+    printk(KERN_INFO "NVIDIA-TRACE: uvm_rm_mem_get_cpu_va\n");
     UVM_ASSERT(uvm_rm_mem_mapped_on_cpu(rm_mem));
 
     return (void *)(uintptr_t)rm_mem->vas[UVM_ID_CPU_VALUE];
@@ -196,6 +201,7 @@ NV_STATUS uvm_rm_mem_alloc(uvm_gpu_t *gpu,
                            NvU64 gpu_alignment,
                            uvm_rm_mem_t **rm_mem_out)
 {
+    printk(KERN_INFO "NVIDIA-TRACE: uvm_rm_mem_alloc\n");
     NV_STATUS status = NV_OK;
     uvm_rm_mem_t *rm_mem;
     UvmGpuAllocInfo alloc_info = { 0 };
@@ -246,6 +252,7 @@ error:
 
 NV_STATUS uvm_rm_mem_map_cpu(uvm_rm_mem_t *rm_mem)
 {
+    printk(KERN_INFO "NVIDIA-TRACE: uvm_rm_mem_map_cpu\n");
     NV_STATUS status;
     uvm_gpu_t *gpu;
     NvU64 gpu_va;
@@ -279,6 +286,7 @@ NV_STATUS uvm_rm_mem_map_cpu(uvm_rm_mem_t *rm_mem)
 
 void uvm_rm_mem_unmap_cpu(uvm_rm_mem_t *rm_mem)
 {
+    printk(KERN_INFO "NVIDIA-TRACE: uvm_rm_unmap_cpu\n");
     UVM_ASSERT(rm_mem);
 
     if (!uvm_rm_mem_mapped_on_cpu(rm_mem))
@@ -292,6 +300,7 @@ void uvm_rm_mem_unmap_cpu(uvm_rm_mem_t *rm_mem)
 
 NV_STATUS uvm_rm_mem_map_gpu(uvm_rm_mem_t *rm_mem, uvm_gpu_t *gpu, NvU64 gpu_alignment)
 {
+    printk(KERN_INFO "NVIDIA-TRACE: uvm_rm_mem_map_gpu\n");
     NV_STATUS status;
     uvm_gpu_t *gpu_owner;
     NvU64 gpu_owner_va;
@@ -332,6 +341,7 @@ NV_STATUS uvm_rm_mem_map_gpu(uvm_rm_mem_t *rm_mem, uvm_gpu_t *gpu, NvU64 gpu_ali
 // uvm_rm_mem_unmap_gpu
 static void rm_mem_unmap_gpu(uvm_rm_mem_t *rm_mem, uvm_gpu_t *gpu)
 {
+    printk(KERN_INFO "NVIDIA-TRACE: rm_mem_unmap_gpu\n");
     NvU64 va;
 
     if (!uvm_rm_mem_mapped_on_gpu(rm_mem, gpu))
@@ -347,6 +357,7 @@ static void rm_mem_unmap_gpu(uvm_rm_mem_t *rm_mem, uvm_gpu_t *gpu)
 
 void uvm_rm_mem_unmap_gpu(uvm_rm_mem_t *rm_mem, uvm_gpu_t *gpu)
 {
+    printk(KERN_INFO "NVIDIA-TRACE: uvm_rm_mem_unmap_gpu\n");
     UVM_ASSERT(rm_mem);
     UVM_ASSERT(gpu);
 
@@ -359,6 +370,7 @@ void uvm_rm_mem_unmap_gpu(uvm_rm_mem_t *rm_mem, uvm_gpu_t *gpu)
 
 void uvm_rm_mem_free(uvm_rm_mem_t *rm_mem)
 {
+    printk(KERN_INFO "NVIDIA-TRACE: uvm_rm_mem_free\n");
     uvm_gpu_id_t gpu_id;
     uvm_gpu_t *gpu_owner;
 
@@ -398,6 +410,7 @@ NV_STATUS uvm_rm_mem_alloc_and_map_cpu(uvm_gpu_t *gpu,
                                        NvU64 gpu_alignment,
                                        uvm_rm_mem_t **rm_mem_out)
 {
+    printk(KERN_INFO "NVIDIA-TRACE: uvm_rm_mem_alloc_and_map_cpu\n");
     uvm_rm_mem_t *rm_mem;
     NV_STATUS status;
 

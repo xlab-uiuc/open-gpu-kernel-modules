@@ -261,6 +261,7 @@ _iovaspaceCreateSubmapping
     PMEMORY_DESCRIPTOR pPhysMemDesc
 )
 {
+    NV_PRINTF(LEVEL_ERROR, "NVIDIA-TRACE: Entering memmapperExecuteUnmap\n");
     NvU64 rootOffset;
     NV_STATUS status = NV_OK;
     OBJVASPACE *pVAS = staticCast(pIOVAS, OBJVASPACE);
@@ -399,6 +400,7 @@ _iovaspaceCreateMapping
     PMEMORY_DESCRIPTOR pPhysMemDesc
 )
 {
+    NV_PRINTF(LEVEL_ERROR, "NVIDIA-TRACE: Entering _iovaspaceCreateMapping\n");
     NV_STATUS status;
     OBJVASPACE *pVAS = staticCast(pIOVAS, OBJVASPACE);
     NV_ADDRESS_SPACE addressSpace;
@@ -479,6 +481,7 @@ iovaspaceAcquireMapping_IMPL
     PMEMORY_DESCRIPTOR pPhysMemDesc
 )
 {
+    NV_PRINTF(LEVEL_ERROR, "NVIDIA-TRACE: Entering iovaspaceAcquireMapping_IMPL\n");
     OBJVASPACE *pVAS = staticCast(pIOVAS, OBJVASPACE);
     PIOVAMAPPING pIovaMapping = memdescGetIommuMap(pPhysMemDesc, pVAS->vaspaceId);
 

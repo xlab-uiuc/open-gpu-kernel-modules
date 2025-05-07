@@ -1196,6 +1196,7 @@ rmapiAllocWithSecInfo
     API_SECURITY_INFO   *pSecInfo
 )
 {
+    NV_PRINTF(LEVEL_ERROR, "NVIDIA-TRACE: Entering rmapiAllocWithSecInfo\n");
     NV_STATUS      status;
     NvU32          allocInitStates = RM_ALLOC_STATES_NONE;
     RM_API_CONTEXT rmApiContext    = {0};

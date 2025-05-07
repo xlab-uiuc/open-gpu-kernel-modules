@@ -211,6 +211,7 @@ static void _nv04Alloc
     NvBool             bUserModeArgs
 )
 {
+    NV_PRINTF(LEVEL_ERROR, "NVIDIA-TRACE: Entering _nv04Alloc\n");
     RM_API            *pRmApi = rmapiGetInterface(RMAPI_EXTERNAL);
     API_SECURITY_INFO  secInfo;
 
@@ -238,6 +239,7 @@ static void _nv04AllocWithSecInfo
     API_SECURITY_INFO secInfo
 )
 {
+    NV_PRINTF(LEVEL_ERROR, "NVIDIA-TRACE: Entering _nv04AllocWithSecInfo\n");
     RM_API *pRmApi = rmapiGetInterface(RMAPI_EXTERNAL);
 
     pArgs->status = pRmApi->AllocWithSecInfo(pRmApi, pArgs->hRoot, pArgs->hObjectParent, &pArgs->hObjectNew,
@@ -263,6 +265,7 @@ static void _nv04AllocWithAccess
     NvBool             bUserModeArgs
 )
 {
+    NV_PRINTF(LEVEL_ERROR, "NVIDIA-TRACE: Entering _nv04AllocWithAccess\n");
     RM_API            *pRmApi = rmapiGetInterface(RMAPI_EXTERNAL);
     NvU32              flags = RMAPI_ALLOC_FLAGS_NONE;
     API_SECURITY_INFO  secInfo;
@@ -283,6 +286,7 @@ static void _nv04AllocWithAccessSecInfo
     API_SECURITY_INFO secInfo
 )
 {
+    NV_PRINTF(LEVEL_ERROR, "NVIDIA-TRACE: Entering _nv04AllocWithAccessSecInfo\n");
     RM_API *pRmApi = rmapiGetInterface(RMAPI_EXTERNAL);
     NvU32   flags = RMAPI_ALLOC_FLAGS_NONE;
 
@@ -309,6 +313,7 @@ static void _nv01Free
     NvBool             bUserModeArgs
 )
 {
+    NV_PRINTF(LEVEL_ERROR, "NVIDIA-TRACE: Entering _nv01Free\n");
     RM_API            *pRmApi = rmapiGetInterface(RMAPI_EXTERNAL);
     API_SECURITY_INFO  secInfo;
 
@@ -332,6 +337,7 @@ static void _nv01FreeWithSecInfo
     API_SECURITY_INFO  secInfo
 )
 {
+    NV_PRINTF(LEVEL_ERROR, "NVIDIA-TRACE: Entering _nv01FreeWithSecInfo\n");
     RM_API            *pRmApi = rmapiGetInterface(RMAPI_EXTERNAL);
 
     pArgs->status = pRmApi->FreeWithSecInfo(pRmApi, pArgs->hRoot, pArgs->hObjectOld, RMAPI_FREE_FLAGS_NONE, &secInfo);
@@ -356,6 +362,7 @@ static void _nv04MapMemory
     NvBool             bInternalCall
 )
 {
+    NV_PRINTF(LEVEL_ERROR, "NVIDIA-TRACE: Entering _nv04MapMemory\n");
     RM_API             *pRmApi = rmapiGetInterface(bInternalCall ? RMAPI_MODS_LOCK_BYPASS : RMAPI_EXTERNAL);
     API_SECURITY_INFO  secInfo;
 
@@ -371,6 +378,7 @@ static void _nv04MapMemoryWithSecInfo
     API_SECURITY_INFO  secInfo
 )
 {
+    NV_PRINTF(LEVEL_ERROR, "NVIDIA-TRACE: Entering _nv04MapMemoryWithSecInfo\n");
     RM_API *pRmApi = rmapiGetInterface(RMAPI_EXTERNAL);
 
     pArgs->status = pRmApi->MapToCpuWithSecInfoV2(pRmApi, pArgs->hClient, pArgs->hDevice, pArgs->hMemory, pArgs->offset,
@@ -394,6 +402,7 @@ static void _nv04UnmapMemory
     NvBool             bInternalCall
 )
 {
+    NV_PRINTF(LEVEL_ERROR, "NVIDIA-TRACE: Entering _nv04UnmapMemory\n");
     RM_API             *pRmApi = rmapiGetInterface(bInternalCall ? RMAPI_MODS_LOCK_BYPASS : RMAPI_EXTERNAL);
     API_SECURITY_INFO  secInfo;
 
@@ -409,6 +418,7 @@ static void _nv04UnmapMemoryWithSecInfo
     API_SECURITY_INFO  secInfo
 )
 {
+    NV_PRINTF(LEVEL_ERROR, "NVIDIA-TRACE: Entering _nv04UnmapMemoryWithSecInfo\n");
     RM_API *pRmApi = rmapiGetInterface(RMAPI_EXTERNAL);
 
     pArgs->status = pRmApi->UnmapFromCpuWithSecInfo(pRmApi, pArgs->hClient, pArgs->hDevice, pArgs->hMemory,
@@ -421,6 +431,7 @@ static void _nv04MapMemoryDma
     NvBool             bUserModeArgs
 )
 {
+    NV_PRINTF(LEVEL_ERROR, "NVIDIA-TRACE: Entering _nv04MapMemoryDma\n");
 
     RM_API             *pRmApi = rmapiGetInterface(RMAPI_EXTERNAL);
     API_SECURITY_INFO  secInfo;
@@ -438,6 +449,7 @@ static void _nv04MapMemoryDmaWithSecInfo
     API_SECURITY_INFO  secInfo
 )
 {
+    NV_PRINTF(LEVEL_ERROR, "NVIDIA-TRACE: Entering _nv04MapMemoryDmaWithSecInfo\n");
 
     RM_API *pRmApi = rmapiGetInterface(RMAPI_EXTERNAL);
 
@@ -463,7 +475,7 @@ static void _nv04UnmapMemoryDma
     NvBool             bUserModeArgs
 )
 {
-
+    NV_PRINTF(LEVEL_ERROR, "NVIDIA-TRACE: Entering _nv04UnmapMemoryDma\n");
     RM_API             *pRmApi = rmapiGetInterface(RMAPI_EXTERNAL);
     API_SECURITY_INFO  secInfo;
 
@@ -479,6 +491,7 @@ static void _nv04UnmapMemoryDmaWithSecInfo
     API_SECURITY_INFO  secInfo
 )
 {
+    NV_PRINTF(LEVEL_ERROR, "NVIDIA-TRACE: Entering _nv04UnmapMemoryDmaWithSecInfo\n");
 
     RM_API *pRmApi = rmapiGetInterface(RMAPI_EXTERNAL);
 
@@ -503,6 +516,7 @@ static void _nv04ControlWithSecInfo
     NvBool             bInternalCall
 )
 {
+    NV_PRINTF(LEVEL_ERROR, "NVIDIA-TRACE: Entering _nv04ControlWithSecInfo\n");
     RmDeprecatedControlHandler pDeprecatedHandler = RmDeprecatedGetControlHandler(pArgs);
     if (pDeprecatedHandler != NULL)
     {
@@ -536,6 +550,7 @@ static void _nv04Control
     NvBool             bInternalCall
 )
 {
+    NV_PRINTF(LEVEL_ERROR, "NVIDIA-TRACE: Entering _nv04Control\n");
     API_SECURITY_INFO  secInfo = {0};
     XlateUserModeArgsToSecInfo(bUserModeArgs, bInternalCall, &secInfo);
     _nv04ControlWithSecInfo(pArgs, secInfo, bInternalCall);

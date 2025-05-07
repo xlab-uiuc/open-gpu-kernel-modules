@@ -115,6 +115,7 @@ intermapCreateDmaMapping
     NvU32                  flags
 )
 {
+    NV_PRINTF(LEVEL_ERROR, "NVIDIA-TRACE: Entering intermapCreateDmaMapping\n");
     Memory                *pMemory  = NULL;
     PCLI_DMA_MAPPING_INFO  pDmaMapping;
     OBJVASPACE            *pVAS = NULL;
@@ -170,6 +171,7 @@ intermapRegisterDmaMapping
     NvU32                  gpuMask
 )
 {
+    NV_PRINTF(LEVEL_ERROR, "NVIDIA-TRACE: Entering intermapRegisterDmaMapping\n");
     NV_STATUS             rmStatus = NV_OK;
     PNODE                 pNode;
     NvU64 alignment = 0;
@@ -294,6 +296,7 @@ intermapDelDmaMapping
     NvU32    gpuMask
 )
 {
+    NV_PRINTF(LEVEL_ERROR, "NVIDIA-TRACE: Entering intermapDelDmaMapping\n");
     PNODE                   pNode;
     CLI_DMA_MAPPING_INFO   *pDmaMapping;
     CLI_DMA_MAPPING_INFO   *pDmaMappingPrev = NULL;
@@ -343,6 +346,7 @@ intermapFreeDmaMapping
     PCLI_DMA_MAPPING_INFO pDmaMapping
 )
 {
+    NV_PRINTF(LEVEL_ERROR, "NVIDIA-TRACE: Entering intermapFreeDmaMapping\n");
     NV_ASSERT(pDmaMapping != NULL);
 
     // free the list element
@@ -360,6 +364,7 @@ intermapGetDmaMapping
     NvU32                  gpuMask
 )
 {
+    NV_PRINTF(LEVEL_ERROR, "NVIDIA-TRACE: Entering intermapGetDmaMapping\n");
     PNODE pNode;
     CLI_DMA_MAPPING_INFO *pDmaMapping;
 
@@ -396,6 +401,7 @@ CliGetDmaMappingInfo
     PCLI_DMA_MAPPING_INFO *ppDmaMappingInfo
 )
 {
+    NV_PRINTF(LEVEL_ERROR, "NVIDIA-TRACE: Entering CliGetDmaMappingInfo\n");
     VirtualMemory      *pVirtualMemory;
     Device             *pDevice;
     NODE               *pNode;
@@ -452,6 +458,7 @@ CliGetDmaMappingIterator
     PNODE                          pDmaMappingList          // [IN]  the two level pDmaMapping list to iterate
 )
 {
+    NV_PRINTF(LEVEL_ERROR, "NVIDIA-TRACE: Entering CliGetDmaMappingIterator\n");
     // don't iterate if we didn't get a empty list
     *ppFirstDmaMapping = NULL;
     portMemSet(pIt, 0, sizeof(*pIt));
@@ -477,6 +484,7 @@ CliGetDmaMappingNext
     PCLI_DMA_MAPPING_INFO_ITERATOR pIt
 )
 {
+    NV_PRINTF(LEVEL_ERROR, "NVIDIA-TRACE: Entering CliGetDmaMappingNext\n");
     PCLI_DMA_MAPPING_INFO pDmaMapping = NULL;
 
     if (pIt->pNextDmaMapping != NULL)

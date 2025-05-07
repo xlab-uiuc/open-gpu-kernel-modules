@@ -83,6 +83,7 @@ kceMapPceLceForSysmemLinks_GA102
     NvU32   fbPceMask
 )
 {
+    NV_PRINTF(LEVEL_ERROR, "NVIDIA-TRACE: Entering kceMapPceLceForSysmemLinks_GA102\n");
     NvU32   lceMask      = 0;
     NvU32   tempFbPceMask;
     NvU32   lceIndex, pceIndex;

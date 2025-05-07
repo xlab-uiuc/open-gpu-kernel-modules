@@ -29,6 +29,7 @@
 
 void uvm_hal_ampere_arch_init_properties(uvm_parent_gpu_t *parent_gpu)
 {
+    printk(KERN_INFO "NVIDIA-TRACE: uvm_hal_amphere_arch_init_properties\n");
     parent_gpu->tlb_batch.va_invalidate_supported = true;
 
     parent_gpu->tlb_batch.va_range_invalidate_supported = true;

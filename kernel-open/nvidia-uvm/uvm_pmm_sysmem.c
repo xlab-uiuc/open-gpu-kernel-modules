@@ -34,6 +34,7 @@ MODULE_PARM_DESC(uvm_cpu_chunk_allocation_sizes, "OR'ed value of all CPU chunk a
 NV_STATUS uvm_pmm_sysmem_init(void)
 {
     // Ensure that only supported CPU chunk sizes are enabled.
+    printk(KERN_INFO "NVIDIA-TRACE: Entering uvm_pmm_sysmem_init\n");
     uvm_cpu_chunk_allocation_sizes &= UVM_CPU_CHUNK_SIZES;
     if (!uvm_cpu_chunk_allocation_sizes || !(uvm_cpu_chunk_allocation_sizes & PAGE_SIZE)) {
         UVM_INFO_PRINT("Invalid value for uvm_cpu_chunk_allocation_sizes = 0x%x, using 0x%llx instead\n",
@@ -91,6 +92,7 @@ static uvm_cpu_physical_chunk_t *get_physical_parent(uvm_cpu_chunk_t *chunk)
 
 static uvm_page_index_t cpu_chunk_get_phys_index(uvm_cpu_logical_chunk_t *chunk)
 {
+    printk(KERN_INFO "NVIDIA-TRACE: Entering cpu_chunk_get_phys_index\n");
     uvm_cpu_physical_chunk_t *phys_chunk = get_physical_parent(&chunk->common);
 
     UVM_ASSERT(phys_chunk->common.page);
@@ -99,6 +101,7 @@ static uvm_page_index_t cpu_chunk_get_phys_index(uvm_cpu_logical_chunk_t *chunk)
 
 static uvm_cpu_phys_mapping_t *chunk_phys_mapping_alloc(uvm_cpu_physical_chunk_t *chunk, uvm_parent_gpu_id_t id)
 {
+    printk(KERN_INFO "NVIDIA-TRACE: Entering chunk_phys_mapping_alloc\n");
     NvU32 num_active_entries = uvm_parent_processor_mask_get_gpu_count(&chunk->gpu_mappings.dma_addrs_mask);
     uvm_cpu_phys_mapping_t *new_entries;
     NvU32 array_index;

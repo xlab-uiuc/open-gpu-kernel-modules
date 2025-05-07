@@ -185,6 +185,7 @@ osCreateMemdescFromPages
     void **ppPrivate
 )
 {
+    NV_PRINTF(LEVEL_ERROR, "NVIDIA-TRACE: Entering osCreateMemdescFromPages\n");
     NV_STATUS rmStatus;
     MEMORY_DESCRIPTOR *pMemDesc;
     NvU64 memdescFlags = MEMDESC_FLAGS_NONE;
@@ -391,6 +392,7 @@ osCreateOsDescriptorFromIoMemory
     void    **ppPrivate
 )
 {
+    NV_PRINTF(LEVEL_ERROR, "NVIDIA-TRACE: Entering osCreateOsDescriptorFromIoMemory\n");
     NV_STATUS rmStatus;
     NvU32 gpuCachedFlags;
     MEMORY_DESCRIPTOR *pMemDesc;
@@ -678,6 +680,7 @@ _createMemdescFromDmaBufSgtHelper
     MEM_DATA_RELEASE_CALL_BACK *pMemDataReleaseCallback
 )
 {
+    NV_PRINTF(LEVEL_ERROR, "NVIDIA-TRACE: Entering _createMemdescFromDmaBufSgtHelper\n");
     NV_STATUS rmStatus = NV_OK;
     NvU32 cacheType = NV_MEMORY_UNCACHED;
     MEMORY_DESCRIPTOR *pMemDesc;

@@ -1333,36 +1333,36 @@ nv_dma_maps_swiotlb(struct device *dev)
  * throughout. So we need to split our mappings into 4GB-minus-1-page-or-less
  * chunks and manage them separately.
  */
-typedef struct nv_dma_submap_s {
-    NvU32 page_count;
-    NvU32 sg_map_count;
-    struct sg_table sgt;
-    NvBool imported;
-} nv_dma_submap_t;
+    typedef struct nv_dma_submap_s {
+        NvU32 page_count;
+        NvU32 sg_map_count;
+        struct sg_table sgt;
+        NvBool imported;
+    } nv_dma_submap_t;
 
-typedef struct nv_dma_map_s {
-    struct page **pages;
-    NvU64 page_count;
-    NvBool contiguous;
-    NvU32 cache_type;
-    struct sg_table *import_sgt;
+    typedef struct nv_dma_map_s {
+        struct page **pages;
+        NvU64 page_count;
+        NvBool contiguous;
+        NvU32 cache_type;
+        struct sg_table *import_sgt;
 
-    union
-    {
-        struct
+        union
         {
-            NvU32 submap_count;
-            nv_dma_submap_t *submaps;
-        } discontig;
+            struct
+            {
+                NvU32 submap_count;
+                nv_dma_submap_t *submaps;
+            } discontig;
 
-        struct
-        {
-            NvU64 dma_addr;
-        } contig;
-    } mapping;
+            struct
+            {
+                NvU64 dma_addr;
+            } contig;
+        } mapping;
 
-    struct device *dev;
-} nv_dma_map_t;
+        struct device *dev;
+    } nv_dma_map_t;
 
 #define NV_FOR_EACH_DMA_SUBMAP(dm, sm, i)                                     \
     for (i = 0, sm = &dm->mapping.discontig.submaps[0];                       \

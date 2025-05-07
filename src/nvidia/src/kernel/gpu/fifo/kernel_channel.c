@@ -145,6 +145,7 @@ kchannelConstruct_IMPL
     RS_RES_ALLOC_PARAMS_INTERNAL *pParams
 )
 {
+    NV_PRINTF(LEVEL_ERROR, "NVIDIA-TRACE: Entering kchannelConstruct_IMPL\n");
     OBJGPU                 *pGpu             = GPU_RES_GET_GPU(pKernelChannel);
     OBJSYS                 *pSys             = SYS_GET_INSTANCE();
     KernelMIGManager       *pKernelMIGManager = GPU_GET_KERNEL_MIG_MANAGER(pGpu);
@@ -1778,6 +1779,7 @@ kchannelNotifyRc_IMPL
     KernelChannel *pKernelChannel
 )
 {
+    NV_PRINTF(LEVEL_ERROR, "NVIDIA-TRACE: Entering kchannelNotifyRc_IMPL\n");
     OBJGPU *pGpu = GPU_RES_GET_GPU(pKernelChannel);
     RM_ENGINE_TYPE rmEngineType = RM_ENGINE_TYPE_NULL;
     NV_STATUS rmStatus = NV_OK;
@@ -1833,6 +1835,7 @@ void kchannelNotifyEvent_IMPL
     NvU32          notifyParamsSize
 )
 {
+    NV_PRINTF(LEVEL_ERROR, "NVIDIA-TRACE: Entering kchannelNotifyEvent_IMPL\n");
     OBJGPU                 *pGpu = GPU_RES_GET_GPU(pKernelChannel);
     ContextDma             *pContextDma;
     EVENTNOTIFICATION      *pEventNotification;
@@ -1906,6 +1909,7 @@ NV_STATUS kchannelUpdateNotifierMem_IMPL
     NvU32 notifierStatus
 )
 {
+    NV_PRINTF(LEVEL_ERROR, "NVIDIA-TRACE: Entering kchannelUpdateNotifierMem_IMPL\n");
     OBJGPU *pGpu = GPU_RES_GET_GPU(pKernelChannel);
     MEMORY_DESCRIPTOR *pNotifierMemDesc = pKernelChannel->pErrContextMemDesc;
     NV_ADDRESS_SPACE addressSpace;
@@ -1998,6 +2002,7 @@ kchannelCtrlCmdStopChannel_IMPL
     NVA06F_CTRL_STOP_CHANNEL_PARAMS *pStopChannelParams
 )
 {
+    NV_PRINTF(LEVEL_ERROR, "NVIDIA-TRACE: Entering kchannelCtrlCmdStopChannel_IMPL\n");
     NV_STATUS     rmStatus      = NV_OK;
     OBJGPU       *pGpu          = GPU_RES_GET_GPU(pKernelChannel);
     CALL_CONTEXT *pCallContext  = resservGetTlsCallContext();
@@ -2043,6 +2048,7 @@ kchannelGetNotifierInfo
     NvU64              *pOffset
 )
 {
+    NV_PRINTF(LEVEL_ERROR, "NVIDIA-TRACE: Entering kchannelGetNotifierInfo\n");
     RsClient   *pRsClient   = RES_GET_CLIENT(pDevice);
     NvHandle    hDevice     = RES_GET_HANDLE(pDevice);
     ContextDma *pContextDma = NULL;
@@ -2221,6 +2227,7 @@ kchannelIsSchedulable_IMPL
     KernelChannel *pKernelChannel
 )
 {
+    NV_PRINTF(LEVEL_ERROR, "NVIDIA-TRACE: Entering kchannelIsSchedulable_IMPL\n");
     OBJGVASPACE *pGVAS = NULL;
     NvU32        engineDesc = 0;
     NvU32        gfId;
@@ -2899,6 +2906,7 @@ NV_STATUS kchannelBindToRunlist_IMPL
     ENGDESCRIPTOR  engineDesc
 )
 {
+    NV_PRINTF(LEVEL_ERROR, "NVIDIA-TRACE: Entering kchannelBindToRunlist_IMPL\n");
     OBJGPU *pGpu;
     KernelFifo *pKernelFifo;
     NV_STATUS status = NV_OK;
@@ -3221,6 +3229,7 @@ kchannelCtrlCmdGpFifoSchedule_IMPL
     NVA06F_CTRL_GPFIFO_SCHEDULE_PARAMS *pSchedParams
 )
 {
+    NV_PRINTF(LEVEL_ERROR, "NVIDIA-TRACE: Entering kchannelCtrlCmdGpFifoSchedule_IMPL\n");
     OBJGPU       *pGpu          = GPU_RES_GET_GPU(pKernelChannel);
     NV_STATUS     rmStatus      = NV_OK;
     CALL_CONTEXT *pCallContext  = resservGetTlsCallContext();
@@ -3307,6 +3316,7 @@ kchannelCtrlCmdBind_IMPL
     NVA06F_CTRL_BIND_PARAMS *pParams
 )
 {
+    NV_PRINTF(LEVEL_ERROR, "NVIDIA-TRACE: Entering kchannelCtrlCmdBind_IMPL\n");
     RM_ENGINE_TYPE globalRmEngineType;
     RM_ENGINE_TYPE localRmEngineType;
     OBJGPU *pGpu = GPU_RES_GET_GPU(pKernelChannel);
@@ -3416,6 +3426,7 @@ kchannelCtrlCmdGpfifoGetWorkSubmitToken_IMPL
     NVC36F_CTRL_CMD_GPFIFO_GET_WORK_SUBMIT_TOKEN_PARAMS *pTokenParams
 )
 {
+    NV_PRINTF(LEVEL_ERROR, "NVIDIA-TRACE: Entering kchannelCtrlCmdGpfifoGetWorkSubmitToken_IMPL\n");
     NV_STATUS     rmStatus      = NV_OK;
     OBJGPU       *pGpu          = GPU_RES_GET_GPU(pKernelChannel);
     KernelFifo   *pKernelFifo   = GPU_GET_KERNEL_FIFO(pGpu);
@@ -3485,6 +3496,7 @@ kchannelCtrlCmdGpfifoSetWorkSubmitTokenNotifIndex_IMPL
     NVC36F_CTRL_GPFIFO_SET_WORK_SUBMIT_TOKEN_NOTIF_INDEX_PARAMS *pParams
 )
 {
+    NV_PRINTF(LEVEL_ERROR, "NVIDIA-TRACE: Entering kchannelCtrlCmdGpfifoSetWorkSubmitTokenNotifIndex_IMPL\n");
     NV_STATUS   rmStatus    = NV_OK;
     OBJGPU     *pGpu        = GPU_RES_GET_GPU(pKernelChannel);
 
@@ -4206,6 +4218,7 @@ kchannelNotifyWorkSubmitToken_IMPL
     NvU32 token
 )
 {
+    NV_PRINTF(LEVEL_ERROR, "NVIDIA-TRACE: Entering kchannelNotifyWorkSubmitToken_IMPL\n");
     NvU16 notifyStatus = 0x0;
     NvU32 index = pKernelChannel->notifyIndex[NV_CHANNELGPFIFO_NOTIFICATION_TYPE_WORK_SUBMIT_TOKEN];
 
@@ -4319,6 +4332,7 @@ kchannelSetCpuMapped
     NvBool bCpuMapped
 )
 {
+    NV_PRINTF(LEVEL_ERROR, "NVIDIA-TRACE: Entering kchannelSetCpuMapped\n");
     if (bCpuMapped)
     {
         pKernelChannel->swState[gpumgrGetSubDeviceInstanceFromGpu(pGpu)] |=
@@ -4350,6 +4364,7 @@ kchannelSetRunlistSet
     NvBool bRunlistSet
 )
 {
+    NV_PRINTF(LEVEL_ERROR, "NVIDIA-TRACE: Entering kchannelSetRunlistSet\n");
     if (bRunlistSet)
     {
         pKernelChannel->swState[gpumgrGetSubDeviceInstanceFromGpu(pGpu)] |=
@@ -4370,6 +4385,7 @@ kchannelGetChannelPhysicalState_KERNEL
     NV208F_CTRL_FIFO_GET_CHANNEL_STATE_PARAMS *pChannelStateParams
 )
 {
+    NV_PRINTF(LEVEL_ERROR, "NVIDIA-TRACE: Entering kchannelGetChannelPhysicalState_KERNEL\n");
     CALL_CONTEXT *pCallContext  = resservGetTlsCallContext();
     RmCtrlParams *pRmCtrlParams = pCallContext->pControlParams->pLegacyParams;
     RM_API *pRmApi = GPU_GET_PHYSICAL_RMAPI(pGpu);

@@ -140,6 +140,7 @@ static NV_STATUS push_reserve_channel(uvm_channel_manager_t *manager,
                                       uvm_gpu_t *dst_gpu,
                                       uvm_channel_t **channel)
 {
+    printk(KERN_INFO "NVIDIA-TRACE: push_reserve_channel\n");
     NV_STATUS status;
 
     // Pick a channel and reserve a GPFIFO entry
@@ -158,6 +159,7 @@ static NV_STATUS push_reserve_channel(uvm_channel_manager_t *manager,
 
 static void push_set_description(uvm_push_t *push, const char *format, va_list args)
 {
+    printk(KERN_INFO "NVIDIA-TRACE: push_set_description\n");
     uvm_push_info_t *push_info;
 
     UVM_ASSERT(uvm_push_info_is_tracking_descriptions());
@@ -186,6 +188,7 @@ static void push_fill_info(uvm_push_t *push,
                            const char *format,
                            va_list args)
 {
+    printk(KERN_INFO "NVIDIA-TRACE: push_fill_info - Function: %s\n", function);
     uvm_push_acquire_info_t *push_acquire_info;
     uvm_push_info_t *push_info = uvm_push_info_from_push(push);
 
@@ -287,6 +290,7 @@ NV_STATUS __uvm_push_begin_acquire_on_channel_with_info(uvm_channel_t *channel,
                                                         int line,
                                                         const char *format, ...)
 {
+    printk(KERN_INFO "NVIDIA-TRACE: uvm_push_begin_acquire_on_channel_with_info\n");
     va_list args;
     NV_STATUS status;
 

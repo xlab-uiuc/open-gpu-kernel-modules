@@ -48,6 +48,8 @@ static inline NvBool nv_dma_is_addressable(
     NvU64 size
 )
 {
+    printk(KERN_INFO "NVIDIA-TRACE: Entering nv_dma_is_addressable\n");
+
     NvU64 limit = start + size - 1;
 
     return (start >= dma_dev->addressable_range.start) &&
@@ -90,20 +92,31 @@ static NV_STATUS nv_dma_map_contig(
         return NV_ERR_INVALID_ADDRESS;
     }
 
+    printk(KERN_INFO "NVIDIA-TRACE: Entering nv_dma_map_contig -  mapped %llu bytes (%llu pages)\n",
+       dma_map->page_count * (NvU64)PAGE_SIZE,
+       dma_map->page_count);
+
     return NV_OK;
 }
 
 static void nv_dma_unmap_contig(nv_dma_map_t *dma_map)
 {
+    printk(KERN_INFO "NVIDIA-TRACE: Entering nv_dma_unmap_contig\n");
 #if defined(NV_DMA_MAP_PAGE_ATTRS_PRESENT) && defined(NV_DMA_ATTR_SKIP_CPU_SYNC_PRESENT)
     dma_unmap_page_attrs(dma_map->dev, dma_map->mapping.contig.dma_addr,
                          dma_map->page_count * PAGE_SIZE,
                          DMA_BIDIRECTIONAL,
                          (dma_map->cache_type == NV_MEMORY_UNCACHED) ?
                           DMA_ATTR_SKIP_CPU_SYNC : 0);
+    printk(KERN_INFO "NVIDIA-TRACE: Entering nv_dma_unmap_contig - unmapped %llu bytes (%llu pages)\n",
+       dma_map->page_count * (NvU64)PAGE_SIZE,
+       dma_map->page_count);
 #else
     dma_unmap_page(dma_map->dev, dma_map->mapping.contig.dma_addr,
             dma_map->page_count * PAGE_SIZE, DMA_BIDIRECTIONAL);
+    printk(KERN_INFO "NVIDIA-TRACE: Entering nv_dma_unmap_contig - unmapped %llu bytes (%llu pages)\n",
+        dma_map->page_count * (NvU64)PAGE_SIZE,
+        dma_map->page_count);
 #endif
 }
 
@@ -134,6 +147,8 @@ static void nv_fill_scatterlist
 
 NV_STATUS nv_create_dma_map_scatterlist(nv_dma_map_t *dma_map)
 {
+    printk(KERN_INFO "NVIDIA-TRACE: Entering nv_create_dma_map_scatterlist\n");
+
     /*
      * We need to split our mapping into at most 4GB - PAGE_SIZE chunks.
      * The Linux kernel stores the length (and offset) of a scatter-gather
@@ -223,6 +238,7 @@ NV_STATUS nv_map_dma_map_scatterlist(nv_dma_map_t *dma_map)
     NV_STATUS status = NV_OK;
     nv_dma_submap_t *submap;
     NvU64 i;
+    NvU64 total_mapped_size = 0; 
 
     NV_FOR_EACH_DMA_SUBMAP(dma_map, submap, i)
     {
@@ -238,6 +254,15 @@ NV_STATUS nv_map_dma_map_scatterlist(nv_dma_map_t *dma_map)
             status = NV_ERR_OPERATING_SYSTEM;
             break;
         }
+
+        if(!submap -> imported) {
+            struct scatterlist *sg;
+            unsigned int j; 
+
+            for_each_sg(submap->sgt.sgl, sg, submap->sg_map_count, j) {
+                total_mapped_size += sg->length;
+            }
+        }
     }
 
     if (status != NV_OK)
@@ -245,6 +270,8 @@ NV_STATUS nv_map_dma_map_scatterlist(nv_dma_map_t *dma_map)
         nv_unmap_dma_map_scatterlist(dma_map);
     }
 
+    printk(KERN_INFO "NVIDIA-TRACE: Entering nv_map_dma_map_scatterlist mapped %llu bytes, number of submaps %llu\n",
+        total_mapped_size, dma_map->mapping.discontig.submap_count);
     return status;
 }
 
@@ -252,6 +279,8 @@ void nv_unmap_dma_map_scatterlist(nv_dma_map_t *dma_map)
 {
     nv_dma_submap_t *submap;
     NvU64 i;
+    NvU64 total_mapped_size = 0; 
+
 
     NV_FOR_EACH_DMA_SUBMAP(dma_map, submap, i)
     {
@@ -269,11 +298,24 @@ void nv_unmap_dma_map_scatterlist(nv_dma_map_t *dma_map)
         dma_unmap_sg(dma_map->dev, submap->sgt.sgl,
                 submap->sgt.orig_nents,
                 DMA_BIDIRECTIONAL);
+        
+        struct scatterlist *sg; 
+        unsigned int j; 
+
+        for_each_sg(submap->sgt.sgl, sg, submap->sg_map_count, j) {
+            total_mapped_size += sg->length;
+        }
+
+        printk(KERN_INFO "NVIDIA-TRACE: Entering nv_unmap_dma_map_scatterlist unmapped %llu bytes, num submaps: %llu\n",
+            total_mapped_size, dma_map->mapping.discontig.submap_count);
+        
     }
 }
 
 void nv_destroy_dma_map_scatterlist(nv_dma_map_t *dma_map)
 {
+    printk(KERN_INFO "NVIDIA-TRACE: Entering nv_destroy_dma_map_scatterlist\n");
+
     nv_dma_submap_t *submap;
     NvU64 i;
 
@@ -295,6 +337,7 @@ static void nv_load_dma_map_scatterlist(
     NvU64 *va_array
 )
 {
+    printk(KERN_INFO "NVIDIA-TRACE: Entering nv_load_dma_map_scatterlist\n");
     unsigned int i, j;
     struct scatterlist *sg;
     nv_dma_submap_t *submap;
@@ -325,6 +368,7 @@ static NV_STATUS nv_dma_map_scatterlist(
     NvU64           *va_array
 )
 {
+    printk(KERN_INFO, "NVIDIA-TRACE: Entering nv_dma_map_scatterlist\n");
     NV_STATUS status;
     NvU64 i;
 
@@ -366,6 +410,7 @@ static NV_STATUS nv_dma_map_scatterlist(
 
 static void nv_dma_unmap_scatterlist(nv_dma_map_t *dma_map)
 {
+    printk(KERN_INFO "NVIDIA-TRACE: Entering nv_dma_unmap_scatterlist\n");
     nv_unmap_dma_map_scatterlist(dma_map);
     nv_destroy_dma_map_scatterlist(dma_map);
 }
@@ -378,6 +423,7 @@ NV_STATUS NV_API_CALL nv_dma_map_sgt(
     void           **priv
 )
 {
+    printk(KERN_INFO "NVIDIA-TRACE: Entering nv_dma_map_sgt\n");
     NV_STATUS status;
     nv_dma_map_t *dma_map = NULL;
 
@@ -428,6 +474,7 @@ static NV_STATUS NV_API_CALL nv_dma_unmap_sgt(
     void           **priv
 )
 {
+    printk(KERN_INFO "NVIDIA-TRACE: Entering nv_dma_unmap_sgt\n");
     nv_dma_map_t *dma_map;
 
     if (priv == NULL)
@@ -455,6 +502,7 @@ static NV_STATUS NV_API_CALL nv_dma_map_pages(
     void           **priv
 )
 {
+    printk(KERN_INFO "NVIDIA-TRACE: Entering nv_dma_map_pages\n");
     NV_STATUS status;
     nv_dma_map_t *dma_map = NULL;
 
@@ -524,6 +572,7 @@ static NV_STATUS NV_API_CALL nv_dma_unmap_pages(
     void           **priv
 )
 {
+    printk(KERN_INFO "NVIDIA-TRACE: Entering nv_dma_unmap_pages\n");
     nv_dma_map_t *dma_map;
 
     if (priv == NULL)
@@ -581,6 +630,7 @@ NV_STATUS NV_API_CALL nv_dma_map_alloc
     void           **priv
 )
 {
+    printk(KERN_INFO "NVIDIA-TRACE: Entering nv_dma_map_alloc\n");
     NV_STATUS status;
     NvU64 i;
     nv_alloc_t *at = *priv;
@@ -670,6 +720,7 @@ NV_STATUS NV_API_CALL nv_dma_unmap_alloc
     void           **priv
 )
 {
+    printk(KERN_INFO "NVIDIA-TRACE: Entering nv_dma_unmap_alloc\n");
     NV_STATUS status = NV_OK;
     nv_dma_map_t *dma_map;
 
@@ -856,6 +907,7 @@ void NV_API_CALL nv_dma_unmap_mmio
     NvU64            va
 )
 {
+    printk(KERN_INFO "NVIDIA-TRACE: Entering nv_dma_unmap_mmio\n");
 #if defined(NV_DMA_MAP_RESOURCE_PRESENT)
     if (nv_dma_use_map_resource(dma_dev))
     {

@@ -468,6 +468,7 @@ nv_dma_buf_get_phys_addresses (
     NvU32 handle_count
 )
 {
+    printk(KERN_INFO "NVIDIA-TRACE: Entering nv_dma_buf_get_phys_addresses\n");
     NV_STATUS status = NV_OK;
     nvidia_stack_t *sp = NULL;
     NvBool api_lock_taken = NV_FALSE;
@@ -577,6 +578,7 @@ nv_dma_buf_unmap_pages(
     nv_dma_buf_file_private_t *priv
 )
 {
+    printk(KERN_INFO "NVIDIA-TRACE: Entering nv_dma_buf_unmap_pages\n");
     if (priv->skip_iommu)
     {
         return;
@@ -592,6 +594,7 @@ nv_dma_buf_unmap_pfns(
     nv_dma_buf_file_private_t *priv
 )
 {
+    printk(KERN_INFO "NVIDIA-TRACE: Entering nv_dma_buf_unmap_pfns\n");
     nv_dma_device_t peer_dma_dev = {{ 0 }};
     struct scatterlist *sg = sgt->sgl;
     NvU32 i;
@@ -619,6 +622,7 @@ nv_dma_buf_get_sg_count (
     NvU32  *max_seg_size
 )
 {
+    printk(KERN_INFO "NVIDIA-TRACE: Entering nv_dma_buf_get_sg_count\n");
     NvU32 dma_max_seg_size, i;
     NvU32 nents = 0;
 
@@ -654,6 +658,7 @@ nv_dma_buf_map_pages (
     nv_dma_buf_file_private_t *priv
 )
 {
+    printk(KERN_INFO "NVIDIA-TRACE: Entering nv_dma_buf_map_pages\n");
     struct sg_table *sgt = NULL;
     struct scatterlist *sg;
     NvU32 dma_max_seg_size = 0;
@@ -731,6 +736,7 @@ nv_dma_buf_map_pfns (
     nv_dma_buf_file_private_t *priv
 )
 {
+    printk(KERN_INFO "NVIDIA-TRACE: Entering nv_dma_buf_map_pfns\n");
     NV_STATUS status;
     struct sg_table *sgt = NULL;
     struct scatterlist *sg;
@@ -827,6 +833,7 @@ nv_dma_buf_map(
     enum dma_data_direction direction
 )
 {
+    printk(KERN_INFO "NVIDIA-TRACE: Entering nv_dma_buf_map\n");
     NV_STATUS status;
     struct sg_table *sgt = NULL;
     struct dma_buf *buf = attachment->dmabuf;
@@ -918,6 +925,7 @@ nv_dma_buf_unmap(
     enum dma_data_direction direction
 )
 {
+    printk(KERN_INFO "NVIDIA-TRACE: Entering nv_dma_buf_unmap\n");
     struct dma_buf *buf = attachment->dmabuf;
     nv_dma_buf_file_private_t *priv = buf->priv;
 
@@ -954,6 +962,7 @@ nv_dma_buf_release(
     struct dma_buf *buf
 )
 {
+    printk(KERN_INFO "NVIDIA-TRACE: Entering nv_dma_buf_release\n");
     int rc = 0;
     NvU32 i;
     nvidia_stack_t *sp = NULL;
@@ -1095,6 +1104,7 @@ nv_dma_buf_create(
     nv_ioctl_export_to_dma_buf_fd_t *params
 )
 {
+    printk(KERN_INFO "NVIDIA-TRACE: Entering nv_dma_buf_create\n");
     int rc = 0;
     NV_STATUS status;
     nvidia_stack_t *sp = NULL;
@@ -1347,6 +1357,7 @@ nv_dma_buf_export(
     nv_ioctl_export_to_dma_buf_fd_t *params
 )
 {
+    printk(KERN_INFO "NVIDIA-TRACE: Entering nv_dma_buf_export\n");
 #if defined(CONFIG_DMA_SHARED_BUFFER)
     NV_STATUS status;
 
@@ -1399,6 +1410,7 @@ NV_STATUS NV_API_CALL nv_dma_import_dma_buf
     nv_dma_buf_t **import_priv
 )
 {
+    printk(KERN_INFO "NVIDIA-TRACE: Entering nv_dma_import_dma_buf\n");
 #if defined(CONFIG_DMA_SHARED_BUFFER)
     nv_dma_buf_t *nv_dma_buf = NULL;
     struct dma_buf_attachment *dma_attach = NULL;
@@ -1473,6 +1485,7 @@ NV_STATUS NV_API_CALL nv_dma_import_from_fd
     nv_dma_buf_t **import_priv
 )
 {
+    printk(KERN_INFO "NVIDIA-TRACE: Entering nv_dma_import_from_fd\n");
 #if defined(CONFIG_DMA_SHARED_BUFFER)
     struct dma_buf *dma_buf = dma_buf_get(fd);
     NV_STATUS status;
@@ -1498,6 +1511,7 @@ void NV_API_CALL nv_dma_release_dma_buf
     nv_dma_buf_t *import_priv
 )
 {
+    printk(KERN_INFO "NVIDIA-TRACE: Entering nv_dma_release_dma_buf\n");
 #if defined(CONFIG_DMA_SHARED_BUFFER)
     nv_dma_buf_t *nv_dma_buf = NULL;
 

@@ -67,6 +67,7 @@ module_param(uvm_conf_computing_channel_iv_rotation_limit, ulong, S_IRUGO);
 
 void uvm_conf_computing_check_parent_gpu(const uvm_parent_gpu_t *parent)
 {
+    printk(KERN_INFO "NVIDIA-TRACE: uvm_conf_computing_check_parent_gpu\n");
     uvm_assert_mutex_locked(&g_uvm_global.global_lock);
 
     // Confidential Computing enablement on the system should match enablement
@@ -77,6 +78,7 @@ void uvm_conf_computing_check_parent_gpu(const uvm_parent_gpu_t *parent)
 static void dma_buffer_destroy_locked(uvm_conf_computing_dma_buffer_pool_t *dma_buffer_pool,
                                       uvm_conf_computing_dma_buffer_t *dma_buffer)
 {
+    printk(KERN_INFO "NVIDIA-TRACE: dma_buffer_destroy_locked\n");
     uvm_assert_mutex_locked(&dma_buffer_pool->lock);
 
     list_del(&dma_buffer->node);
@@ -89,6 +91,7 @@ static void dma_buffer_destroy_locked(uvm_conf_computing_dma_buffer_pool_t *dma_
 
 static uvm_gpu_t *dma_buffer_pool_to_gpu(uvm_conf_computing_dma_buffer_pool_t *dma_buffer_pool)
 {
+    printk(KERN_INFO "NVIDIA-TRACE: dma_buffer_pool_to_gpu\n");
     return container_of(dma_buffer_pool, uvm_gpu_t, conf_computing.dma_buffer_pool);
 }
 
@@ -96,6 +99,7 @@ static uvm_gpu_t *dma_buffer_pool_to_gpu(uvm_conf_computing_dma_buffer_pool_t *d
 static NV_STATUS dma_buffer_create(uvm_conf_computing_dma_buffer_pool_t *dma_buffer_pool,
                                    uvm_conf_computing_dma_buffer_t **dma_buffer_out)
 {
+    printk(KERN_INFO "NVIDIA-TRACE: dma_buffer_create\n");
     uvm_gpu_t *dma_owner;
     uvm_conf_computing_dma_buffer_t *dma_buffer;
     uvm_mem_t *alloc = NULL;
@@ -141,6 +145,7 @@ err:
 
 void uvm_conf_computing_dma_buffer_pool_sync(uvm_conf_computing_dma_buffer_pool_t *dma_buffer_pool)
 {
+    printk(KERN_INFO "NVIDIA-TRACE: uvm_conf_computing_dma_buffer_pool_sync\n");
     uvm_conf_computing_dma_buffer_t *dma_buffer;
 
     if (dma_buffer_pool->num_dma_buffers == 0)
@@ -154,6 +159,7 @@ void uvm_conf_computing_dma_buffer_pool_sync(uvm_conf_computing_dma_buffer_pool_
 
 static void conf_computing_dma_buffer_pool_deinit(uvm_conf_computing_dma_buffer_pool_t *dma_buffer_pool)
 {
+    printk(KERN_INFO "NVIDIA-TRACE: conf_computing_dma_buffer_pool_deinit\n");
     uvm_conf_computing_dma_buffer_t *dma_buffer;
     uvm_conf_computing_dma_buffer_t *next_buff;
 
@@ -178,12 +184,14 @@ static void conf_computing_dma_buffer_pool_deinit(uvm_conf_computing_dma_buffer_
 static void dma_buffer_pool_add(uvm_conf_computing_dma_buffer_pool_t *dma_buffer_pool,
                                uvm_conf_computing_dma_buffer_t *dma_buffer)
 {
+    printk(KERN_INFO "NVIDIA-TRACE: dma_buffer_pool_add\n");
     uvm_assert_mutex_locked(&dma_buffer_pool->lock);
     list_add_tail(&dma_buffer->node, &dma_buffer_pool->free_dma_buffers);
 }
 
 static NV_STATUS conf_computing_dma_buffer_pool_init(uvm_conf_computing_dma_buffer_pool_t *dma_buffer_pool)
 {
+    printk(KERN_INFO "NVIDIA-TRACE: conf_computing_dma_buffer_pool_init\n");
     size_t i;
     size_t num_dma_buffers = 32;
     NV_STATUS status = NV_OK;
@@ -215,6 +223,7 @@ static NV_STATUS conf_computing_dma_buffer_pool_init(uvm_conf_computing_dma_buff
 
 static NV_STATUS dma_buffer_pool_expand_locked(uvm_conf_computing_dma_buffer_pool_t *dma_buffer_pool)
 {
+    printk(KERN_INFO "NVIDIA-TRACE: dma_buffer_pool_expand_locked\n");
     size_t i;
     uvm_gpu_t *gpu;
     size_t nb_to_alloc;
@@ -245,6 +254,7 @@ NV_STATUS uvm_conf_computing_dma_buffer_alloc(uvm_conf_computing_dma_buffer_pool
                                               uvm_conf_computing_dma_buffer_t **dma_buffer_out,
                                               uvm_tracker_t *out_tracker)
 {
+    printk(KERN_INFO "NVIDIA-TRACE: uvm_conf_computing_dma_buffer_alloc\n");
     uvm_conf_computing_dma_buffer_t *dma_buffer = NULL;
     NV_STATUS status;
 
@@ -294,7 +304,7 @@ void uvm_conf_computing_dma_buffer_free(uvm_conf_computing_dma_buffer_pool_t *dm
                                         uvm_conf_computing_dma_buffer_t *dma_buffer,
                                         uvm_tracker_t *tracker)
 {
-
+    printk(KERN_INFO "NVIDIA-TRACE: uvm_conf_computing_dma_buffer_free\n");
     NV_STATUS status;
 
     if (!dma_buffer)
@@ -317,6 +327,7 @@ void uvm_conf_computing_dma_buffer_free(uvm_conf_computing_dma_buffer_pool_t *dm
 
 static void dummy_iv_mem_deinit(uvm_gpu_t *gpu)
 {
+    printk(KERN_INFO "NVIDIA-TRACE: dummy_iv_mem_deinit\n");
     uvm_mem_free(gpu->conf_computing.iv_mem);
 }
 
@@ -349,11 +360,13 @@ error:
 // (per-pool encryption accounting, for example) can be removed at that point.
 static bool key_rotation_is_notifier_driven(void)
 {
+    printk(KERN_INFO "NVIDIA-TRACE: key_rotation_is_notifier_driven\n");
     return !uvm_enable_builtin_tests;
 }
 
 NV_STATUS uvm_conf_computing_gpu_init(uvm_gpu_t *gpu)
 {
+    printk(KERN_INFO "NVIDIA-TRACE: uvm_conf_computing_gpu_init\n");
     NV_STATUS status;
 
     if (!g_uvm_global.conf_computing_enabled)
@@ -390,6 +403,7 @@ error:
 
 void uvm_conf_computing_gpu_deinit(uvm_gpu_t *gpu)
 {
+    printk(KERN_INFO "NVIDIA-TRACE: uvm_conf_computing_gpu_deinit\n");
     dummy_iv_mem_deinit(gpu);
     conf_computing_dma_buffer_pool_deinit(&gpu->conf_computing.dma_buffer_pool);
 }
@@ -445,6 +459,7 @@ void uvm_conf_computing_cpu_encrypt(uvm_channel_t *channel,
                                     size_t size,
                                     void *auth_tag_buffer)
 {
+    printk(KERN_INFO "NVIDIA-TRACE: uvm_conf_computing_cpu_encrypt\n");
     NV_STATUS status;
     uvm_channel_pool_t *pool;
 
@@ -489,6 +504,7 @@ NV_STATUS uvm_conf_computing_cpu_decrypt(uvm_channel_t *channel,
                                          size_t size,
                                          const void *auth_tag_buffer)
 {
+    printk(KERN_INFO "NVIDIA-TRACE: uvm_conf_computing_cpu_decrypt\n");
     NV_STATUS status;
 
     // The CSL context associated with a channel can be used by multiple
@@ -822,6 +838,7 @@ NV_STATUS uvm_conf_computing_util_memcopy_cpu_to_gpu(uvm_gpu_t *gpu,
                                                      const char *format,
                                                      ...)
 {
+    printk(KERN_INFO "NVIDIA-TRACE: uvm_conf_computing_util_memcopy_cpu_to_gpu\n");
     NV_STATUS status;
     uvm_push_t push;
     uvm_conf_computing_dma_buffer_t *dma_buffer;
@@ -867,6 +884,7 @@ NV_STATUS uvm_conf_computing_util_memcopy_gpu_to_cpu(uvm_gpu_t *gpu,
                                                      const char *format,
                                                      ...)
 {
+    printk(KERN_INFO "NVIDIA-TRACE: uvm_conf_computing_util_memcopy_gpu_to_cpu\n");
     NV_STATUS status;
     uvm_push_t push;
     uvm_conf_computing_dma_buffer_t *dma_buffer;

@@ -42,6 +42,7 @@
 
 NV_STATUS kceConstructEngine_IMPL(OBJGPU *pGpu, KernelCE *pKCe, ENGDESCRIPTOR engDesc)
 {
+    NV_PRINTF(LEVEL_ERROR, "NVIDIA-TRACE: Entering kceConstructEngine_IMPL\n");
     NV_ASSERT_OR_RETURN(!RMCFG_FEATURE_PLATFORM_GSP, NV_ERR_NOT_SUPPORTED);
 
     NvU32 thisPublicID = GET_CE_IDX(engDesc);
@@ -83,6 +84,7 @@ NV_STATUS kceConstructEngine_IMPL(OBJGPU *pGpu, KernelCE *pKCe, ENGDESCRIPTOR en
 
 NvBool kceIsPresent_IMPL(OBJGPU *pGpu, KernelCE *pKCe)
 {
+    NV_PRINTF(LEVEL_ERROR, "NVIDIA-TRACE: Entering kceIsPresent_IMPL\n");
     // Use bus/fifo to detemine if LCE(i) is present.
     KernelBus *pKernelBus = GPU_GET_KERNEL_BUS(pGpu);
     NvBool present = NV_FALSE;
@@ -117,6 +119,7 @@ spdmSendTestCommand
     NvU8         isEnc
 )
 {
+    NV_PRINTF(LEVEL_ERROR, "NVIDIA-TRACE: Entering spdmSendTestCommand\n");
     NV_STATUS           status   = NV_OK;
     RM_API              *pRmApi  = rmapiGetInterface(RMAPI_GPU_LOCK_INTERNAL);
     RMTIMEOUT           timeout;
@@ -176,6 +179,7 @@ kceRunFipsSelfTestDecrypt
     void     *pArg
 )
 {
+    NV_PRINTF(LEVEL_ERROR, "NVIDIA-TRACE: Entering kceRunFipsSelfTestDecrypt\n");
     KernelCE          *pKCe              = pArg;
     MemoryManager     *pMemoryManager    = GPU_GET_MEMORY_MANAGER(pGpu);
     KernelMIGManager  *pKernelMIGManager = GPU_GET_KERNEL_MIG_MANAGER(pGpu);
@@ -445,6 +449,7 @@ kceRunFipsSelfTest
     void     *pArg
 )
 {
+    NV_PRINTF(LEVEL_ERROR, "NVIDIA-TRACE: Entering kceRunFipsSelfTest\n");
     NV_STATUS status = NV_OK;
     status = kceRunFipsSelfTestDecrypt(pGpu, pArg);
     if (status == NV_OK)
@@ -461,6 +466,7 @@ kceStateInitLocked_IMPL
     KernelCE *pKCe
 )
 {
+    NV_PRINTF(LEVEL_ERROR, "NVIDIA-TRACE: Entering kceStateInitLocked_IMPL\n");
     if (!gpuIsCCFeatureEnabled(pGpu) || !IS_SILICON(pGpu))
     {
         pKCe->bCcFipsSelfTestRequired = NV_FALSE;
@@ -482,6 +488,7 @@ kceStateDestroy_IMPL
     KernelCE *pKCe
 )
 {
+    NV_PRINTF(LEVEL_ERROR, "NVIDIA-TRACE: Entering kceStateDestroy_IMPL\n");
     if (pKCe->bCcFipsSelfTestRequired)
     {
         kfifoRemoveSchedulingHandler(pGpu, GPU_GET_KERNEL_FIFO(pGpu), kceRunFipsSelfTest, pKCe, NULL, NULL);
@@ -522,6 +529,7 @@ void kceGetNvlinkCaps_IMPL(OBJGPU *pGpu, KernelCE *pKCe, NvU8 *pKCeCaps)
 
 NV_STATUS kceGetDeviceCaps_IMPL(OBJGPU *pGpu, KernelCE *pKCe, RM_ENGINE_TYPE rmEngineType, NvU8 *pKCeCaps)
 {
+    NV_PRINTF(LEVEL_ERROR, "NVIDIA-TRACE: Entering kceGetDeviceCaps_IMPL\n");
     if (pKCe->bStubbed)
     {
         NV_PRINTF(LEVEL_INFO, "Skipping stubbed CE %d\n", pKCe->publicID);
@@ -618,6 +626,7 @@ kceGetCeFromNvlinkConfig_IMPL
 
 NV_STATUS kceUpdateClassDB_KERNEL(OBJGPU *pGpu, KernelCE *pKCe)
 {
+    NV_PRINTF(LEVEL_ERROR, "NVIDIA-TRACE: Entering kceUpdateClassDB_KERNEL\n");
     RM_API *pRmApi     = GPU_GET_PHYSICAL_RMAPI(pGpu);
 
     NV2080_CTRL_CE_UPDATE_CLASS_DB_PARAMS params = {0};
@@ -691,6 +700,7 @@ kceServiceNotificationInterrupt_IMPL
     IntrServiceServiceNotificationInterruptArguments *pParams
 )
 {
+    NV_PRINTF(LEVEL_ERROR, "NVIDIA-TRACE: Entering kceServiceNotificationInterrupt_IMPL\n");
     NV_ASSERT_OR_RETURN(pParams != NULL, NV_ERR_INVALID_ARGUMENT);
     NV_ASSERT_OR_RETURN(pParams->engineIdx == MC_ENGINE_IDX_CE(pKCe->publicID), NV_ERR_GENERIC);
 
@@ -708,6 +718,7 @@ kceServiceNotificationInterrupt_IMPL
 
 NV_STATUS kceTopLevelPceLceMappingsUpdate_IMPL(OBJGPU *pGpu, KernelCE *pKCe)
 {
+    NV_PRINTF(LEVEL_ERROR, "NVIDIA-TRACE: Entering kceTopLevelPceLceMappingsUpdate_IMPL\n");
     NvU32        pceLceMap[NV2080_CTRL_MAX_PCES]    = {0};
     NvU32        grceConfig[NV2080_CTRL_MAX_GRCES]  = {0};
     NvU32        exposeCeMask        = 0;
@@ -984,7 +995,7 @@ kceGetPceConfigForLceType_IMPL
 )
 {
     RM_API   *pRmApi    = GPU_GET_PHYSICAL_RMAPI(pGpu);
-
+    NV_PRINTF(LEVEL_ERROR, "NVIDIA-TRACE: Entering kceGetPceConfigForLceType_IMPL\n");
     NV_ASSERT_OR_RETURN(pNumPcesPerLce != NULL,     NV_ERR_INVALID_ARGUMENT);
     NV_ASSERT_OR_RETURN(pNumLces != NULL,           NV_ERR_INVALID_ARGUMENT);
     NV_ASSERT_OR_RETURN(pSupportedPceMask != NULL,  NV_ERR_INVALID_ARGUMENT);
@@ -1030,6 +1041,7 @@ kceIsDecompLce_IMPL
     NvU32    lceIndex
 )
 {
+    NV_PRINTF(LEVEL_ERROR, "NVIDIA-TRACE: Entering kceIsDecompLce_IMPL\n");
     NV2080_CTRL_CE_IS_DECOMP_LCE_ENABLED_PARAMS params = {0};
     RM_API *pRmApi = GPU_GET_PHYSICAL_RMAPI(pGpu);
     NV_STATUS status = NV_OK;
@@ -1069,6 +1081,7 @@ kceIsDecompLce_VF
     NvU32    lceIndex
 )
 {
+    NV_PRINTF(LEVEL_ERROR, "NVIDIA-TRACE: Entering kceIsDecompLce_VF\n");
     VGPU_STATIC_INFO *pVSI = GPU_GET_STATIC_INFO(pGpu);
 
     NV_ASSERT_OR_RETURN(pVSI, NV_ERR_INVALID_STATE);

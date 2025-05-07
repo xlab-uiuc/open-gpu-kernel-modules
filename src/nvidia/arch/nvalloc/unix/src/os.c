@@ -3230,6 +3230,7 @@ osIovaMap
     PIOVAMAPPING pIovaMapping
 )
 {
+    NV_PRINTF(LEVEL_ERROR, "NVIDIA-TRACE: Entering osIovaMap\n");
     OBJGPU *pGpu;
     nv_state_t *nv, *peer;
     NV_STATUS status;
@@ -3461,6 +3462,7 @@ osIovaUnmap
     PIOVAMAPPING pIovaMapping
 )
 {
+    NV_PRINTF(LEVEL_ERROR, "NVIDIA-TRACE: Entering osIovaUnmap\n");
     OBJGPU *pGpu;
     nv_state_t *nv;
     void *pPriv;

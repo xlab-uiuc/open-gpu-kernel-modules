@@ -98,6 +98,7 @@ kfifoChidMgrConstruct_IMPL
     KernelFifo  *pKernelFifo
 )
 {
+    NV_PRINTF(LEVEL_ERROR, "NVIDIA-TRACE: Entering kfifoChidMgrConstruct_IMPL\n");
     NV_STATUS status = NV_OK;
     NvU32     i;
     NvU32     numEngines;
@@ -218,6 +219,7 @@ kfifoChidMgrDestruct_IMPL
     KernelFifo *pKernelFifo
 )
 {
+    NV_PRINTF(LEVEL_ERROR, "NVIDIA-TRACE: Entering kfifoChidMgrDestruct_IMPL\n");
     NvU32 i;
 
     for (i = 0; i < pKernelFifo->numChidMgrs; i++)
@@ -249,6 +251,7 @@ _kfifoChidMgrAllocVChidHeapPointers
     CHID_MGR   *pChidMgr
 )
 {
+    NV_PRINTF(LEVEL_ERROR, "NVIDIA-TRACE: Entering _kfifoChidMgrAllocVChidHeapPointers\n");
     NV_STATUS status = NV_OK;
     NvU32 i;
 
@@ -292,6 +295,7 @@ _kfifoChidMgrAllocChidHeaps
     CHID_MGR    *pChidMgr
 )
 {
+    NV_PRINTF(LEVEL_ERROR, "NVIDIA-TRACE: Entering _kfifoChidMgrAllocChidHeaps\n");
     NV_STATUS status = NV_OK;
 
     if (pChidMgr->numChannels == 0)
@@ -383,6 +387,7 @@ _kfifoChidMgrDestroyChidHeaps
     CHID_MGR     *pChidMgr
 )
 {
+    NV_PRINTF(LEVEL_ERROR, "NVIDIA-TRACE: Entering _kfifoChidMgrDestroyChidHeaps\n");
     if (pChidMgr->pFifoDataHeap != NULL)
     {
         pChidMgr->pFifoDataHeap->eheapDestruct(pChidMgr->pFifoDataHeap);
@@ -408,6 +413,7 @@ _kfifoChidMgrInitChannelGroupMgr
     CHID_MGR   *pChidMgr
 )
 {
+    NV_PRINTF(LEVEL_ERROR, "NVIDIA-TRACE: Entering _kfifoChidMgrInitChannelGroupMgr\n");
     KernelFifo *pKernelFifo      = GPU_GET_KERNEL_FIFO(pGpu);
     FIFO_HW_ID *pFifoHwID        = &pChidMgr->channelGrpMgr;
     NvU32       allocSize;
@@ -583,6 +589,7 @@ kfifoChidMgrAllocChid_IMPL
     KernelChannel           *pKernelChannel
 )
 {
+    NV_PRINTF(LEVEL_ERROR, "NVIDIA-TRACE: Entering kfifoChidMgrAllocChid_IMPL\n");
     NvU64             chSize;
     NvU32             chFlag                = chIdFlag;
     NvU64             ChID64                = 0;
@@ -912,6 +919,7 @@ kfifoChidMgrRetainChid_IMPL
     NvU32       ChID
 )
 {
+    NV_PRINTF(LEVEL_ERROR, "NVIDIA-TRACE: Entering kfifoChidMgrRetainChid_IMPL\n");
     NvU32       gfid;
     EMEMBLOCK  *pFifoDataBlock = NULL;
 
@@ -1014,6 +1022,7 @@ kfifoChidMgrFreeChid_IMPL
     NvU32         ChID
 )
 {
+    NV_PRINTF(LEVEL_ERROR, "NVIDIA-TRACE: Entering kfifoChidMgrFreeChid_IMPL\n");
     EMEMBLOCK *pFifoDataBlock;
     NV_STATUS  status;
     NvU32 gfid;
@@ -1080,6 +1089,7 @@ kfifoChidMgrReserveSystemChids_IMPL
     FIFO_ENGINE_LIST *pEngineFifoList
 )
 {
+    NV_PRINTF(LEVEL_ERROR, "NVIDIA-TRACE: Entering kfifoChidMgrReserveSystemChids_IMPL\n");
     NV_STATUS         status              = NV_OK;
     NvU64             chSize;
     PFIFO_ISOLATIONID pIsolationID        = NULL;
@@ -1366,6 +1376,7 @@ kfifoChidMgrAllocChannelGroupHwID_IMPL
     NvU32      *pChGrpID
 )
 {
+    NV_PRINTF(LEVEL_ERROR, "NVIDIA-TRACE: Entering kfifoChidMgrAllocChannelGroupHwID_IMPL - reserve hardware channel slot for channel group\n");
     NvU32 maxChannelGroups;
     char logMessage[256] = "";
 
@@ -1723,16 +1734,19 @@ kfifoFillMemInfo_IMPL
     {
         if (memdescGetAddressSpace(pMemDesc) == ADDR_FBMEM)
         {
+            NV_PRINTF(LEVEL_ERROR, "NVIDIA-TRACE: Entering kfifoFillMemInfo_IMPL - ADDR_FBMEM\n");
             pMemory->aperture = NV2080_CTRL_CMD_FIFO_GET_CHANNEL_MEM_APERTURE_VIDMEM;
         }
         else if (memdescGetAddressSpace(pMemDesc) == ADDR_SYSMEM)
         {
             if (memdescGetCpuCacheAttrib(pMemDesc) == NV_MEMORY_CACHED)
             {
+                NV_PRINTF(LEVEL_ERROR, "NVIDIA-TRACE: Entering kfifoFillMemInfo_IMPL - ADDR_SYSMEM\n");
                 pMemory->aperture = NV2080_CTRL_CMD_FIFO_GET_CHANNEL_MEM_APERTURE_SYSMEM_COH;
             }
             else if (memdescGetCpuCacheAttrib(pMemDesc) == NV_MEMORY_UNCACHED)
             {
+                NV_PRINTF(LEVEL_ERROR, "NVIDIA-TRACE: Entering kfifoFillMemInfo_IMPL - NV_MEMORY_UNCACHED\n");
                 pMemory->aperture = NV2080_CTRL_CMD_FIFO_GET_CHANNEL_MEM_APERTURE_SYSMEM_NCOH;
             }
             else
@@ -1760,6 +1774,7 @@ kfifoGetChannelIterator_IMPL
     NvU32 runlistId
 )
 {
+    NV_PRINTF(LEVEL_ERROR, "NVIDIA-TRACE: Entering kfifoGetChannelIterator_IMPL\n");
     portMemSet(pIt, 0, sizeof(*pIt));
 
     if (runlistId == INVALID_RUNLIST_ID)
@@ -1860,6 +1875,7 @@ NV_STATUS kfifoGetNextKernelChannel_IMPL
     KernelChannel      **ppKernelChannel
 )
 {
+    NV_PRINTF(LEVEL_ERROR, "NVIDIA-TRACE: Entering kfifoGetNextKernelChannel_IMPL\n");
     if (ppKernelChannel == NULL)
         return NV_ERR_INVALID_ARGUMENT;
 
@@ -2674,6 +2690,7 @@ kfifoRunlistAllocBuffers_IMPL
     MEMORY_DESCRIPTOR **ppMemDesc
 )
 {
+    NV_PRINTF(LEVEL_ERROR, "NVIDIA-TRACE: Entering kfifoRunlistAllocBuffers_IMPL\n");
     NV_STATUS status        = NV_OK;
     NvU64     runlistSz     = 0;
     NvU64     runlistAlign  = 0;
@@ -2815,6 +2832,7 @@ void kfifoGetDeviceCaps_IMPL
     NvBool      bCapsInitialized
 )
 {
+    NV_PRINTF(LEVEL_ERROR, "NVIDIA-TRACE: Entering kfifoGetDeviceCaps_IMPL\n");
     NvU8        tempCaps[NV0080_CTRL_FIFO_CAPS_TBL_SIZE];
     NvU8        temp;
     NvU32       kfifoBitMask;
@@ -2913,6 +2931,7 @@ kfifoAddSchedulingHandler_IMPL
     void                   *pPreSchedulingDisableHandlerData
 )
 {
+    NV_PRINTF(LEVEL_ERROR, "NVIDIA-TRACE: Entering kfifoAddSchedulingHandler_IMPL\n");
     FifoSchedulingHandlerEntry *pEntry;
     NvBool bPostHandlerAlreadyPresent = NV_FALSE;
     NvBool bPreHandlerAlreadyPresent = NV_FALSE;
@@ -3067,6 +3086,7 @@ kfifoTriggerPostSchedulingEnableCallback_IMPL
     KernelFifo *pKernelFifo
 )
 {
+    NV_PRINTF(LEVEL_ERROR, "NVIDIA-TRACE: Entering kfifoTriggerPostSchedulingEnableCallback_IMPL\n");
     NV_STATUS status = NV_OK;
     FifoSchedulingHandlerEntry *pEntry;
     NvBool bFirstPass = NV_TRUE;
@@ -3302,6 +3322,7 @@ kfifoGetEngineListForRunlist_IMPL
     NvU32      *pNumEngines
 )
 {
+    NV_PRINTF(LEVEL_ERROR, "NVIDIA-TRACE: Entering kfifoGetEngineListForRunlist_IMPL\n");
     NV_STATUS  status      = NV_OK;
     NvU32      numEngines  = kfifoGetNumEngines_HAL(pGpu, pKernelFifo);
     NvU32      i;
@@ -3364,6 +3385,7 @@ kfifoGetAllocatedChannelMask_IMPL
     NvLength    bitMaskSize
 )
 {
+    NV_PRINTF(LEVEL_ERROR, "NVIDIA-TRACE: Entering kfifoGetAllocatedChannelMask_IMPL\n");
     CHID_MGR *pChidMgr;
     NvU32     chId;
     NvU32     numChannels;
@@ -3629,6 +3651,7 @@ kfifoIsMmuFaultEngineIdPbdma_IMPL
     NvU32       engineId
 )
 {
+    NV_PRINTF(LEVEL_ERROR, "NVIDIA-TRACE: Entering kfifoIsMmuFaultEngineIdPbdma_IMPL");
     const ENGINE_INFO *pEngineInfo = kfifoGetEngineInfo(pKernelFifo);
 
     NV_ASSERT_OR_RETURN(pEngineInfo != NULL, NV_FALSE);
@@ -3652,6 +3675,7 @@ kfifoGetPbdmaIdFromMmuFaultId_IMPL
     NvU32      *pPbdmaId
 )
 {
+    NV_PRINTF(LEVEL_ERROR, "NVIDIA-TRACE: Entering kfifoGetPbdmaIdFromMmuFaultId_IMPL");
     const ENGINE_INFO *pEngineInfo = kfifoGetEngineInfo(pKernelFifo);
     NvU32 pbdmaFaultIdStart;
 
@@ -3689,6 +3713,7 @@ kfifoGetEngineTypeFromPbdmaFaultId_IMPL
     RM_ENGINE_TYPE  *pRmEngineType
 )
 {
+    NV_PRINTF(LEVEL_ERROR, "NVIDIA-TRACE: Entering kfifoGetEngineTypeFromPbdmaFaultId_IMPL");
     const ENGINE_INFO *pEngineInfo = kfifoGetEngineInfo(pKernelFifo);
     NvU32 i, j;
 
@@ -3753,6 +3778,7 @@ NV_STATUS kfifoGenerateWorkSubmitToken_IMPL
     NvBool           bUsedForHost
 )
 {
+    NV_PRINTF(LEVEL_ERROR, "NVIDIA-TRACE: Entering kfifoGenerateWorkSubmitToken_IMPLn");
     {
         NV_ASSERT_OK_OR_RETURN(kfifoGenerateWorkSubmitTokenHal_HAL(pGpu, pKernelFifo,
                                                                    pKernelChannel, pGeneratedToken, bUsedForHost));

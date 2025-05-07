@@ -70,6 +70,7 @@ memmapperExecuteMap
     RM_API                               *pRmApi
 )
 {
+    NV_PRINTF(LEVEL_ERROR, "NVIDIA-TRACE: Entering memmapperExecuteMap\n");
     RsClient *pClient = RES_GET_CLIENT(pMemoryMapper);
 
     RsResourceRef *pVirtualResourceRef;
@@ -118,6 +119,7 @@ memmapperExecuteUnmap
     RM_API                               *pRmApi
 )
 {
+    NV_PRINTF(LEVEL_ERROR, "NVIDIA-TRACE: Entering memmapperExecuteUnmap\n");
     RsClient *pClient      = RES_GET_CLIENT(pMemoryMapper);
 
     RsResourceRef *pVirtualResourceRef;

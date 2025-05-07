@@ -220,6 +220,7 @@ channelSetupChannelBufferSizes
     OBJCHANNEL *pChannel
 )
 {
+    NV_PRINTF(LEVEL_ERROR, "NVIDIA-TRACE: Entering channelSetupChannelBufferSizes\n");
     NV_ASSERT_OR_RETURN_VOID(pChannel != NULL);
     NV_ASSERT_OR_RETURN_VOID(pChannel->type < MAX_CHANNEL_TYPE);
 
@@ -258,6 +259,7 @@ channelReadChannelMemdesc
     NvU32       offset
 )
 {
+    NV_PRINTF(LEVEL_ERROR, "NVIDIA-TRACE: Entering channelReadChannelMemdesc\n");
     NV_ASSERT_OR_RETURN(pChannel != NULL, 0);
     NV_ASSERT_OR_RETURN(pChannel->pGpu != NULL, 0);
 
@@ -304,6 +306,7 @@ channelServiceScrubberInterrupts(
     OBJCHANNEL *pChannel
 )
 {
+    NV_PRINTF(LEVEL_ERROR, "NVIDIA-TRACE: Entering channelServiceScrubberInterrupts\n");
     OBJGPU *pGpu = pChannel->pGpu;
     Intr *pIntr = GPU_GET_INTR(pGpu);
     KernelFifo *pKernelFifo = GPU_GET_KERNEL_FIFO(pGpu);
@@ -347,6 +350,7 @@ channelWaitForFinishPayload
     NvU64       targetPayload
 )
 {
+    NV_PRINTF(LEVEL_ERROR, "NVIDIA-TRACE: Entering channelWaitForFinishPayload\n");
     NV_ASSERT_OR_RETURN(pChannel != NULL, NV_ERR_INVALID_STATE);
 
     OBJGPU *pGpu = pChannel->pGpu;
@@ -394,6 +398,7 @@ channelWaitForFreeEntry
     NvU32      *pPutIndex
 )
 {
+    NV_PRINTF(LEVEL_ERROR, "NVIDIA-TRACE: Entering channelWaitForFreeEntry\n");
     NV_ASSERT_OR_RETURN(pChannel != NULL, NV_ERR_INVALID_STATE);
 
     OBJGPU *pGpu = pChannel->pGpu;
@@ -458,6 +463,7 @@ channelFillGpFifo
     NvU32       methodsLength
 )
 {
+    NV_PRINTF(LEVEL_ERROR, "NVIDIA-TRACE: Entering channelFillGpFifo\n");
     OBJGPU *pGpu = pChannel->pGpu;
     KernelFifo *pKernelFifo = GPU_GET_KERNEL_FIFO(pGpu);
     KernelBus *pKernelBus = GPU_GET_KERNEL_BUS(pGpu);
@@ -601,6 +607,7 @@ channelFillPbFastScrub
     CHANNEL_PB_INFO *pChannelPbInfo
 )
 {
+    NV_PRINTF(LEVEL_ERROR, "NVIDIA-TRACE: Entering channelFillPbFastScrub\n");
     NvU32   pipelinedValue = 0;
     NvU32   flushValue     = 0;
     NvU32  *pPtr           = (NvU32 *)((NvU8*)pChannel->pbCpuVA + (putIndex * pChannel->methodSizePerBlock));
@@ -736,6 +743,7 @@ channelPushSecureCopyProperties
     NvU32           **ppPtr
 )
 {
+    NV_PRINTF(LEVEL_ERROR, "NVIDIA-TRACE: Entering channelPushSecureCopyProperties\n");
     NvU32 *pPtr = *ppPtr;
 
     if (!pChannelPbInfo->bSecureCopy)
@@ -789,6 +797,7 @@ channelFillCePb
     CHANNEL_PB_INFO *pChannelPbInfo
 )
 {
+    NV_PRINTF(LEVEL_ERROR, "NVIDIA-TRACE: Entering channelFillCePb\n");
     NvU32  copyType   = 0;
     NvU32  launchType = 0;
     NvU32 *pPtr       = (NvU32 *)((NvU8 *)pChannel->pbCpuVA + (putIndex * pChannel->methodSizePerBlock));
@@ -842,7 +851,7 @@ addMethodsToMethodBuf
     NvU32  index
 )
 {
-
+    NV_PRINTF(LEVEL_ERROR, "NVIDIA-TRACE: Entering addMethodsToMethodBuf\n");
     NV_ASSERT_OR_RETURN((index < SEC2_WL_METHOD_ARRAY_SIZE), NV_ERR_INVALID_ARGUMENT);
     pMethodBuf[index*2 + 0] = command;
     pMethodBuf[index*2 + 1] = data;
@@ -870,6 +879,7 @@ channelFillSec2Pb
     NvU32             *pMethodLength
 )
 {
+    NV_PRINTF(LEVEL_ERROR, "NVIDIA-TRACE: Entering channelFillSec2Pb\n");
     NvU32          *pPtr                  = NULL;
     NvU32          *pStartPtr             = NULL;
     NvU32           execute               = 0;
@@ -992,6 +1002,7 @@ channelPushMemoryProperties
     NvU32           **ppPtr
 )
 {
+    NV_PRINTF(LEVEL_ERROR, "NVIDIA-TRACE: Entering channelPushMemoryProperties\n");
     NV_ADDRESS_SPACE dstAddressSpace = pChannelPbInfo->dstAddressSpace;
     NV_ADDRESS_SPACE srcAddressSpace = pChannelPbInfo->srcAddressSpace;
     NvU32 dstCpuCacheAttrib = pChannelPbInfo->dstCpuCacheAttrib;
@@ -1092,6 +1103,7 @@ channelPushMethod
     NvU32          **ppPtr
 )
 {
+    NV_PRINTF(LEVEL_ERROR, "NVIDIA-TRACE: Entering channelPushMethod\n");
     NvU32 pipelinedValue = 0;
     NvU32 flushValue = 0;
     NvU32 disablePlcKind = 0;

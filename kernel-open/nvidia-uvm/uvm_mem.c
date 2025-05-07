@@ -70,6 +70,7 @@ static bool vidmem_can_be_mapped(uvm_mem_t *vidmem, bool is_user_space)
 
 static bool mem_can_be_mapped_on_cpu(uvm_mem_t *mem, bool is_user_space)
 {
+    printk(KERN_INFO "NVIDIA-TRACE: mem_can_be_mapped_on_cpu\n");
     if (uvm_mem_is_sysmem(mem))
         return true;
 
@@ -81,6 +82,7 @@ static bool mem_can_be_mapped_on_cpu(uvm_mem_t *mem, bool is_user_space)
 
 static bool mem_can_be_mapped_on_cpu_kernel(uvm_mem_t *mem)
 {
+    printk(KERN_INFO "NVIDIA-TRACE: mem_can_be_mapped_on_cpu_kernel\n");
     return mem_can_be_mapped_on_cpu(mem, false);
 }
 
@@ -91,6 +93,7 @@ static bool mem_can_be_mapped_on_cpu_user(uvm_mem_t *mem)
 
 static bool sysmem_can_be_mapped_on_gpu(uvm_mem_t *sysmem)
 {
+    printk(KERN_INFO "NVIDIA-TRACE: sysmem_can_be_mapped_on_gpu\n");
     UVM_ASSERT(uvm_mem_is_sysmem(sysmem));
 
     // In Confidential Computing, only unprotected memory can be mapped on the
@@ -103,6 +106,7 @@ static bool sysmem_can_be_mapped_on_gpu(uvm_mem_t *sysmem)
 
 static bool mem_can_be_mapped_on_gpu(uvm_mem_t *mem, uvm_gpu_t *gpu, bool is_user_space)
 {
+    printk(KERN_INFO "NVIDIA-TRACE: mem_can_be_mapped_on_gpu\n");
     if (uvm_mem_is_sysmem(mem))
         return sysmem_can_be_mapped_on_gpu(mem);
 
@@ -114,16 +118,19 @@ static bool mem_can_be_mapped_on_gpu(uvm_mem_t *mem, uvm_gpu_t *gpu, bool is_use
 
 static bool mem_can_be_mapped_on_gpu_kernel(uvm_mem_t *mem, uvm_gpu_t *gpu)
 {
+    printk(KERN_INFO "NVIDIA-TRACE: mem_can_be_mapped_on_gpu_kernel\n");
     return mem_can_be_mapped_on_gpu(mem, gpu, false);
 }
 
 static bool mem_can_be_mapped_on_gpu_user(uvm_mem_t *mem, uvm_gpu_t *gpu)
 {
+    printk(KERN_INFO "NVIDIA-TRACE: mem_can_be_mapped_on_gpu_user\n");
     return mem_can_be_mapped_on_gpu(mem, gpu, true);
 }
 
 bool uvm_mem_mapped_on_gpu_user(uvm_mem_t *mem, uvm_gpu_t *gpu)
 {
+    printk(KERN_INFO "NVIDIA-TRACE: uvm_mem_mapped_on_gpu_user\n");
     if (mem->user == NULL)
         return false;
 
@@ -132,11 +139,13 @@ bool uvm_mem_mapped_on_gpu_user(uvm_mem_t *mem, uvm_gpu_t *gpu)
 
 bool uvm_mem_mapped_on_gpu_kernel(uvm_mem_t *mem, uvm_gpu_t *gpu)
 {
+    printk(KERN_INFO "NVIDIA-TRACE: uvm_mem_mapped_on_gpu_kernel\n");
     return uvm_processor_mask_test(&mem->kernel.mapped_on, gpu->id);
 }
 
 bool uvm_mem_mapped_on_cpu_user(uvm_mem_t *mem)
 {
+    printk(KERN_INFO "NVIDIA-TRACE: uvm_mem_mapped_on_cpu_user\n");
     if (mem->user == NULL)
         return false;
 
@@ -145,11 +154,13 @@ bool uvm_mem_mapped_on_cpu_user(uvm_mem_t *mem)
 
 bool uvm_mem_mapped_on_cpu_kernel(uvm_mem_t *mem)
 {
+    printk(KERN_INFO "NVIDIA-TRACE: uvm_mem_mapped_on_cpu_kernel\n");
     return uvm_processor_mask_test(&mem->kernel.mapped_on, UVM_ID_CPU);
 }
 
 static void mem_set_mapped_on_gpu_user(uvm_mem_t *mem, uvm_gpu_t *gpu)
 {
+    printk(KERN_INFO "NVIDIA-TRACE: mem_set_mapped_on_gpu_user\n");
     UVM_ASSERT(mem->user != NULL);
     UVM_ASSERT(mem_can_be_mapped_on_gpu_user(mem, gpu));
     UVM_ASSERT(!uvm_mem_mapped_on_gpu_user(mem, gpu));
@@ -159,6 +170,7 @@ static void mem_set_mapped_on_gpu_user(uvm_mem_t *mem, uvm_gpu_t *gpu)
 
 static void mem_set_mapped_on_gpu_kernel(uvm_mem_t *mem, uvm_gpu_t *gpu)
 {
+    printk(KERN_INFO "NVIDIA-TRACE: mem_set_mapped_on_gpu_kernel\n");
     UVM_ASSERT(mem_can_be_mapped_on_gpu_kernel(mem, gpu));
     UVM_ASSERT(!uvm_mem_mapped_on_gpu_kernel(mem, gpu));
 
@@ -167,6 +179,7 @@ static void mem_set_mapped_on_gpu_kernel(uvm_mem_t *mem, uvm_gpu_t *gpu)
 
 static void mem_set_mapped_on_cpu_user(uvm_mem_t *mem)
 {
+    printk(KERN_INFO "NVIDIA-TRACE: mem_set_mapped_on_cpu_user\n");
     UVM_ASSERT(mem->user != NULL);
     UVM_ASSERT(mem_can_be_mapped_on_cpu_user(mem));
     UVM_ASSERT(!uvm_mem_mapped_on_cpu_user(mem));
@@ -176,6 +189,7 @@ static void mem_set_mapped_on_cpu_user(uvm_mem_t *mem)
 
 static void mem_set_mapped_on_cpu_kernel(uvm_mem_t *mem)
 {
+    printk(KERN_INFO "NVIDIA-TRACE: mem_set_mapped_on_cpu_kernel\n");
     UVM_ASSERT(mem_can_be_mapped_on_cpu_kernel(mem));
     UVM_ASSERT(!uvm_mem_mapped_on_cpu_kernel(mem));
 
@@ -184,6 +198,7 @@ static void mem_set_mapped_on_cpu_kernel(uvm_mem_t *mem)
 
 static void mem_clear_mapped_on_gpu_kernel(uvm_mem_t *mem, uvm_gpu_t *gpu)
 {
+    printk(KERN_INFO "NVIDIA-TRACE: mem_clear_mapped_on_gpu_kernel\n");
     uvm_processor_mask_clear(&mem->kernel.mapped_on, gpu->id);
 }
 
@@ -208,6 +223,7 @@ static void mem_clear_mapped_on_cpu_kernel(uvm_mem_t *mem)
 
 static bool sysmem_mapped_on_gpu_phys(uvm_mem_t *sysmem, uvm_gpu_t *gpu)
 {
+    printk(KERN_INFO "NVIDIA-TRACE: sysmem_mapped_on_gpu_phys\n");
     UVM_ASSERT(uvm_mem_is_sysmem(sysmem));
 
     return uvm_processor_mask_test(&sysmem->sysmem.mapped_on_phys, gpu->id);
@@ -215,6 +231,7 @@ static bool sysmem_mapped_on_gpu_phys(uvm_mem_t *sysmem, uvm_gpu_t *gpu)
 
 static void sysmem_set_mapped_on_gpu_phys(uvm_mem_t *sysmem, uvm_gpu_t *gpu)
 {
+    printk(KERN_INFO "NVIDIA-TRACE: sysmem_set_mapped_on_gpu_phys\n");
     UVM_ASSERT(uvm_mem_is_sysmem(sysmem));
     UVM_ASSERT(!sysmem_mapped_on_gpu_phys(sysmem, gpu));
 
@@ -223,6 +240,7 @@ static void sysmem_set_mapped_on_gpu_phys(uvm_mem_t *sysmem, uvm_gpu_t *gpu)
 
 static void sysmem_clear_mapped_on_gpu_phys(uvm_mem_t *sysmem, uvm_gpu_t *gpu)
 {
+    printk(KERN_INFO "NVIDIA-TRACE: sysmem_clear_mapped_on_gpu_phys\n");
     UVM_ASSERT(uvm_mem_is_sysmem(sysmem));
 
     uvm_processor_mask_clear(&sysmem->sysmem.mapped_on_phys, gpu->id);
@@ -233,6 +251,7 @@ NV_STATUS uvm_mem_translate_gpu_attributes(const UvmGpuMappingAttributes *attrs,
                                            uvm_gpu_t **gpu_out,
                                            uvm_mem_gpu_mapping_attrs_t *attrs_out)
 {
+    printk(KERN_INFO "NVIDIA-TRACE: uvm_mem_translate_gpu_attributes\n");
     uvm_gpu_t *gpu;
 
     switch (attrs->gpuMappingType) {
@@ -362,6 +381,7 @@ static void mem_free_vidmem_chunks(uvm_mem_t *mem)
 
 static void mem_free_sysmem_dma_chunks(uvm_mem_t *mem)
 {
+    printk(KERN_INFO "NVIDIA-TRACE: mem_free_sysmem_dma_chunks\n");
     size_t i;
     NvU32 gpu_index;
 
@@ -395,6 +415,7 @@ end:
 
 static void mem_free_sysmem_chunks(uvm_mem_t *mem)
 {
+    printk(KERN_INFO "NVIDIA-TRACE: mem_free_sysmem_chunks\n");
     size_t i;
 
     UVM_ASSERT(uvm_mem_is_sysmem(mem));
@@ -414,6 +435,7 @@ static void mem_free_sysmem_chunks(uvm_mem_t *mem)
 
 static void mem_free_chunks(uvm_mem_t *mem)
 {
+    printk(KERN_INFO "NVIDIA-TRACE: mem_free_chunks\n");
     if (uvm_mem_is_vidmem(mem))
         mem_free_vidmem_chunks(mem);
     else if (uvm_mem_is_sysmem_dma(mem))
@@ -424,6 +446,7 @@ static void mem_free_chunks(uvm_mem_t *mem)
 
 static NV_STATUS mem_alloc_dma_addrs(uvm_mem_t *mem, const uvm_gpu_t *gpu)
 {
+    printk(KERN_INFO "NVIDIA-TRACE: mem_alloc_dma_addrs\n");
     NvU64 *dma_addrs = NULL;
     NvU32 gpu_index = uvm_id_gpu_index(gpu->id);
 
@@ -438,6 +461,7 @@ static NV_STATUS mem_alloc_dma_addrs(uvm_mem_t *mem, const uvm_gpu_t *gpu)
 
 static gfp_t sysmem_allocation_gfp_flags(int order, bool zero)
 {
+    printk(KERN_INFO "NVIDIA-TRACE: sysmem_allocaation_gfp_flags\n");
     gfp_t gfp_flags = NV_UVM_GFP_FLAGS;
 
     if (zero)
@@ -464,6 +488,7 @@ static gfp_t sysmem_allocation_gfp_flags(int order, bool zero)
 // uvm_mem_free
 static NV_STATUS mem_alloc_sysmem_dma_chunks(uvm_mem_t *mem, gfp_t gfp_flags)
 {
+    printk(KERN_INFO "NVIDIA-TRACE: mem_alloc_sysmem_dma_chunks\n");
     size_t i;
     NV_STATUS status;
     NvU64 *dma_addrs;
@@ -509,6 +534,7 @@ error:
 // uvm_mem_free
 static NV_STATUS mem_alloc_sysmem_chunks(uvm_mem_t *mem, gfp_t gfp_flags)
 {
+    printk(KERN_INFO "NVIDIA-TRACE: mem_alloc_sysmem_chunks\n");
     size_t i;
     int order;
 
@@ -616,6 +642,7 @@ NV_STATUS uvm_mem_map_kernel(uvm_mem_t *mem, const uvm_processor_mask_t *mask)
 
 NV_STATUS uvm_mem_alloc(const uvm_mem_alloc_params_t *params, uvm_mem_t **mem_out)
 {
+    printk(KERN_INFO "NVIDIA-TRACE: uvm_mem_alloc\n");
     NV_STATUS status;
     NvU64 physical_size;
     uvm_mem_t *mem = NULL;
@@ -654,6 +681,7 @@ error:
 
 static NV_STATUS mem_init_user_mapping(uvm_mem_t *mem, uvm_va_space_t *user_va_space, void *user_addr)
 {
+    printk(KERN_INFO "NVIDIA-TRACE: mem_init_user_mapping\n");
     UVM_ASSERT(user_va_space);
     UVM_ASSERT(user_addr);
 
@@ -708,6 +736,7 @@ static struct page *mem_cpu_page(uvm_mem_t *mem, NvU64 offset)
 
 static NV_STATUS mem_map_cpu_to_sysmem_kernel(uvm_mem_t *mem)
 {
+    printk(KERN_INFO "NVIDIA-TRACE: mem_map_cpu_to_sysmem_kernel\n");
     struct page **pages = mem->sysmem.pages;
     size_t num_pages = uvm_mem_physical_size(mem) / PAGE_SIZE;
     pgprot_t prot;
@@ -779,6 +808,7 @@ static NV_STATUS mem_map_cpu_to_vidmem_kernel(uvm_mem_t *mem)
 
 void uvm_mem_unmap_cpu_kernel(uvm_mem_t *mem)
 {
+    printk(KERN_INFO "NVIDIA-TRACE: uvm_mem_unmap_cpu_kernel\n");
     if (!uvm_mem_mapped_on_cpu_kernel(mem))
         return;
 
@@ -789,6 +819,7 @@ void uvm_mem_unmap_cpu_kernel(uvm_mem_t *mem)
 
 static NV_STATUS mem_map_cpu_to_sysmem_user(uvm_mem_t *mem, struct vm_area_struct *vma)
 {
+    printk(KERN_INFO "NVIDIA-TRACE: mem_map_cpu_to_sysmem_user\n");
     NV_STATUS status;
     NvU64 offset;
 
@@ -818,6 +849,7 @@ error:
 
 void uvm_mem_unmap_cpu_user(uvm_mem_t *mem)
 {
+    printk(KERN_INFO "NVIDIA-TRACE: uvm_mem_unmap_cpu_user\n");
     if (!uvm_mem_mapped_on_cpu_user(mem))
         return;
 
@@ -828,6 +860,7 @@ void uvm_mem_unmap_cpu_user(uvm_mem_t *mem)
 
 NV_STATUS uvm_mem_map_cpu_user(uvm_mem_t *mem, uvm_va_space_t *user_va_space, struct vm_area_struct *vma)
 {
+    printk(KERN_INFO "NVIDIA-TRACE: uvm_mem_map_cpu_user\n");
     NV_STATUS status;
     void *user_addr;
 
@@ -860,6 +893,7 @@ cleanup:
 
 NV_STATUS uvm_mem_map_cpu_kernel(uvm_mem_t *mem)
 {
+    printk(KERN_INFO "NVIDIA-TRACE: uvm_mem_map_cpu_kernel\n");
     NV_STATUS status;
 
     UVM_ASSERT(mem);
@@ -883,6 +917,7 @@ NV_STATUS uvm_mem_map_cpu_kernel(uvm_mem_t *mem)
 
 static void sysmem_unmap_gpu_phys(uvm_mem_t *mem, uvm_gpu_t *gpu)
 {
+    printk(KERN_INFO "NVIDIA-TRACE: sysmem_unmap_gpu_phys\n");
     NvU64 *dma_addrs = mem->sysmem.dma_addrs[uvm_id_gpu_index(gpu->id)];
     NvU32 i;
 
@@ -906,6 +941,7 @@ static void sysmem_unmap_gpu_phys(uvm_mem_t *mem, uvm_gpu_t *gpu)
 
 static NV_STATUS sysmem_map_gpu_phys(uvm_mem_t *mem, uvm_gpu_t *gpu)
 {
+    printk(KERN_INFO "NVIDIA-TRACE: sysmem_map_gpu_phys\n");
     NV_STATUS status;
     size_t i;
 
@@ -1022,6 +1058,7 @@ static NvU64 mem_pte_maker(uvm_page_table_range_vec_t *range_vec, NvU64 offset, 
 
 static void mem_unmap_gpu(uvm_mem_t *mem, uvm_gpu_t *gpu, uvm_page_table_range_vec_t **range_vec)
 {
+    printk(KERN_INFO "NVIDIA-TRACE: mem_unmap_gpu\n");
     uvm_membar_t tlb_membar = uvm_hal_downgrade_membar_type(gpu, uvm_mem_is_local_vidmem(mem, gpu));
     NV_STATUS status = uvm_page_table_range_vec_clear_ptes(*range_vec, tlb_membar);
     if (status != NV_OK)
@@ -1038,6 +1075,7 @@ static NV_STATUS mem_map_gpu(uvm_mem_t *mem,
                              const uvm_mem_gpu_mapping_attrs_t *attrs,
                              uvm_page_table_range_vec_t **range_vec)
 {
+    printk(KERN_INFO "NVIDIA-TRACE: mem_map_gpu\n");
     NV_STATUS status;
     NvU64 page_size;
     uvm_pmm_alloc_flags_t pmm_flags = UVM_PMM_ALLOC_FLAGS_EVICT;

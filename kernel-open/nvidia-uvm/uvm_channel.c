@@ -151,6 +151,7 @@ bool uvm_channel_pool_uses_mutex(uvm_channel_pool_t *pool)
 
 static void channel_pool_lock_init(uvm_channel_pool_t *pool)
 {
+    printk(KERN_INFO "NVIDIA-TRACE: channel_pool_lock_init\n");
     uvm_lock_order_t order;
 
     if (g_uvm_global.conf_computing_enabled && uvm_channel_pool_is_wlc(pool))
@@ -166,6 +167,7 @@ static void channel_pool_lock_init(uvm_channel_pool_t *pool)
 
 static void channel_pool_lock(uvm_channel_pool_t *pool)
 {
+    printk(KERN_INFO "NVIDIA-TRACE: channel_pool_lock\n");
     if (uvm_channel_pool_uses_mutex(pool))
         uvm_mutex_lock(&pool->mutex);
     else
@@ -174,6 +176,7 @@ static void channel_pool_lock(uvm_channel_pool_t *pool)
 
 static void channel_pool_unlock(uvm_channel_pool_t *pool)
 {
+    printk(KERN_INFO "NVIDIA-TRACE: channel_pool_unlock\n");
     if (uvm_channel_pool_uses_mutex(pool))
         uvm_mutex_unlock(&pool->mutex);
     else
@@ -185,6 +188,7 @@ static NvU32 uvm_channel_update_progress_with_max(uvm_channel_t *channel,
                                                   NvU32 max_to_complete,
                                                   uvm_channel_update_mode_t mode)
 {
+    printk(KERN_INFO "NVIDIA-TRACE: uvm_channel_update_progress_with_max\n");
     NvU32 gpu_get;
     NvU32 cpu_put;
     NvU32 completed_count = 0;
@@ -240,6 +244,7 @@ static NvU32 uvm_channel_update_progress_with_max(uvm_channel_t *channel,
 
 NvU32 uvm_channel_update_progress(uvm_channel_t *channel)
 {
+    printk(KERN_INFO "NVIDIA-TRACE: uvm_channel_update_progress\n");
     // By default, don't complete too many entries at a time to spread the cost
     // of doing so across callers and avoid potentially holding a spin lock for
     // too long.
@@ -251,16 +256,19 @@ NvU32 uvm_channel_update_progress(uvm_channel_t *channel)
 // error is encountered. Otherwise, uvm_chanel_update_progress() should be used.
 static NvU32 channel_update_progress_all(uvm_channel_t *channel, uvm_channel_update_mode_t mode)
 {
+    printk(KERN_INFO "NVIDIA-TRACE: channel_update_progress_all\n");
     return uvm_channel_update_progress_with_max(channel, channel->num_gpfifo_entries, mode);
 }
 
 NvU32 uvm_channel_update_progress_all(uvm_channel_t *channel)
 {
+    printk(KERN_INFO "NVIDIA-TRACE: uvm_channel_update_progress_all\n");
     return channel_update_progress_all(channel, UVM_CHANNEL_UPDATE_MODE_COMPLETED);
 }
 
 NvU32 uvm_channel_manager_update_progress(uvm_channel_manager_t *channel_manager)
 {
+    printk(KERN_INFO "NVIDIA-TRACE: uvm_channel_manager_update_progress\n");
     NvU32 pending_gpfifos = 0;
     uvm_channel_pool_t *pool;
 
@@ -276,6 +284,7 @@ NvU32 uvm_channel_manager_update_progress(uvm_channel_manager_t *channel_manager
 
 static NvU32 channel_get_available_gpfifo_entries(uvm_channel_t *channel)
 {
+    printk(KERN_INFO "NVIDIA-TRACE: channel_get_available_gpfifo_entries\n");
     NvU32 available = channel->num_gpfifo_entries;
 
     uvm_channel_pool_assert_locked(channel->pool);
@@ -299,6 +308,7 @@ static NvU32 channel_get_available_gpfifo_entries(uvm_channel_t *channel)
 
 NvU32 uvm_channel_get_available_gpfifo_entries(uvm_channel_t *channel)
 {
+    printk(KERN_INFO "NVIDIA-TRACE: uvm_channel_get_available_gpfifo_entries\n");
     NvU32 available;
 
     channel_pool_lock(channel->pool);
@@ -312,6 +322,7 @@ static bool try_claim_channel_locked(uvm_channel_t *channel,
                                      NvU32 num_gpfifo_entries,
                                      uvm_channel_reserve_type_t reserve_type)
 {
+    printk(KERN_INFO "NVIDIA-TRACE: try_claim_channel_locked\n");
     bool claimed = false;
 
     UVM_ASSERT(num_gpfifo_entries > 0);
@@ -334,6 +345,7 @@ static bool try_claim_channel(uvm_channel_t *channel,
                               NvU32 num_gpfifo_entries,
                               uvm_channel_reserve_type_t reserve_type)
 {
+    printk(KERN_INFO "NVIDIA-TRACE: try_claim_channel\n");
     bool claimed;
 
     channel_pool_lock(channel->pool);
@@ -345,6 +357,7 @@ static bool try_claim_channel(uvm_channel_t *channel,
 
 static void unlock_channel_for_push(uvm_channel_t *channel)
 {
+    printk(KERN_INFO "NVIDIA-TRACE: unlock_channel_for_push\n");
     NvU32 index;
 
     if (!g_uvm_global.conf_computing_enabled)
@@ -361,6 +374,7 @@ static void unlock_channel_for_push(uvm_channel_t *channel)
 
 bool uvm_channel_is_locked_for_push(uvm_channel_t *channel)
 {
+    printk(KERN_INFO "NVIDIA-TRACE: uvm_channel_is_locked_for_push\n");
     if (g_uvm_global.conf_computing_enabled)
         return test_bit(uvm_channel_index_in_pool(channel), channel->pool->conf_computing.push_locks);
 
@@ -372,6 +386,7 @@ bool uvm_channel_is_locked_for_push(uvm_channel_t *channel)
 
 static void lock_channel_for_push(uvm_channel_t *channel)
 {
+    printk(KERN_INFO "NVIDIA-TRACE: lock_channel_for_push\n");
     NvU32 index = uvm_channel_index_in_pool(channel);
 
     UVM_ASSERT(g_uvm_global.conf_computing_enabled);
@@ -383,6 +398,7 @@ static void lock_channel_for_push(uvm_channel_t *channel)
 
 static bool test_claim_and_lock_channel(uvm_channel_t *channel, NvU32 num_gpfifo_entries)
 {
+    printk(KERN_INFO "NVIDIA-TRACE: test_claim_and_lock_channel\n");
     UVM_ASSERT(g_uvm_global.conf_computing_enabled);
     uvm_channel_pool_assert_locked(channel->pool);
 
@@ -406,6 +422,7 @@ static bool test_claim_and_lock_channel(uvm_channel_t *channel, NvU32 num_gpfifo
 // rotation is in progress.
 static void channel_pool_reserve_release_all_channels(uvm_channel_pool_t *pool, bool reserve)
 {
+    printk(KERN_INFO "NVIDIA-TRACE: channel_pool_reserve_release_all_channels\n");
     NvU32 i;
 
     UVM_ASSERT(g_uvm_global.conf_computing_enabled);
@@ -436,6 +453,7 @@ static void channel_pool_release_all_channels(uvm_channel_pool_t *pool)
 
 static NV_STATUS channel_pool_rotate_key_locked(uvm_channel_pool_t *pool)
 {
+    printk(KERN_INFO "NVIDIA-TRACE: channel_pool_rotate_key_locked\n");
     uvm_channel_t *channel;
 
     // A rotation is not necessarily pending, because UVM can trigger rotations
@@ -461,6 +479,7 @@ static NV_STATUS channel_pool_rotate_key_locked(uvm_channel_pool_t *pool)
 
 static NV_STATUS channel_pool_rotate_key(uvm_channel_pool_t *pool, bool force_rotation)
 {
+    printk(KERN_INFO "NVIDIA-TRACE: channel_pool_rotate_key\n");
     NV_STATUS status = NV_OK;
 
     uvm_mutex_lock(&pool->conf_computing.key_rotation.mutex);
@@ -673,6 +692,7 @@ NV_STATUS uvm_channel_manager_wait(uvm_channel_manager_t *manager)
 
 static NvU32 channel_get_available_push_info_index(uvm_channel_t *channel)
 {
+    printk(KERN_INFO "NVIDIA-TRACE: channel_get_available_push_info_index\n");
     uvm_push_info_t *push_info;
 
     channel_pool_lock(channel->pool);
@@ -689,6 +709,7 @@ static NvU32 channel_get_available_push_info_index(uvm_channel_t *channel)
 
 static unsigned channel_pool_num_gpfifo_entries(uvm_channel_pool_t *pool)
 {
+    printk(KERN_INFO "NVIDIA-TRACE: channel_pool_num_gpfifo_entries\n");
     UVM_ASSERT(uvm_pool_type_is_valid(pool->pool_type));
 
     // WLC benefits from larger number of entries since more available entries
@@ -803,6 +824,7 @@ static uvm_channel_pool_t *get_paired_pool(uvm_channel_pool_t *pool)
 
 static uvm_channel_t *get_paired_channel(uvm_channel_t *channel)
 {
+    printk(KERN_INFO "NVIDIA-TRACE: get_paired_channel\n");
     uvm_channel_pool_t *paired_pool;
     unsigned index;
 
@@ -850,6 +872,7 @@ NvU64 uvm_channel_get_static_pb_protected_vidmem_gpu_va(uvm_channel_t *channel)
 
 static NvU64 get_channel_unprotected_sysmem_gpu_va(uvm_channel_t *channel)
 {
+    printk(KERN_INFO "NVIDIA-TRACE: get_channel_unprotected_sysmem_gpu_va\n");
     unsigned channel_index;
     NvU64 pool_sysmem_base;
 
@@ -870,6 +893,7 @@ NvU64 uvm_channel_get_static_pb_unprotected_sysmem_gpu_va(uvm_channel_t *channel
 
 static char* get_channel_unprotected_sysmem_cpu(uvm_channel_t *channel)
 {
+    printk(KERN_INFO "NVIDIA-TRACE: get_channel_unprotected_sysmem_cpu\n");
     unsigned channel_index;
     char* pool_sysmem_base;
 
@@ -889,6 +913,7 @@ char* uvm_channel_get_static_pb_unprotected_sysmem_cpu(uvm_channel_t *channel)
 
 static NV_STATUS channel_rotate_and_reserve_launch_channel(uvm_channel_t *channel, uvm_channel_t **launch_channel)
 {
+    printk(KERN_INFO "NVIDIA-TRACE: channel_rotate_and_reserve_launch_channel\n");
     uvm_channel_manager_t *manager = channel->pool->manager;
     NV_STATUS status;
 
@@ -933,6 +958,7 @@ static NV_STATUS channel_rotate_and_reserve_launch_channel(uvm_channel_t *channe
 
 NV_STATUS uvm_channel_begin_push(uvm_channel_t *channel, uvm_push_t *push)
 {
+    printk(KERN_INFO "NVIDIA-TRACE: uvm_channel_begin_push\n");
     NV_STATUS status = NV_OK;
     uvm_channel_manager_t *manager;
 
@@ -975,6 +1001,7 @@ NV_STATUS uvm_channel_begin_push(uvm_channel_t *channel, uvm_push_t *push)
 
 static void internal_channel_submit_work(uvm_push_t *push, NvU32 push_size, NvU32 new_gpu_put)
 {
+    printk(KERN_INFO "NVIDIA-TRACE: internal_channel_submit_work\n");
     NvU64 *gpfifo_entry;
     NvU64 pushbuffer_va;
     uvm_channel_t *channel = push->channel;
@@ -996,7 +1023,6 @@ static void internal_channel_submit_work(uvm_push_t *push, NvU32 push_size, NvU3
     }
 
     gpu->parent->host_hal->set_gpfifo_entry(gpfifo_entry, pushbuffer_va, push_size, UVM_GPFIFO_SYNC_PROCEED);
-
     // Need to make sure all the pushbuffer and the GPFIFO entries writes
     // complete before updating GPPUT. We also don't want any reads to be moved
     // after the GPPut write as the GPU might modify the data they read as soon
@@ -1008,6 +1034,7 @@ static void internal_channel_submit_work(uvm_push_t *push, NvU32 push_size, NvU3
 
 static void proxy_channel_submit_work(uvm_push_t *push, NvU32 push_size)
 {
+    printk(KERN_INFO "NVIDIA-TRACE: proxy_channel_submit_work\n");
     NV_STATUS status;
     uvm_channel_t *channel = push->channel;
 
@@ -1044,6 +1071,7 @@ static void do_semaphore_release(uvm_push_t *push, NvU64 semaphore_va, NvU32 new
 
 static void uvm_channel_tracking_semaphore_release(uvm_push_t *push, NvU64 semaphore_va, NvU32 new_payload)
 {
+    printk(KERN_INFO "NVIDIA-TRACE: uvm_channel_tracking_semaphore_release\n");
     // We used to skip the membar or use membar GPU for the semaphore release
     // for a few pushes, but that doesn't provide sufficient ordering guarantees
     // in some cases (e.g. ga100 with an LCE with PCEs from both HSHUBs) for the
@@ -1098,6 +1126,7 @@ static uvm_gpu_address_t lcic_static_exit_notifier_gpu_va(uvm_channel_t *lcic)
 
 static void internal_channel_submit_work_wlc(uvm_push_t *push)
 {
+    printk(KERN_INFO "NVIDIA-TRACE: internal_channel_submit_work_wlc\n");
     size_t payload_size;
     uvm_channel_t *wlc_channel = push->channel;
     uvm_channel_t *lcic_channel = uvm_channel_wlc_get_paired_lcic(wlc_channel);
@@ -1156,6 +1185,7 @@ static void internal_channel_submit_work_wlc(uvm_push_t *push)
 
 static void internal_channel_submit_work_indirect_wlc(uvm_push_t *push, NvU32 old_cpu_put, NvU32 new_gpu_put)
 {
+    printk(KERN_INFO "NVIDIA-TRACE: internal_channel_submit_work_indirect_wlc\n");
     uvm_pushbuffer_t *pushbuffer = uvm_channel_get_pushbuffer(push->channel);
     uvm_gpu_t *gpu = uvm_push_get_gpu(push);
 
@@ -1285,6 +1315,7 @@ static void update_gpput_via_sec2(uvm_push_t *sec2_push, uvm_channel_t *channel,
 
 static void set_gpfifo_via_sec2(uvm_push_t *sec2_push, uvm_channel_t *channel, NvU32 put, NvU64 value)
 {
+    printk(KERN_INFO "NVIDIA-TRACE: set_gpfifo_via_sec2\n");
     uvm_gpu_t *gpu = uvm_push_get_gpu(sec2_push);
     void *gpfifo_auth_tag_cpu, *gpfifo_enc_cpu;
     uvm_gpu_address_t gpfifo_auth_tag_gpu, gpfifo_enc_gpu;
@@ -1348,6 +1379,7 @@ static void set_gpfifo_via_sec2(uvm_push_t *sec2_push, uvm_channel_t *channel, N
 
 static NV_STATUS internal_channel_submit_work_indirect_sec2(uvm_push_t *push, NvU32 old_cpu_put, NvU32 new_gpu_put)
 {
+    printk(KERN_INFO "NVIDIA-TRACE: internal_channel_submit_work_indirect_sec2\n");
     uvm_pushbuffer_t *pushbuffer = uvm_channel_get_pushbuffer(push->channel);
     uvm_gpu_t *gpu = uvm_push_get_gpu(push);
 
@@ -1433,6 +1465,7 @@ static NV_STATUS internal_channel_submit_work_indirect_sec2(uvm_push_t *push, Nv
 // See also: decrypt_push().
 static void encrypt_push(uvm_push_t *push)
 {
+    printk(KERN_INFO "NVIDIA-TRACE: encrypt_push\n");
     NvU64 push_protected_gpu_va;
     NvU64 push_unprotected_gpu_va;
     uvm_gpu_address_t auth_tag_gpu_va;
@@ -1483,6 +1516,7 @@ static void encrypt_push(uvm_push_t *push)
 
 void uvm_channel_end_push(uvm_push_t *push)
 {
+    printk(KERN_INFO "NVIDIA-TRACE: uvm_channel_end_push\n");
     uvm_channel_t *channel = push->channel;
     uvm_channel_manager_t *channel_manager = channel->pool->manager;
     uvm_pushbuffer_t *pushbuffer = channel_manager->pushbuffer;
@@ -1600,6 +1634,7 @@ void uvm_channel_end_push(uvm_push_t *push)
 
 static void submit_ctrl_gpfifo(uvm_channel_t *channel, uvm_gpfifo_entry_t *entry, NvU32 new_cpu_put)
 {
+    printk(KERN_INFO "NVIDIA-TRACE: submit_ctrl_gpfifo\n");
     uvm_gpu_t *gpu = uvm_channel_get_gpu(channel);
     NvU32 cpu_put = channel->cpu_put;
     NvU64 *gpfifo_entry;
@@ -1626,6 +1661,7 @@ static NV_STATUS submit_ctrl_gpfifo_indirect(uvm_channel_t *channel,
                                              NvU32 old_cpu_put,
                                              NvU32 new_gpu_put)
 {
+    printk(KERN_INFO "NVIDIA-TRACE: submit_ctrl_gpfifo_indirect\n");
     uvm_push_t indirect_push;
     NV_STATUS status = NV_OK;
     uvm_spin_loop_t spin;
@@ -1685,6 +1721,7 @@ static NV_STATUS submit_ctrl_gpfifo_indirect(uvm_channel_t *channel,
 // example.
 static void write_ctrl_gpfifo(uvm_channel_t *channel, NvU64 ctrl_fifo_entry_value)
 {
+    printk(KERN_INFO "NVIDIA-TRACE: write_ctrl_gpfifo\n");
     uvm_gpfifo_entry_t *entry;
     NvU32 cpu_put;
     NvU32 new_cpu_put;
@@ -1737,6 +1774,7 @@ static void write_ctrl_gpfifo(uvm_channel_t *channel, NvU64 ctrl_fifo_entry_valu
 
 NV_STATUS uvm_channel_write_ctrl_gpfifo(uvm_channel_t *channel, NvU64 ctrl_fifo_entry_value)
 {
+    printk(KERN_INFO "NVIDIA-TRACE: uvm_channel_write_ctrl_gpfifo\n");
     NV_STATUS status;
     uvm_push_t push;
 
@@ -1801,6 +1839,7 @@ NV_STATUS uvm_channel_write_ctrl_gpfifo(uvm_channel_t *channel, NvU64 ctrl_fifo_
 
 static NV_STATUS channel_reserve_and_lock(uvm_channel_t *channel, NvU32 num_gpfifo_entries)
 {
+    printk(KERN_INFO "NVIDIA-TRACE: channel_reserve_and_lock\n");
     NV_STATUS status;
     uvm_spin_loop_t spin;
     uvm_channel_pool_t *pool = channel->pool;
@@ -1854,6 +1893,7 @@ out:
 
 NV_STATUS uvm_channel_reserve(uvm_channel_t *channel, NvU32 num_gpfifo_entries)
 {
+    printk(KERN_INFO "NVIDIA-TRACE: uvm_channel_reserve\n");
     NV_STATUS status = NV_OK;
     uvm_spin_loop_t spin;
 
@@ -1878,6 +1918,7 @@ NV_STATUS uvm_channel_reserve(uvm_channel_t *channel, NvU32 num_gpfifo_entries)
 
 void uvm_channel_release(uvm_channel_t *channel, NvU32 num_gpfifo_entries)
 {
+    printk(KERN_INFO "NVIDIA-TRACE: uvm_channel_release\n");
     channel_pool_lock(channel->pool);
 
     UVM_ASSERT(uvm_channel_is_locked_for_push(channel));
@@ -1894,6 +1935,7 @@ void uvm_channel_release(uvm_channel_t *channel, NvU32 num_gpfifo_entries)
 // This doesn't stop the entry from being reused.
 static uvm_gpfifo_entry_t *uvm_channel_get_first_pending_entry(uvm_channel_t *channel)
 {
+    printk(KERN_INFO "NVIDIA-TRACE: uvm_channel_get_first_pending_entry\n");
     uvm_gpfifo_entry_t *entry = NULL;
     NvU32 pending_count = channel_update_progress_all(channel, UVM_CHANNEL_UPDATE_MODE_COMPLETED);
 
@@ -2046,6 +2088,7 @@ void uvm_channel_manager_resume_p2p(uvm_channel_manager_t *channel_manager)
 
 NV_STATUS uvm_channel_get_status(uvm_channel_t *channel)
 {
+    printk(KERN_INFO "NVIDIA-TRACE: uvm_channel_get_status\n");
     uvm_gpu_t *gpu;
     NvNotification *error_notifier;
 
@@ -2072,6 +2115,7 @@ NV_STATUS uvm_channel_get_status(uvm_channel_t *channel)
 
 uvm_gpfifo_entry_t *uvm_channel_get_fatal_entry(uvm_channel_t *channel)
 {
+    printk(KERN_INFO "NVIDIA-TRACE: uvm_channel_get_fatal_entry\n");
     UVM_ASSERT(uvm_channel_get_status(channel) != NV_OK);
 
     return uvm_channel_get_first_pending_entry(channel);
@@ -2269,6 +2313,7 @@ static NV_STATUS alloc_conf_computing_buffers(uvm_channel_t *channel)
 
 static void channel_destroy(uvm_channel_pool_t *pool, uvm_channel_t *channel)
 {
+    printk(KERN_INFO "NVIDIA-TRACE: channel_destroy\n");
     UVM_ASSERT(pool->num_channels > 0);
 
     if (channel->tracking_sem.queued_value > 0) {
@@ -2411,6 +2456,7 @@ static NV_STATUS proxy_channel_create(uvm_channel_t *channel, unsigned ce_index)
 
 static NV_STATUS channel_create(uvm_channel_pool_t *pool, uvm_channel_t *channel)
 {
+    printk(KERN_INFO "NVIDIA-TRACE: channel_create\n");
     NV_STATUS status;
     uvm_channel_manager_t *manager = pool->manager;
     uvm_gpu_t *gpu = manager->gpu;
@@ -2498,6 +2544,7 @@ error:
 NvU64 uvm_channel_tracking_semaphore_get_gpu_va_in_channel(uvm_channel_t *semaphore_channel,
                                                            uvm_channel_t *access_channel)
 {
+    printk(KERN_INFO "NVIDIA-TRACE: uvm_channel_tracking_semaphore_get_gpu_va_in_channel\n");
     uvm_gpu_semaphore_t *semaphore = &semaphore_channel->tracking_sem.semaphore;
     uvm_gpu_t *gpu = uvm_channel_get_gpu(access_channel);
 
@@ -2506,6 +2553,7 @@ NvU64 uvm_channel_tracking_semaphore_get_gpu_va_in_channel(uvm_channel_t *semaph
 
 static NV_STATUS channel_init(uvm_channel_t *channel)
 {
+    printk(KERN_INFO "NVIDIA-TRACE: channel_init\n");
     uvm_push_t push;
     uvm_gpu_t *gpu = uvm_channel_get_gpu(channel);
     NV_STATUS status;
@@ -2568,6 +2616,7 @@ static bool channel_manager_uses_proxy_pool(uvm_channel_manager_t *manager)
 // Number of channels to create in a pool of the given type.
 static unsigned channel_manager_num_channels(uvm_channel_manager_t *manager, uvm_channel_pool_type_t pool_type)
 {
+    printk(KERN_INFO "NVIDIA-TRACE: channel_manager_num_channels\n");
     unsigned num_channels;
 
     // In the common case, create two channels per pool.
@@ -2636,9 +2685,11 @@ static unsigned channel_manager_num_tsgs(uvm_channel_manager_t *manager, uvm_cha
 
 static UVM_GPU_CHANNEL_ENGINE_TYPE pool_type_to_engine_type(uvm_channel_pool_type_t pool_type)
 {
+    printk(KERN_INFO "NVIDIA-TRACE: pool_type_to_engine_type\n");
     if (pool_type ==  UVM_CHANNEL_POOL_TYPE_SEC2)
         return UVM_GPU_CHANNEL_ENGINE_TYPE_SEC2;
 
+    printk(KERN_INFO "NVIDIA-TRACE: UVM_GPU_CHANNEL_ENGINE_TYPE_CE\n");
     return UVM_GPU_CHANNEL_ENGINE_TYPE_CE;
 }
 
@@ -2680,6 +2731,7 @@ error:
 
 static void channel_pool_destroy(uvm_channel_pool_t *pool)
 {
+    printk(KERN_INFO "NVIDIA-TRACE: channel_pool_destroy\n");
     UVM_ASSERT(pool->manager->num_channel_pools > 0);
 
     while (pool->num_channels > 0)
@@ -2833,6 +2885,7 @@ static NV_STATUS channel_pool_add(uvm_channel_manager_t *channel_manager,
                                   unsigned engine_index,
                                   uvm_channel_pool_t **pool_out)
 {
+    printk(KERN_INFO "NVIDIA-TRACE: channel_pool_add\n");
     NV_STATUS status;
     unsigned i;
     unsigned num_channels;
@@ -2901,6 +2954,7 @@ static NV_STATUS channel_pool_add(uvm_channel_manager_t *channel_manager,
 
 static bool ce_is_usable(const UvmGpuCopyEngineCaps *cap)
 {
+    printk(KERN_INFO "NVIDIA-TRACE: ce_is_usable\n");
     return cap->supported && !cap->grce;
 }
 
@@ -2908,6 +2962,7 @@ static bool ce_is_usable(const UvmGpuCopyEngineCaps *cap)
 // such CE.
 static NV_STATUS ces_validate(uvm_channel_manager_t *manager, const UvmGpuCopyEngineCaps *ces_caps)
 {
+    printk(KERN_INFO "NVIDIA-TRACE: ces_validate\n");
     unsigned ce;
     bool found_usable_ce = false;
 
@@ -2938,6 +2993,7 @@ static NV_STATUS ces_validate(uvm_channel_manager_t *manager, const UvmGpuCopyEn
 
 static unsigned ce_usage_count(NvU32 ce, const unsigned *preferred_ce)
 {
+    printk(KERN_INFO "NVIDIA-TRACE: ce_usage_count\n");
     unsigned i;
     unsigned count = 0;
 
@@ -2958,6 +3014,7 @@ static int compare_ce_for_channel_type(const UvmGpuCopyEngineCaps *ce_caps,
                                        NvU32 ce_index1,
                                        NvU32 *preferred_ce)
 {
+    printk(KERN_INFO "NVIDIA-TRACE: compare_ce_for_channel_type\n");
     unsigned ce0_usage, ce1_usage;
     const UvmGpuCopyEngineCaps *cap0 = ce_caps + ce_index0;
     const UvmGpuCopyEngineCaps *cap1 = ce_caps + ce_index1;
@@ -3055,6 +3112,7 @@ static void pick_ces_for_channel_types(uvm_channel_manager_t *manager,
                                        unsigned num_channel_types,
                                        unsigned *preferred_ce)
 {
+    printk(KERN_INFO "NVIDIA-TRACE: pick_ces_for_channel_types\n");
     unsigned i;
 
     for (i = 0; i < num_channel_types; ++i) {
@@ -3093,6 +3151,7 @@ static void pick_ces_for_channel_types(uvm_channel_manager_t *manager,
 
 static void pick_ces(uvm_channel_manager_t *manager, const UvmGpuCopyEngineCaps *ce_caps, unsigned *preferred_ce)
 {
+    printk(KERN_INFO "NVIDIA-TRACE: pick_ces\n");
     // The order of picking CEs for each type matters as it's affected by
     // the usage count of each CE and it increases every time a CE
     // is selected. MEMOPS has the least priority as it only cares about
@@ -3140,6 +3199,7 @@ static void pick_ces_conf_computing(uvm_channel_manager_t *manager,
 
 static NV_STATUS channel_manager_pick_ces(uvm_channel_manager_t *manager, unsigned *preferred_ce)
 {
+    printk(KERN_INFO "NVIDIA-TRACE: channel_manager_pick_ces\n");
     NV_STATUS status;
     UvmGpuCopyEnginesCaps *ces_caps;
     uvm_channel_type_t type;
@@ -3175,6 +3235,7 @@ out:
 // Used to retrieve pools of type UVM_CHANNEL_POOL_TYPE_CE only.
 static uvm_channel_pool_t *channel_manager_ce_pool(uvm_channel_manager_t *manager, NvU32 ce)
 {
+    printk(KERN_INFO "NVIDIA-TRACE: channel_manager_ce_pool\n");
     uvm_channel_pool_t *pool = uvm_channel_pool_first(manager, UVM_CHANNEL_POOL_TYPE_CE);
 
     UVM_ASSERT(pool != NULL);
@@ -3385,6 +3446,7 @@ static void init_channel_manager_conf(uvm_channel_manager_t *manager)
 // pools.
 static unsigned channel_manager_get_max_pools(uvm_channel_manager_t *manager)
 {
+    printk(KERN_INFO "NVIDIA-TRACE: channel_manager_get_max_pools\n");
     unsigned num_channel_pools;
 
     // Create one CE channel pool per usable CE
@@ -3403,6 +3465,7 @@ static unsigned channel_manager_get_max_pools(uvm_channel_manager_t *manager)
 
 static NV_STATUS channel_manager_create_ce_pools(uvm_channel_manager_t *manager, unsigned *preferred_ce)
 {
+    printk(KERN_INFO "NVIDIA-TRACE: channel_manager_create_ce_pools\n");
     unsigned ce;
     unsigned type;
 
@@ -3435,6 +3498,7 @@ static NV_STATUS channel_manager_create_ce_pools(uvm_channel_manager_t *manager,
 
 static NV_STATUS setup_wlc_schedule(uvm_channel_t *wlc)
 {
+    printk(KERN_INFO "NVIDIA-TRACE: setup_wlc_schedule\n");
     uvm_gpu_t *gpu = uvm_channel_get_gpu(wlc);
     NvU64 protected_vidmem_gpu_va = uvm_channel_get_static_pb_protected_vidmem_gpu_va(wlc);
     NvU64 unprotected_sysmem_gpu_va = get_channel_unprotected_sysmem_gpu_va(wlc);
@@ -3590,6 +3654,7 @@ free_gpfifo_entries:
 
 static NV_STATUS setup_lcic_schedule(uvm_channel_t *paired_wlc, uvm_channel_t *lcic)
 {
+    printk(KERN_INFO "NVIDIA-TRACE: setup_lcic_schedule\n");
     uvm_gpu_t *gpu = uvm_channel_get_gpu(lcic);
     NvU64 lcic_pb_base = uvm_channel_get_static_pb_protected_vidmem_gpu_va(lcic);
 
@@ -3814,6 +3879,7 @@ static NV_STATUS channel_manager_create_conf_computing_pools(uvm_channel_manager
 
 static NV_STATUS channel_manager_create_pools(uvm_channel_manager_t *manager)
 {
+    printk(KERN_INFO "NVIDIA-TRACE: channel_manager_create_pools\n");
     NV_STATUS status;
     unsigned max_channel_pools;
     unsigned preferred_ce[UVM_CHANNEL_TYPE_COUNT];
@@ -3854,6 +3920,7 @@ static NV_STATUS channel_manager_create_pools(uvm_channel_manager_t *manager)
 
 NV_STATUS uvm_channel_manager_create(uvm_gpu_t *gpu, uvm_channel_manager_t **channel_manager_out)
 {
+    printk(KERN_INFO "NVIDIA-TRACE: uvm_channel_manager_create\n");
     NV_STATUS status = NV_OK;
     uvm_channel_manager_t *channel_manager;
 
@@ -3898,6 +3965,7 @@ error:
 
 static void channel_manager_destroy_pools(uvm_channel_manager_t *manager)
 {
+    printk(KERN_INFO "NVIDIA-TRACE: channel_manager_destroy_pools\n");
     uvm_rm_mem_free(manager->gpu->conf_computing.iv_rm_mem);
     manager->gpu->conf_computing.iv_rm_mem = NULL;
 
@@ -3913,6 +3981,7 @@ static void channel_manager_destroy_pools(uvm_channel_manager_t *manager)
 // the channel is passed to RM for deallocation.
 static void channel_manager_stop_wlc(uvm_channel_manager_t *manager)
 {
+    printk(KERN_INFO "NVIDIA-TRACE: channel_manager_stop_wlc\n");
     uvm_channel_pool_t *wlc_pool = manager->pool_to_use.default_for_type[UVM_CHANNEL_TYPE_WLC];
     uvm_channel_pool_t *lcic_pool = manager->pool_to_use.default_for_type[UVM_CHANNEL_TYPE_LCIC];
     uvm_channel_t *channel;
@@ -3953,6 +4022,7 @@ static void channel_manager_stop_wlc(uvm_channel_manager_t *manager)
 
 void uvm_channel_manager_destroy(uvm_channel_manager_t *channel_manager)
 {
+    printk(KERN_INFO "NVIDIA-TRACE: uvm_channel_manager_destroy\n");
     if (channel_manager == NULL)
         return;
 
@@ -4072,7 +4142,7 @@ const char *uvm_channel_pool_type_to_string(uvm_channel_pool_type_t channel_pool
 
 static const char *get_gpfifo_location_string(uvm_channel_t *channel)
 {
-
+    printk(KERN_INFO "NVIDIA-TRACE: get_gpfifo_location_string\n");
     // SEC2 channels override the channel manager location for GPFIFO.
     if (uvm_channel_is_sec2(channel))
         return buffer_location_to_string(UVM_BUFFER_LOCATION_SYS);
@@ -4111,6 +4181,7 @@ static void uvm_channel_print_info(uvm_channel_t *channel, struct seq_file *s)
 
 static void channel_print_push_acquires(uvm_push_acquire_info_t *push_acquire_info, struct seq_file *seq)
 {
+    printk(KERN_INFO "NVIDIA-TRACE: channel_print_push_acquires\n");
     NvU32 i;
     NvU32 valid_entries;
 
@@ -4145,6 +4216,7 @@ static void channel_print_push_acquires(uvm_push_acquire_info_t *push_acquire_in
 // GPFIFO entries haven't been reused yet.
 static void channel_print_pushes(uvm_channel_t *channel, NvU32 finished_pushes_count, struct seq_file *seq)
 {
+    printk(KERN_INFO "NVIDIA-TRACE: channel_print_pushes\n");
     NvU32 gpu_get;
     NvU32 cpu_put;
 
@@ -4235,6 +4307,7 @@ static NV_STATUS manager_create_procfs_dirs(uvm_channel_manager_t *manager)
 
 static int nv_procfs_read_manager_pending_pushes(struct seq_file *s, void *v)
 {
+    printk(KERN_INFO "NVIDIA-TRACE: nv_procfs_read_manager_pending_pushes\n");
     uvm_channel_manager_t *manager = (uvm_channel_manager_t *)s->private;
 
     if (!uvm_down_read_trylock(&g_uvm_global.pm.lock))
@@ -4274,6 +4347,7 @@ static NV_STATUS manager_create_procfs(uvm_channel_manager_t *manager)
 
 static int nv_procfs_read_channel_info(struct seq_file *s, void *v)
 {
+    printk(KERN_INFO "NVIDIA-TRACE: nv_procfs_read_channel_info\n");
     uvm_channel_t *channel = (uvm_channel_t *)s->private;
 
     if (!uvm_down_read_trylock(&g_uvm_global.pm.lock))
@@ -4288,6 +4362,7 @@ static int nv_procfs_read_channel_info(struct seq_file *s, void *v)
 
 static int nv_procfs_read_channel_info_entry(struct seq_file *s, void *v)
 {
+    printk(KERN_INFO "NVIDIA-TRACE: nv_procfs_read_channel_info_entry\n");
     UVM_ENTRY_RET(nv_procfs_read_channel_info(s, v));
 }
 

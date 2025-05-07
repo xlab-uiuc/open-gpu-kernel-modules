@@ -388,6 +388,7 @@ _ceGetAlgorithmPceIndex
     NvU8        *pHshubId
 )
 {
+    NV_PRINTF(LEVEL_ERROR, "NVIDIA-TRACE: Entering _ceGetAlgorithmPceIndex\n");
     NV_STATUS status = NV_OK;
 
     // 1. Apply PCE striding
@@ -463,6 +464,7 @@ kceGetMappings_GA100
     NvU32    *pExposeCeMask
 )
 {
+    NV_PRINTF(LEVEL_ERROR, "NVIDIA-TRACE: Entering kceGetMappings_GA100\n");
     NvU32       lceMask           = 0;
     NvU32       fbPceMask         = 0;
     NV_STATUS   status            = NV_OK;
@@ -620,6 +622,7 @@ kceMapPceLceForSysmemLinks_GA100
     //
     if (paramsNvlinkMask.sysmemLinkMask == 0)
     {
+        NV_PRINTF(LEVEL_ERROR, "NVIDIA-TRACE: Entering kceMapPceLceForSysmemLinks_GA100 --> PCIE\n");
         // Store lceMask in the exposeCeMask before moving on
         *pLocalExposeCeMask |= lceMask;
 
@@ -636,7 +639,7 @@ kceMapPceLceForSysmemLinks_GA100
 
         return NV_OK;
     }
-
+    NV_PRINTF(LEVEL_ERROR, "NVIDIA-TRACE: Entering kceMapPceLceForSysmemLinks_GA100 --> NVLink\n");
     // If sysmem is over NVlink, assign HSHUB PCEs
     numPcePerLink = NV_CE_MIN_PCE_PER_SYS_LINK;
 
@@ -920,6 +923,7 @@ kceMapAsyncLceDefault_GA100
     NvU32   numDefaultPces
 )
 {
+    NV_PRINTF(LEVEL_ERROR, "NVIDIA-TRACE: Entering kceMapAsyncLceDefault_GA100\n");
     NvU32 peerAvailableLceMask = NV_CE_LCE_MASK_INIT;
     NvU32 lceMask = 0;
     NvU32 pceMask = 0;
@@ -952,7 +956,7 @@ kceMapAsyncLceDefault_GA100
     FOR_EACH_INDEX_IN_MASK(32, pceIndex, pceMask)
     {
         pLocalPceLceMap[pceIndex] = lceIndex;
-        NV_PRINTF(LEVEL_INFO, "GPU%d <-> GPU%d PCE Index: %d LCE Index: %d\n",
+        NV_PRINTF(LEVEL_ERROR, "GPU%d <-> GPU%d PCE Index: %d LCE Index: %d\n",
                 pGpu->gpuInstance, pGpu->gpuInstance, pceIndex, lceIndex);
     }
     FOR_EACH_INDEX_IN_MASK_END;

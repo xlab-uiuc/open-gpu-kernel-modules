@@ -50,6 +50,7 @@ static NV_STATUS service_ats_requests(uvm_gpu_va_space_t *gpu_va_space,
                                       uvm_ats_service_type_t service_type,
                                       uvm_ats_fault_context_t *ats_context)
 {
+    printk(KERN_INFO "NVIDIA-TRACE: Entering service_ats_requests\n");
     uvm_va_space_t *va_space = gpu_va_space->va_space;
     struct mm_struct *mm = va_space->va_space_mm.mm;
     NV_STATUS status;
@@ -136,6 +137,7 @@ static void flush_tlb_va_region(uvm_gpu_va_space_t *gpu_va_space,
                                 size_t size,
                                 uvm_fault_client_type_t client_type)
 {
+    printk(KERN_INFO "NVIDIA-TRACE: flush_tlb_va_region\n");
     uvm_ats_fault_invalidate_t *ats_invalidate;
 
     if (client_type == UVM_FAULT_CLIENT_TYPE_GPC)
@@ -155,6 +157,7 @@ static void ats_batch_select_residency(uvm_gpu_va_space_t *gpu_va_space,
                                        struct vm_area_struct *vma,
                                        uvm_ats_fault_context_t *ats_context)
 {
+    printk(KERN_INFO "NVIDIA-TRACE: ats_batch_select_residency\n");
     uvm_gpu_t *gpu = gpu_va_space->gpu;
     int residency;
 
@@ -223,12 +226,14 @@ done:
 
 static void get_range_in_vma(struct vm_area_struct *vma, NvU64 base, NvU64 *start, NvU64 *end)
 {
+    printk(KERN_INFO "NVIDIA-TRACE: get_range_in_vma\n");
     *start = max(vma->vm_start, (unsigned long) base);
     *end = min(vma->vm_end, (unsigned long) (base + UVM_VA_BLOCK_SIZE));
 }
 
 static uvm_page_index_t uvm_ats_cpu_page_index(NvU64 base, NvU64 addr)
 {
+    printk(KERN_INFO "NVIDIA-TRACE: uvm_ats_cpu_page_index\n");
     UVM_ASSERT(addr >= base);
     UVM_ASSERT(addr <= (base + UVM_VA_BLOCK_SIZE));
 
@@ -239,6 +244,7 @@ static uvm_page_index_t uvm_ats_cpu_page_index(NvU64 base, NvU64 addr)
 // [base, base + UVM_VA_BLOCK_SIZE]
 static uvm_va_block_region_t uvm_ats_region_from_start_end(NvU64 start, NvU64 end)
 {
+    printk(KERN_INFO "NVIDIA-TRACE: uvm_ats_region_from_start_end\n");
     // base can be greater than, less than or equal to the start of a VMA.
     NvU64 base = UVM_VA_BLOCK_ALIGN_DOWN(start);
 
@@ -252,6 +258,7 @@ static uvm_va_block_region_t uvm_ats_region_from_start_end(NvU64 start, NvU64 en
 
 static uvm_va_block_region_t uvm_ats_region_from_vma(struct vm_area_struct *vma, NvU64 base)
 {
+    printk(KERN_INFO "NVIDIA-TRACE: uvm_ats_region_from_vma\n");
     NvU64 start;
     NvU64 end;
 
@@ -264,6 +271,7 @@ static uvm_va_block_region_t uvm_ats_region_from_vma(struct vm_area_struct *vma,
 
 static bool uvm_ats_invalidate_notifier(struct mmu_interval_notifier *mni, unsigned long cur_seq)
 {
+    printk(KERN_INFO "NVIDIA-TRACE: uvm_ats_invalidate_notifier\n");
     uvm_ats_fault_context_t *ats_context = container_of(mni, uvm_ats_fault_context_t, prefetch_state.notifier);
     uvm_va_space_t *va_space = ats_context->prefetch_state.va_space;
 
@@ -282,6 +290,7 @@ static bool uvm_ats_invalidate_notifier_entry(struct mmu_interval_notifier *mni,
                                               const struct mmu_notifier_range *range,
                                               unsigned long cur_seq)
 {
+    printk(KERN_INFO "NVIDIA-TRACE: uvm_ats_invalidate_notifier_entry\n");
     UVM_ENTRY_RET(uvm_ats_invalidate_notifier(mni, cur_seq));
 }
 
@@ -294,6 +303,7 @@ static const struct mmu_interval_notifier_ops uvm_ats_notifier_ops =
 
 static bool resident_policy_match(struct vm_area_struct *vma, int dst_nid, int src_nid)
 {
+    printk(KERN_INFO "NVIDIA-TRACE: resident_policy_match\n");
 #if defined(NV_MEMPOLICY_HAS_UNIFIED_NODES)
     struct mempolicy *vma_policy = vma_policy(vma);
 
@@ -318,6 +328,7 @@ static NV_STATUS ats_compute_residency_mask(uvm_gpu_va_space_t *gpu_va_space,
                                             NvU64 base,
                                             uvm_ats_fault_context_t *ats_context)
 {
+    printk(KERN_INFO "NVIDIA-TRACE: ats_compute_residency_mask\n");
     NV_STATUS status = NV_OK;
     uvm_page_mask_t *residency_mask = &ats_context->prefetch_state.residency_mask;
 
@@ -432,6 +443,7 @@ static void ats_compute_prefetch_mask(uvm_gpu_va_space_t *gpu_va_space,
                                       uvm_ats_fault_context_t *ats_context,
                                       uvm_va_block_region_t max_prefetch_region)
 {
+    printk(KERN_INFO "NVIDIA-TRACE: ats_compute_prefetch_mask\n");
     uvm_page_mask_t *accessed_mask;
     uvm_page_mask_t *residency_mask = &ats_context->prefetch_state.residency_mask;
     uvm_page_mask_t *prefetch_mask = &ats_context->prefetch_state.prefetch_pages_mask;
@@ -460,6 +472,7 @@ static NV_STATUS ats_compute_prefetch(uvm_gpu_va_space_t *gpu_va_space,
                                       uvm_ats_service_type_t service_type,
                                       uvm_ats_fault_context_t *ats_context)
 {
+    printk(KERN_INFO "NVIDIA-TRACE: ats_compute_prefetch\n");
     NV_STATUS status;
     uvm_page_mask_t *accessed_mask;
     uvm_page_mask_t *prefetch_mask = &ats_context->prefetch_state.prefetch_pages_mask;
@@ -519,6 +532,7 @@ static NV_STATUS uvm_ats_service_faults_region(uvm_gpu_va_space_t *gpu_va_space,
                                                uvm_ats_fault_context_t *ats_context,
                                                uvm_page_mask_t *faults_serviced_mask)
 {
+    printk(KERN_INFO "NVIDIA-TRACE: uvm_ats_service_faults_region\n");
     NvU64 start = base + (region.first * PAGE_SIZE);
     size_t length = uvm_va_block_region_size(region);
     NV_STATUS status;
@@ -575,6 +589,7 @@ NV_STATUS uvm_ats_service_faults(uvm_gpu_va_space_t *gpu_va_space,
                                  NvU64 base,
                                  uvm_ats_fault_context_t *ats_context)
 {
+    printk(KERN_INFO "NVIDIA-TRACE: uvm_ats_service_faults\n");
     NV_STATUS status = NV_OK;
     uvm_va_block_region_t subregion;
     uvm_va_block_region_t region = uvm_va_block_region(0, PAGES_PER_UVM_VA_BLOCK);
@@ -680,6 +695,7 @@ NV_STATUS uvm_ats_service_faults(uvm_gpu_va_space_t *gpu_va_space,
 
 bool uvm_ats_check_in_gmmu_region(uvm_va_space_t *va_space, NvU64 address, uvm_va_range_t *next)
 {
+    printk(KERN_INFO "NVIDIA-TRACE: uvm_ats_check_in_gmmu_region\n");
     uvm_va_range_t *prev;
     NvU64 gmmu_region_base = UVM_ALIGN_DOWN(address, UVM_GMMU_ATS_GRANULARITY);
 
@@ -704,6 +720,7 @@ NV_STATUS uvm_ats_invalidate_tlbs(uvm_gpu_va_space_t *gpu_va_space,
                                   uvm_ats_fault_invalidate_t *ats_invalidate,
                                   uvm_tracker_t *out_tracker)
 {
+    printk(KERN_INFO "NVIDIA-TRACE: uvm_ats_invalidate_tlbs\n");
     NV_STATUS status;
     uvm_push_t push;
 
@@ -737,6 +754,7 @@ NV_STATUS uvm_ats_service_access_counters(uvm_gpu_va_space_t *gpu_va_space,
                                           NvU64 base,
                                           uvm_ats_fault_context_t *ats_context)
 {
+    printk(KERN_INFO "NVIDIA-TRACE: uvm_ats_service_access_counters\n");
     uvm_va_block_region_t subregion;
     uvm_va_block_region_t region = uvm_va_block_region(0, PAGES_PER_UVM_VA_BLOCK);
     uvm_ats_service_type_t service_type = UVM_ATS_SERVICE_TYPE_ACCESS_COUNTERS;

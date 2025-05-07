@@ -60,6 +60,7 @@ _ctxdmaDestroyFBMappings
     OBJGPU     *pGpu
 )
 {
+    NV_PRINTF(LEVEL_ERROR, "NVIDIA-TRACE: Entering _ctxdmaDestroyFBMappings\n");
     NvU32 gpuSubDevInst;
 
     SLI_LOOP_START(SLI_LOOP_FLAGS_BC_ONLY)
@@ -131,6 +132,7 @@ ctxdmaConstruct_IMPL
     RS_RES_ALLOC_PARAMS_INTERNAL    *pParams
 )
 {
+    NV_PRINTF(LEVEL_ERROR, "NVIDIA-TRACE: Entering ctxdmaConstruct_IMPL\n");
     NV_STATUS                         status;
     NV_CONTEXT_DMA_ALLOCATION_PARAMS *pAllocParams = pParams->pAllocParams;
     NvU32                             cachesnoop, type, i;
@@ -247,6 +249,7 @@ ctxdmaDestruct_IMPL
     ContextDma *pContextDma
 )
 {
+    NV_PRINTF(LEVEL_ERROR, "NVIDIA-TRACE: Entering ctxdmaDestruct_IMPL\n");
     _ctxdmaDestruct(pContextDma, RES_GET_CLIENT_HANDLE(pContextDma));
 }
 
@@ -260,6 +263,7 @@ ctxdmaCtrlCmdUpdateContextdma_IMPL
     NV0002_CTRL_UPDATE_CONTEXTDMA_PARAMS *pUpdateCtxDmaParams
 )
 {
+    NV_PRINTF(LEVEL_ERROR, "NVIDIA-TRACE: Entering ctxdmaCtrlCmdUpdateContextdma_IMPL\n");
     RsClient  *pClient = RES_GET_CLIENT(pContextDma);
     OBJGPU    *pGpu;
     KernelDisplay *pKernelDisplay;
@@ -329,6 +333,7 @@ _ctxdmaDestruct
     NvHandle    hClient
 )
 {
+    NV_PRINTF(LEVEL_ERROR, "NVIDIA-TRACE: Entering _ctxdmaDestruct\n");
     NV_STATUS  rmStatus = NV_OK;
     OBJGPU    *pGpu = NULL;
 
@@ -394,6 +399,7 @@ ctxdmaCtrlCmdBindContextdma_IMPL
     NV0002_CTRL_BIND_CONTEXTDMA_PARAMS *pBindCtxDmaParams
 )
 {
+    NV_PRINTF(LEVEL_ERROR, "NVIDIA-TRACE: Entering ctxdmaCtrlCmdBindContextdma_IMPL\n");
     NvHandle       hChannel     = pBindCtxDmaParams->hChannel;
 
     gpuSetThreadBcState(pContextDma->pGpu, !pContextDma->bUnicast);
@@ -449,6 +455,7 @@ _ctxdmaConstruct
     NvU64          limit
 )
 {
+    NV_PRINTF(LEVEL_ERROR, "NVIDIA-TRACE: Entering _ctxdmaConstruct\n");
     NV_STATUS           rmStatus        = NV_OK;
     Memory             *pMemory         = NULL;
     OBJGPU             *pGpu            = NULL;
@@ -733,6 +740,7 @@ ctxdmaValidate_IMPL
     NvU64         Length
 )
 {
+    NV_PRINTF(LEVEL_ERROR, "NVIDIA-TRACE: Entering ctxdmaValidate_IMPL\n");
     if (pContextDma == NULL)
     {
         NV_PRINTF(LEVEL_ERROR, "Invalid DMA context in ctxdmaValidate\n");
@@ -760,6 +768,7 @@ ctxdmaGetKernelVA_IMPL
     NvU32       VA_idx
 )
 {
+    NV_PRINTF(LEVEL_ERROR, "NVIDIA-TRACE: Entering ctxdmaGetKernelVA_IMPL\n");
     NV_STATUS status;
 
     if (pContextDma == NULL)
@@ -825,6 +834,7 @@ ctxdmaUnmapFrom_IMPL
     RS_RES_UNMAP_FROM_PARAMS *pParams
 )
 {
+    NV_PRINTF(LEVEL_ERROR, "NVIDIA-TRACE: Entering ctxdmaUnmapFrom_IMPL\n");
     //
     // With ContextDmas only supporting physical (or IOMMU VA) there is
     // nothing to unmap. We silently allow this call for compatibility.
@@ -847,6 +857,7 @@ ctxdmaIsBound_IMPL
     ContextDma *pContextDma
 )
 {
+    NV_PRINTF(LEVEL_ERROR, "NVIDIA-TRACE: Entering ctxdmaIsBound_IMPL\n");
     NvU32 refs = 0;
     NvU32 i;
 

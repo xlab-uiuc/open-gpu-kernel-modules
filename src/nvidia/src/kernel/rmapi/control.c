@@ -1015,6 +1015,8 @@ rmapiControlWithSecInfo
     API_SECURITY_INFO *pSecInfo
 )
 {
+    NV_PRINTF(LEVEL_ERROR, "NVIDIA-TRACE: Entering rmapiControlWithSecInfo - hClient:0x%x hObject:0x%x cmd:0x%x params:" NvP64_fmt " paramSize:0x%x flags:0x%x\n",
+             hClient, hObject, cmd, pParams, paramsSize, flags);
     NV_STATUS status;
 
     NV_PRINTF(LEVEL_INFO,

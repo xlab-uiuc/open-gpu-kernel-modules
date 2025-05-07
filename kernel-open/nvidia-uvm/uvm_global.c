@@ -78,6 +78,7 @@ static void uvm_unregister_callbacks(void)
 
 NV_STATUS uvm_global_init(void)
 {
+    printk(KERN_INFO "NVIDIA-TRACE: uvm_global_init\n");
     NV_STATUS status;
     UvmPlatformInfo platform_info;
 
@@ -271,6 +272,7 @@ static void uvm_parent_gpu_set_isr_suspended(uvm_parent_gpu_t *parent_gpu, bool 
 
 static NV_STATUS uvm_suspend(void)
 {
+    printk(KERN_INFO "NVIDIA-TRACE: uvm_suspend\n");
     uvm_va_space_t *va_space = NULL;
     uvm_gpu_id_t gpu_id;
     uvm_gpu_t *gpu;
@@ -359,6 +361,7 @@ NV_STATUS uvm_suspend_entry(void)
 
 static NV_STATUS uvm_resume(void)
 {
+    printk(KERN_INFO "NVIDIA-TRACE: uvm_resume\n");
     uvm_va_space_t *va_space = NULL;
     uvm_gpu_id_t gpu_id;
     uvm_gpu_t *gpu;

@@ -83,6 +83,8 @@ dmaAllocMap_IMPL
     CLI_DMA_MAPPING_INFO *pDmaMappingInfo
 )
 {
+    NvU64 size = memdescGetSize(pDmaMappingInfo->pMemDesc);
+    NV_PRINTF(LEVEL_ERROR, "NVIDIA-TRACE: Entering dmaAllocMap_IMPL\n");
     KernelMIGManager *pKernelMIGManager = GPU_GET_KERNEL_MIG_MANAGER(pGpu);
     NV_STATUS         status = NV_OK;
     NvU32             p2p;

@@ -29,6 +29,7 @@
 
 static bool client_id_ce(NvU16 client_id)
 {
+    printk(KERN_INFO "NVIDIA-TRACE: client_id_ce\n");
     if (client_id >= NV_PFAULT_CLIENT_HUB_HSCE0 && client_id <= NV_PFAULT_CLIENT_HUB_HSCE9)
         return true;
 
@@ -49,6 +50,7 @@ uvm_mmu_engine_type_t uvm_hal_ampere_fault_buffer_get_mmu_engine_type(NvU16 mmu_
                                                                       uvm_fault_client_type_t client_type,
                                                                       NvU16 client_id)
 {
+    printk(KERN_INFO "NVIDIA-TRACE: uvm_hal_ampere_fault_buffer_get_mmu_engine_type\n");
     // Servicing CE and Host (HUB clients) faults.
     if (client_type == UVM_FAULT_CLIENT_TYPE_HUB) {
         if (client_id_ce(client_id)) {

@@ -290,6 +290,7 @@ NV_STATUS RmIoctl(
     NvU32        dataSize
 )
 {
+    NV_PRINTF(LEVEL_ERROR, "NVIDIA-TRACE: Entering RmIoctl\n");
     NV_STATUS            rmStatus = NV_ERR_GENERIC;
     API_SECURITY_INFO    secInfo = { };
 
@@ -305,6 +306,7 @@ NV_STATUS RmIoctl(
     {
         case NV_ESC_RM_ALLOC_MEMORY:
         {
+            NV_PRINTF(LEVEL_ERROR, "NVIDIA-TRACE: Command: NV_ESC_RM_ALLOC_MEMORY\n");
             nv_ioctl_nvos02_parameters_with_fd *pApi;
             NVOS02_PARAMETERS *pParms;
 
@@ -356,6 +358,7 @@ NV_STATUS RmIoctl(
 
         case NV_ESC_RM_ALLOC_OBJECT:
         {
+            NV_PRINTF(LEVEL_ERROR, "NVIDIA-TRACE: Command: NV_ESC_RM_ALLOC_OBJECT\n");
             NVOS05_PARAMETERS *pApi = data;
 
             NV_CTL_DEVICE_ONLY(nv);
@@ -372,6 +375,7 @@ NV_STATUS RmIoctl(
 
         case NV_ESC_RM_ALLOC:
         {
+            NV_PRINTF(LEVEL_ERROR, "NVIDIA-TRACE: Command: NV_ESC_RM_ALLOC\n");
             NVOS21_PARAMETERS *pApi = data;
             NVOS64_PARAMETERS *pApiAccess = data;
             NvBool bAccessApi = (dataSize == sizeof(NVOS64_PARAMETERS));
@@ -423,6 +427,7 @@ NV_STATUS RmIoctl(
 
         case NV_ESC_RM_FREE:
         {
+            NV_PRINTF(LEVEL_ERROR, "NVIDIA-TRACE: Command: NV_ESC_RM_FREE\n");
             NVOS00_PARAMETERS *pApi = data;
 
             NV_CTL_DEVICE_ONLY(nv);
@@ -446,6 +451,7 @@ NV_STATUS RmIoctl(
 
         case NV_ESC_RM_VID_HEAP_CONTROL:
         {
+            NV_PRINTF(LEVEL_ERROR, "NVIDIA-TRACE: Command: NV_ESC_RM_VID_HEAP_CONTROL\n");
             NVOS32_PARAMETERS *pApi = data;
 
             NV_CTL_DEVICE_ONLY(nv);
@@ -466,6 +472,7 @@ NV_STATUS RmIoctl(
 
         case NV_ESC_RM_I2C_ACCESS:
         {
+            NV_PRINTF(LEVEL_ERROR, "NVIDIA-TRACE: Command: NV_ESC_RM_I2C_ACCESS\n");
             NVOS_I2C_ACCESS_PARAMS *pApi = data;
 
             NV_ACTUAL_DEVICE_ONLY(nv);
@@ -482,6 +489,7 @@ NV_STATUS RmIoctl(
 
         case NV_ESC_RM_IDLE_CHANNELS:
         {
+            NV_PRINTF(LEVEL_ERROR, "NVIDIA-TRACE: Command: NV_ESC_RM_IDLE_CHANNELS\n");
             NVOS30_PARAMETERS *pApi = data;
 
             NV_CTL_DEVICE_ONLY(nv);
@@ -498,6 +506,7 @@ NV_STATUS RmIoctl(
 
         case NV_ESC_RM_MAP_MEMORY:
         {
+            NV_PRINTF(LEVEL_ERROR, "NVIDIA-TRACE: Command: NV_ESC_RM_MAP_MEMORY\n");
             nv_ioctl_nvos33_parameters_with_fd *pApi;
             NVOS33_PARAMETERS *pParms;
 
@@ -541,6 +550,7 @@ NV_STATUS RmIoctl(
 
         case NV_ESC_RM_UNMAP_MEMORY:
         {
+            NV_PRINTF(LEVEL_ERROR, "NVIDIA-TRACE: Command: NV_ESC_RM_UNMAP_MEMORY\n");
             NVOS34_PARAMETERS *pApi = data;
 
             NV_CTL_DEVICE_ONLY(nv);
@@ -557,6 +567,7 @@ NV_STATUS RmIoctl(
 
         case NV_ESC_RM_ACCESS_REGISTRY:
         {
+            NV_PRINTF(LEVEL_ERROR, "NVIDIA-TRACE: Command: NV_ESC_RM_ACCESS_REGISTRY\n");
             NVOS38_PARAMETERS *pApi = data;
 
             NV_CTL_DEVICE_ONLY(nv);
@@ -583,6 +594,7 @@ NV_STATUS RmIoctl(
 
         case NV_ESC_RM_ALLOC_CONTEXT_DMA2:
         {
+            NV_PRINTF(LEVEL_ERROR, "NVIDIA-TRACE: Command: NV_ESC_RM_ALLOC_CONTEXT_DMA2\n");
             NVOS39_PARAMETERS *pApi = data;
 
             NV_CTL_DEVICE_ONLY(nv);
@@ -599,6 +611,7 @@ NV_STATUS RmIoctl(
 
         case NV_ESC_RM_BIND_CONTEXT_DMA:
         {
+            NV_PRINTF(LEVEL_ERROR, "NVIDIA-TRACE: Command: NV_ESC_RM_BIND_CONTEXT_DMA\n");
             NVOS49_PARAMETERS *pApi = data;
 
             NV_CTL_DEVICE_ONLY(nv);
@@ -615,6 +628,7 @@ NV_STATUS RmIoctl(
 
         case NV_ESC_RM_MAP_MEMORY_DMA:
         {
+            NV_PRINTF(LEVEL_ERROR, "NVIDIA-TRACE: Command: NV_ESC_RM_MAP_MEMORY_DMA\n");
             NVOS46_PARAMETERS *pApi = data;
 
             NV_CTL_DEVICE_ONLY(nv);
@@ -631,6 +645,7 @@ NV_STATUS RmIoctl(
 
         case NV_ESC_RM_UNMAP_MEMORY_DMA:
         {
+            NV_PRINTF(LEVEL_ERROR, "NVIDIA-TRACE: Command: NV_ESC_RM_UNMAP_MEMORY_DMA\n");
             NVOS47_PARAMETERS *pApi = data;
 
             NV_CTL_DEVICE_ONLY(nv);
@@ -647,6 +662,7 @@ NV_STATUS RmIoctl(
 
         case NV_ESC_RM_DUP_OBJECT:
         {
+            NV_PRINTF(LEVEL_ERROR, "NVIDIA-TRACE: Command: NV_ESC_RM_DUP_OBJECT\n");
             NVOS55_PARAMETERS *pApi = data;
 
             NV_CTL_DEVICE_ONLY(nv);
@@ -663,6 +679,7 @@ NV_STATUS RmIoctl(
 
         case NV_ESC_RM_SHARE:
         {
+            NV_PRINTF(LEVEL_ERROR, "NVIDIA-TRACE: Command: NV_ESC_RM_SHARE\n");
             NVOS57_PARAMETERS *pApi = data;
 
             NV_CTL_DEVICE_ONLY(nv);
@@ -679,6 +696,7 @@ NV_STATUS RmIoctl(
 
         case NV_ESC_STATUS_CODE:
         {
+            NV_PRINTF(LEVEL_ERROR, "NVIDIA-TRACE: Command: NV_ESC_STATUS_CODE\n");
             nv_state_t *pNv;
             nv_ioctl_status_code_t *pApi = data;
 
@@ -707,6 +725,7 @@ NV_STATUS RmIoctl(
 
         case NV_ESC_RM_CONTROL:
         {
+            NV_PRINTF(LEVEL_ERROR, "NVIDIA-TRACE: Command: NV_ESC_RM_CONTROL\n");
             NVOS54_PARAMETERS *pApi = data;
             void *priv = NULL;
             nv_file_private_t *dev_nvfp = NULL;
@@ -771,6 +790,7 @@ NV_STATUS RmIoctl(
 
         case NV_ESC_RM_UPDATE_DEVICE_MAPPING_INFO:
         {
+            NV_PRINTF(LEVEL_ERROR, "NVIDIA-TRACE: Command: NV_ESC_RM_UPDATE_DEVICE_MAPPING_INFO\n");
             NVOS56_PARAMETERS *pApi = data;
             void *pOldCpuAddress;
             void *pNewCpuAddress;
@@ -796,6 +816,7 @@ NV_STATUS RmIoctl(
 
         case NV_ESC_RM_LOCKLESS_DIAGNOSTIC:
         {
+            NV_PRINTF(LEVEL_ERROR, "NVIDIA-TRACE: Command: NV_ESC_RM_LOCKLESS_DIAGNOSTIC\n");
             NV_LOCKLESS_DIAGNOSTIC_PARAMS *pParams = data;
 
             NV_CTL_DEVICE_ONLY(nv);
@@ -830,6 +851,7 @@ NV_STATUS RmIoctl(
 
         case NV_ESC_REGISTER_FD:
         {
+            NV_PRINTF(LEVEL_ERROR, "NVIDIA-TRACE: Command: NV_ESC_REGISTER_FD\n");
             nv_ioctl_register_fd_t *params = data;
             void *priv = NULL;
             nv_file_private_t *ctl_nvfp;

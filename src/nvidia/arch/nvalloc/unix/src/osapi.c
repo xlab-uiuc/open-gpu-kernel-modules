@@ -2745,7 +2745,9 @@ NV_STATUS NV_API_CALL rm_ioctl(
     NV_STATUS rmStatus = NV_OK;
     THREAD_STATE_NODE threadState;
     void *fp;
-
+    NV_PRINTF(LEVEL_ERROR, 
+        "NVIDIA-TRACE: Entering rm_ioctl - Command: 0x%08x, pNv: %p, nvfp: %p, pData: %p, dataSize: %u\n", 
+        Command, pNv, nvfp, pData, dataSize);
     NV_ENTER_RM_RUNTIME(sp,fp);
 
     //

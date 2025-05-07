@@ -2340,6 +2340,8 @@ nvidia_ioctl(
     unsigned int cmd,
     unsigned long i_arg)
 {
+    printk(KERN_INFO "NVIDIA-TRACE: Entering nvidia_ioctl\n");
+
     NV_STATUS rmStatus;
     int status = 0;
     nv_linux_file_private_t *nvlfp = NV_GET_LINUX_FILE_PRIVATE(file);

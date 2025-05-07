@@ -59,6 +59,7 @@ ceutilsGetFirstAsyncCe_IMPL
     NvBool    forceSkipMIG
 )
 {
+    NV_PRINTF(LEVEL_ERROR, "NVIDIA-TRACE: Entering ceutilsGetFirstAsyncCe_IMPL\n");
     if (IS_MIG_IN_USE(pGpu) && !forceSkipMIG)
     {
         Device *pDevice;
@@ -100,6 +101,7 @@ ceutilsConstruct_IMPL
     NV0050_ALLOCATION_PARAMETERS *pAllocParams
 )
 {
+    NV_PRINTF(LEVEL_ERROR, "NVIDIA-TRACE: Entering ceutilsConstruct_IMPL\n");
     NV_STATUS status = NV_OK;
     NvU64 allocFlags = pAllocParams->flags;
     NvBool bForceCeId = FLD_TEST_DRF(0050_CEUTILS, _FLAGS, _FORCE_CE_ID, _TRUE, allocFlags);
@@ -252,6 +254,7 @@ ceutilsDestruct_IMPL
     CeUtils *pCeUtils
 )
 {
+    NV_PRINTF(LEVEL_ERROR, "NVIDIA-TRACE: Entering ceutilsDestruct_IMPL\n");
     OBJCHANNEL *pChannel = pCeUtils->pChannel;
     OBJGPU *pGpu = pCeUtils->pGpu;
     MemoryManager *pMemoryManager = GPU_GET_MEMORY_MANAGER(pGpu);
@@ -309,6 +312,7 @@ ceutilsDestruct_IMPL
 void
 ceutilsServiceInterrupts_IMPL(CeUtils *pCeUtils)
 {
+    NV_PRINTF(LEVEL_ERROR, "NVIDIA-TRACE: Entering ceutilsServiceInterrupts_IMPL\n");
     OBJCHANNEL *pChannel = pCeUtils->pChannel;
 
     //
@@ -336,6 +340,7 @@ _ceUtilsFastScrubEnabled
     CHANNEL_PB_INFO *pChannelPbInfo
 )
 {
+    NV_PRINTF(LEVEL_ERROR, "NVIDIA-TRACE: Entering _ceUtilsFastScrubEnabled\n");
     OBJGPU *pGpu = pChannel->pGpu;
     MemoryManager *pMemoryManager = GPU_GET_MEMORY_MANAGER(pGpu);
 
@@ -376,6 +381,7 @@ _ceutilsSubmitPushBuffer
     CHANNEL_PB_INFO * pChannelPbInfo
 )
 {
+    NV_PRINTF(LEVEL_ERROR, "NVIDIA-TRACE: Entering _ceutilsSubmitPushBuffer\n");
     NV_STATUS status = NV_OK;
     NvU32 methodsLength, putIndex = 0;
 
@@ -515,6 +521,8 @@ ceutilsMemset_IMPL
     memsetLength = pParams->length;
     offset = pParams->offset;
 
+    NV_PRINTF(LEVEL_ERROR, "NVIDIA-TRACE: Entering ceutilsMemset_IMPL, memsetLength: %llu\n", memsetLength);
+
     do
     {
         NvU64 maxContigSize = bContiguous ? memsetLength : (pageGranularity - offset % pageGranularity);
@@ -632,6 +640,8 @@ ceutilsMemcopy_IMPL
     bDstContig = memdescGetContiguity(pDstMemDesc, AT_GPU);
 
     copyLength = length;
+    NV_PRINTF(LEVEL_ERROR, "NVIDIA-TRACE: Entering ceutilsMemcopy_IMPL\n - Source Size: %llu, Destination Size: %llu, Copy Length: %llu\n", srcSize, dstSize, copyLength);
+
 
     do
     {
@@ -691,6 +701,7 @@ ceutilsUpdateProgress_IMPL
     CeUtils *pCeUtils
 )
 {
+    NV_PRINTF(LEVEL_ERROR, "NVIDIA-TRACE: Entering ceutilsUpdateProgress_IMPL\n");
     NV_ASSERT((pCeUtils != NULL) && (pCeUtils->pChannel != NULL));
 
     NvU32 hwCurrentCompletedPayload = 0;
@@ -730,6 +741,7 @@ ceutilsapiCtrlCmdCheckProgress_IMPL
     NV0050_CTRL_CHECK_PROGRESS_PARAMS *pParams
 )
 {
+    NV_PRINTF(LEVEL_ERROR, "NVIDIA-TRACE: Entering ceutilsapiCtrlCmdCheckProgress_IMPL\n");
     if (pParams->submittedWorkId <= ceutilsUpdateProgress(pCeUtilsApi->pCeUtils))
     {
         pParams->result = NV0050_CTRL_CHECK_PROGRESS_RESULT_FINISHED;
@@ -763,6 +775,7 @@ ceutilsapiDestruct_IMPL
     CeUtilsApi *pCeUtilsApi
 )
 {
+    NV_PRINTF(LEVEL_ERROR, "NVIDIA-TRACE: Entering ceutilsapiDestruct_IMPL\n");
     objDelete(pCeUtilsApi->pCeUtils);
 }
 
@@ -773,6 +786,7 @@ ceutilsapiCtrlCmdMemset_IMPL
     NV0050_CTRL_MEMSET_PARAMS *pParams
 )
 {
+    NV_PRINTF(LEVEL_ERROR, "NVIDIA-TRACE: Entering ceutilsapiCtrlCmdMemset_IMPL\n");
     NV_STATUS          status = NV_OK;
     NvHandle           hClient = RES_GET_CLIENT_HANDLE(pCeUtilsApi);
     RsResourceRef     *pPhysmemRef;
@@ -814,6 +828,7 @@ ceutilsapiCtrlCmdMemcopy_IMPL
     NV0050_CTRL_MEMCOPY_PARAMS *pParams
 )
 {
+    NV_PRINTF(LEVEL_ERROR, "NVIDIA-TRACE: Entering ceutilsapiCtrlCmdMemcopy_IMPL\n");
     NV_STATUS          status = NV_OK;
     NvHandle           hClient = RES_GET_CLIENT_HANDLE(pCeUtilsApi);
     RsResourceRef     *pSrcPhysmemRef;

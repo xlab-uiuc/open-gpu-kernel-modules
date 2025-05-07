@@ -146,6 +146,7 @@ static void smmu_vcmdq_write64(void __iomem *smmu_cmdqv_base, int reg, NvU64 val
 // TLB invalidates on read-only to read-write upgrades
 static NV_STATUS uvm_ats_smmu_war_init(uvm_parent_gpu_t *parent_gpu)
 {
+    printk(KERN_INFO "NVIDIA-TRACE: uvm_ats_smmu_war_init\n");
     uvm_spin_loop_t spin;
     NV_STATUS status;
     unsigned long cmdqv_config;
@@ -204,6 +205,7 @@ out:
 
 static void uvm_ats_smmu_war_deinit(uvm_parent_gpu_t *parent_gpu)
 {
+    printk(KERN_INFO "NVIDIA-TRACE: uvm_ats_smmu_war_deinit\n");
     void __iomem *smmu_cmdqv_base = parent_gpu->smmu_war.smmu_cmdqv_base;
     NvU32 cmdq_alloc_map;
 
@@ -238,6 +240,7 @@ static void uvm_ats_smmu_war_deinit(uvm_parent_gpu_t *parent_gpu)
 #if UVM_ATS_SMMU_WAR_REQUIRED()
 void uvm_ats_smmu_invalidate_tlbs(uvm_gpu_va_space_t *gpu_va_space, NvU64 addr, size_t size)
 {
+    printk(KERN_INFO "NVIDIA-TRACE: uvm_ats_smmu_invalidate_tlbs\n");
     struct mm_struct *mm = gpu_va_space->va_space->va_space_mm.mm;
     uvm_parent_gpu_t *parent_gpu = gpu_va_space->gpu->parent;
     struct {
@@ -304,6 +307,7 @@ void uvm_ats_smmu_invalidate_tlbs(uvm_gpu_va_space_t *gpu_va_space, NvU64 addr, 
 
 NV_STATUS uvm_ats_sva_add_gpu(uvm_parent_gpu_t *parent_gpu)
 {
+    printk(KERN_INFO "NVIDIA-TRACE: uvm_ats_sva_add_gpu\n");
     int ret;
 
     ret = iommu_dev_enable_feature(&parent_gpu->pci_dev->dev, IOMMU_DEV_FEAT_SVA);
@@ -318,6 +322,7 @@ NV_STATUS uvm_ats_sva_add_gpu(uvm_parent_gpu_t *parent_gpu)
 
 void uvm_ats_sva_remove_gpu(uvm_parent_gpu_t *parent_gpu)
 {
+    printk(KERN_INFO "NVIDIA-TRACE: uvm_ats_sva_remove_gpu\n");
     if (UVM_ATS_SMMU_WAR_REQUIRED())
         uvm_ats_smmu_war_deinit(parent_gpu);
 
@@ -326,6 +331,7 @@ void uvm_ats_sva_remove_gpu(uvm_parent_gpu_t *parent_gpu)
 
 NV_STATUS uvm_ats_sva_bind_gpu(uvm_gpu_va_space_t *gpu_va_space)
 {
+    printk(KERN_INFO "NVIDIA-TRACE: uvm_ats_sva_bind_gpu\n");
     NV_STATUS status = NV_OK;
     struct iommu_sva *iommu_handle;
     struct pci_dev *pci_dev = gpu_va_space->gpu->parent->pci_dev;
@@ -378,12 +384,14 @@ out:
 
 static void uvm_sva_reset_iommu_handle(nv_kref_t *nv_kref)
 {
+    printk(KERN_INFO "NVIDIA-TRACE: uvm_sva_reset_iommu_handle\n");
     uvm_sva_gpu_va_space_t *sva_gpu_va_space = container_of(nv_kref, uvm_sva_gpu_va_space_t, kref);
     sva_gpu_va_space->iommu_handle = NULL;
 }
 
 void uvm_ats_sva_unbind_gpu(uvm_gpu_va_space_t *gpu_va_space)
 {
+    printk(KERN_INFO "NVIDIA-TRACE: uvm_ats_sva_unbind_gpu\n");
     uvm_sva_gpu_va_space_t *sva_gpu_va_space = &gpu_va_space->ats.sva;
 
     // ARM SMMU layer decrements the refcount for the {pci_dev, mm} pair.
@@ -396,6 +404,7 @@ void uvm_ats_sva_unbind_gpu(uvm_gpu_va_space_t *gpu_va_space)
 
 NV_STATUS uvm_ats_sva_register_gpu_va_space(uvm_gpu_va_space_t *gpu_va_space)
 {
+    printk(KERN_INFO "NVIDIA-TRACE: uvm_ats_sva_register_gpu_va_space\n");
     NvU32 pasid;
     NV_STATUS status = NV_OK;
     uvm_sva_gpu_va_space_t *sva_gpu_va_space = &gpu_va_space->ats.sva;
@@ -414,6 +423,7 @@ NV_STATUS uvm_ats_sva_register_gpu_va_space(uvm_gpu_va_space_t *gpu_va_space)
 
 void uvm_ats_sva_unregister_gpu_va_space(uvm_gpu_va_space_t *gpu_va_space)
 {
+    printk(KERN_INFO "NVIDIA-TRACE: uvm_ats_sva_unregister_gpu_va_space\n");
     gpu_va_space->ats.pasid = -1U;
 }
 

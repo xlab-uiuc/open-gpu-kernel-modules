@@ -46,6 +46,7 @@ kfifoEngineInfoXlate_GA100
     NvU32           *pOutVal
 )
 {
+    NV_PRINTF(LEVEL_ERROR, "NVIDIA-TRACE: Entering kfifoEngineInfoXlate_GA100\n");
     KernelGraphicsManager *pKernelGraphicsManager = GPU_GET_KERNEL_GRAPHICS_MANAGER(pGpu);
 
     // We no longer store ENGINE_INFO_TYPE_INTR on Ampere+ (bug 24110055)
@@ -123,6 +124,7 @@ kfifoChannelGroupGetLocalMaxSubcontext_GA100
     NvBool              bLegacyMode
 )
 {
+    NV_PRINTF(LEVEL_ERROR, "NVIDIA-TRACE: Entering kfifoChannelGroupGetLocalMaxSubcontext_GA100\n");
     KernelGraphicsManager *pKernelGraphicsManager = GPU_GET_KERNEL_GRAPHICS_MANAGER(pGpu);
 
     NV_ASSERT_OR_RETURN(pKernelChannelGroup != NULL, NV_ERR_INVALID_ARGUMENT);
@@ -158,6 +160,7 @@ kfifoUpdateUsermodeDoorbell_GA100
     NvU32       runlistId
 )
 {
+    NV_PRINTF(LEVEL_ERROR, "NVIDIA-TRACE: Entering kfifoUpdateUsermodeDoorbell_GA100\n");
     //
     // Updating the usermode doorbell is different for CPU vs. GSP.
     //
@@ -193,6 +196,7 @@ kfifoGenerateWorkSubmitTokenHal_GA100
     NvBool         bUsedForHost
 )
 {
+    NV_PRINTF(LEVEL_ERROR, "NVIDIA-TRACE: Entering kfifoGenerateWorkSubmitTokenHal_GA100\n");
     NvU32          chId;
     NvU32          gfId;
     NvU32          runlistId;
@@ -279,6 +283,7 @@ kfifoGetMaxCeChannelGroups_GA100
     KernelFifo *pKernelFifo
 )
 {
+    NV_PRINTF(LEVEL_ERROR, "NVIDIA-TRACE: Entering kfifoGetMaxCeChannelGroups_GA100\n");
     ENGDESCRIPTOR eng = 0;
     NvU32 deviceIndex;
     const ENGINE_INFO *pEngineInfo = kfifoGetEngineInfo(pKernelFifo);
@@ -338,6 +343,7 @@ kfifoGetEnginePbdmaFaultIds_GA100
     NvU32              *pNumPbdmas
 )
 {
+    NV_PRINTF(LEVEL_ERROR, "NVIDIA-TRACE: Entering kfifoGetEnginePbdmaFaultIds_GA100\n");
     const ENGINE_INFO *pEngineInfo = kfifoGetEngineInfo(pKernelFifo);
     NvU32 i;
 
@@ -385,6 +391,7 @@ kfifoGetNumPBDMAs_GA100
     KernelFifo *pKernelFifo
 )
 {
+    NV_PRINTF(LEVEL_ERROR, "NVIDIA-TRACE: Entering kfifoGetNumPBDMAs_GA100\n");
     const ENGINE_INFO *pEngineInfo = kfifoGetEngineInfo(pKernelFifo);
 
     NV_PRINTF(LEVEL_INFO, "%d PBDMAs\n", pEngineInfo->maxNumPbdmas);
@@ -898,6 +905,7 @@ kfifoStartChannelHalt_GA100
     KernelChannel *pKernelChannel
 )
 {
+    NV_PRINTF(LEVEL_ERROR, "NVIDIA-TRACE: Entering kfifoStartChannelHalt_GA100\n");
     NvU32       chramPriBase;
     NvU32       channelVal;
     NvU32       runlistId;
@@ -947,6 +955,7 @@ kfifoCompleteChannelHalt_GA100
     RMTIMEOUT     *pTimeout
 )
 {
+    NV_PRINTF(LEVEL_ERROR, "NVIDIA-TRACE: Entering kfifoCompleteChannelHalt_GA100\n");
     NvU32       runlistId;
     NvU32       runlistPriBase;
     NvU32       runlistVal = 0;
