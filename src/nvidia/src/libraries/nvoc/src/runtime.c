@@ -239,6 +239,16 @@ NV_STATUS __nvoc_objCreateDynamic(
         return NV_ERR_INVALID_CLASS;
     }
 
+    #if NV_PRINTF_STRINGS_ALLOWED
+        NV_PRINTF(LEVEL_ERROR, 
+          "NVIDIA-TRACE: Entering __nvoc_objCreateDynamic - creating object: Size=%u, classId=0x%x, name=%s\n", 
+          pClassDef->classInfo.size, pClassDef->classInfo.classId, pClassDef->classInfo.name);
+    #else
+        NV_PRINTF(LEVEL_ERROR, 
+          "NVIDIA-TRACE: Entering __nvoc_objCreateDynamic - creating object: Size=%u, classId=0x%x\n", 
+          pClassDef->classInfo.size, pClassDef->classInfo.classId);
+    #endif
+
     va_start(args, createFlags);
     status = pClassDef->objCreatefn(ppNewObject, pParent, createFlags, args);
     va_end(args);

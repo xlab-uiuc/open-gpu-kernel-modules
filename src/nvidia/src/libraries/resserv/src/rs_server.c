@@ -1459,6 +1459,7 @@ serverControl
     RS_RES_CONTROL_PARAMS *pParams
 )
 {
+    NV_PRINTF(LEVEL_ERROR, "NVIDIA-TRACE: Entering serverControl\n");
     NV_STATUS             status;
     CLIENT_ENTRY         *pClientEntry = NULL;
     CLIENT_ENTRY         *pSecondClientEntry = NULL;

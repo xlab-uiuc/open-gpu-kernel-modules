@@ -349,6 +349,7 @@ serverControlApiCopyOut
 static NV_STATUS
 _rmapiRmControl(NvHandle hClient, NvHandle hObject, NvU32 cmd, NvP64 pUserParams, NvU32 paramsSize, NvU32 flags, RM_API *pRmApi, API_SECURITY_INFO *pSecInfo)
 {
+    NV_PRINTF(LEVEL_ERROR, "NVIDIA-TRACE: Entering _rmapiRmControl\n");
     OBJSYS    *pSys = SYS_GET_INSTANCE();
     RmCtrlParams rmCtrlParams;
     RS_CONTROL_COOKIE rmCtrlExecuteCookie = {0};

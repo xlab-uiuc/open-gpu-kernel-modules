@@ -1081,6 +1081,7 @@ memdescAlloc
     MEMORY_DESCRIPTOR *pMemDesc
 )
 {
+    NV_PRINTF(LEVEL_ERROR, "NVIDIA-TRACE: Entering memdescAlloc\n");
     OBJGPU             *pGpu        = pMemDesc->pGpu;
     NV_STATUS           status      = NV_OK;
     NvBool              bcState     = NV_FALSE;
@@ -1402,6 +1403,7 @@ memdescAllocList
     const NV_ADDRESS_SPACE *pList
 )
 {
+    NV_PRINTF(LEVEL_ERROR, "NVIDIA-TRACE: Entering memdescAllocList\n");
     NV_STATUS status = NV_ERR_INVALID_ARGUMENT;
     NvU32 i = 0;
 
@@ -3193,6 +3195,7 @@ memdescGetPteArrayForGpu
     ADDRESS_TRANSLATION addressTranslation
 )
 {
+    NV_PRINTF(LEVEL_ERROR, "NVIDIA-TRACE: Entering memdescGetPteArrayForGpu\n");
     NV_ASSERT(!memdescHasSubDeviceMemDescs(pMemDesc));
 
     switch (AT_VALUE(addressTranslation))
@@ -4458,6 +4461,7 @@ void memdescUnmapIommu
     NvU32 iovaspaceId
 )
 {
+    NV_PRINTF(LEVEL_ERROR, "NVIDIA-TRACE: Entering memdescUnmapIommu\n");
     NV_PRINTF(LEVEL_ERROR, "NVIDIA-TRACE: Entering memdescUnmapIommu\n");
 #if (RMCFG_FEATURE_PLATFORM_UNIX || RMCFG_FEATURE_PLATFORM_MODS) && !NVCPU_IS_ARM
     PIOVAMAPPING pIovaMapping;

@@ -307,6 +307,7 @@ kceRunFipsSelfTestEncrypt
     void     *pArg
 )
 {
+    NV_PRINTF(LEVEL_ERROR, "NVIDIA-TRACE: Entering kceRunFipsSelfTestEncrypt\n");
     KernelCE          *pKCe              = pArg;
     MemoryManager     *pMemoryManager    = GPU_GET_MEMORY_MANAGER(pGpu);
     KernelMIGManager  *pKernelMIGManager = GPU_GET_KERNEL_MIG_MANAGER(pGpu);

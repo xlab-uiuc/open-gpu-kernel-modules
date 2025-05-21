@@ -186,6 +186,7 @@ gspTraceAddBindpoint
     NvU32 gspTracingBufferWatermark
 )
 {
+    NV_PRINTF(LEVEL_ERROR, "NVIDIA-TRACE: Entering gspTraceAddBindpoint\n");
 
     NvHandle hClient            = pClient->hClient;
     NvU32 hInternalClient       = pGpu->hInternalClient;

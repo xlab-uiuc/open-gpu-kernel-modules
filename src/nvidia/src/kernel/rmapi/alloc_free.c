@@ -680,6 +680,7 @@ serverAllocResourceUnderLock
     RS_RES_ALLOC_PARAMS *pRmAllocParams
 )
 {
+    NV_PRINTF(LEVEL_ERROR, "NVIDIA-TRACE: Entering serverAllocResourceUnderLock\n");
     NvHandle                 hClient = pRmAllocParams->hClient;
     NvHandle                 hParent;
     RS_RESOURCE_DESC        *pResDesc;
@@ -1342,6 +1343,7 @@ resservResourceFactory
     RsResource          **ppResource
 )
 {
+    NV_PRINTF(LEVEL_ERROR, "NVIDIA-TRACE: Entering resservResourceFactory\n");
     RS_RESOURCE_DESC *pResDesc;
     NV_STATUS   status;
     Dynamic    *pDynamic = NULL;

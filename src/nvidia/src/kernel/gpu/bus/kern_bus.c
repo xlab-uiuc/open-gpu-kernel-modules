@@ -289,6 +289,7 @@ kbusSetupPeerBarAccess_IMPL
     PMEMORY_DESCRIPTOR *ppMemDesc
 )
 {
+    NV_PRINTF(LEVEL_ERROR, "NVIDIA-TRACE: Entering kbusSetupPeerBarAccess_IMPL\n");
     NV_STATUS          status;
     MEMORY_DESCRIPTOR *pMemDesc = *ppMemDesc;
     IOVAMAPPING       *pIovaMapping;

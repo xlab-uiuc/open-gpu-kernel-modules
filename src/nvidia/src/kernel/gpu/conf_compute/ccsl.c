@@ -407,6 +407,7 @@ ccslContextInitViaChannel_IMPL
     NvHandle      hChannel
 )
 {
+    NV_PRINTF(LEVEL_ERROR, "NVIDIA-TRACE: Entering ccslContextInitViaChannel_IMPL.\n");
     OBJSYS            *pSys     = SYS_GET_INSTANCE();
     OBJGPUMGR         *pGpuMgr  = SYS_GET_GPUMGR(pSys);
     OBJGPU            *pGpu;

@@ -1986,6 +1986,7 @@ cliresCtrlCmdOsUnixFlushUserCache_IMPL
     NV0000_CTRL_OS_UNIX_FLUSH_USER_CACHE_PARAMS *pAddressSpaceParams
 )
 {
+    NV_PRINTF(LEVEL_ERROR, "NVIDIA-TRACE: Entering cliresCtrlCmdOsUnixFlushUserCache_IMPL\n");
     Memory *pMemory;
     MEMORY_DESCRIPTOR *pMemDesc;
     NvU64 start, end;

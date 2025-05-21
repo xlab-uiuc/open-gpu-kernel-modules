@@ -99,6 +99,7 @@ NV_STATUS kvidengInitLogging_KERNEL
     KernelVideoEngine *pKernelVideoEngine
 )
 {
+    NV_PRINTF(LEVEL_ERROR, "NVIDIA-TRACE: Entering kvidengInitLogging_KERNEL\n");
     NV_STATUS status;
     NvU32 eventBufferSize;
     VIDEO_TRACE_RING_BUFFER *pTraceBuf;

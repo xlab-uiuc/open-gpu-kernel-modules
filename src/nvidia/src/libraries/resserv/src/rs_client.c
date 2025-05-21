@@ -502,6 +502,7 @@ clientAllocResource_IMPL
     RS_RES_ALLOC_PARAMS_INTERNAL *pParams
 )
 {
+    
     return _clientAllocResourceHelper(pClient, pServer, pParams, &pParams->hResource);
 }
 

@@ -1128,6 +1128,7 @@ NV_STATUS kgmmuCreateFakeSparseTables_GH100
     KernelGmmu* pKernelGmmu
 )
 {
+    NV_PRINTF(LEVEL_ERROR, "NVIDIA-TRACE: Entering kgmmuCreateFakeSparseTables_GH100\n");
     NV_STATUS status;
 
     NV_ASSERT_OK_OR_RETURN(memdescCreate(&pKernelGmmu->pFakeSparseBuffer, pGpu,

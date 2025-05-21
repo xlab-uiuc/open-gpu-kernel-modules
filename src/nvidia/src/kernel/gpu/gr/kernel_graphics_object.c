@@ -406,6 +406,7 @@ kgrobjSetComputeMmio_IMPL
     KernelGraphicsObject *pKernelGraphicsObject
 )
 {
+    NV_PRINTF(LEVEL_ERROR, "NVIDIA-TRACE: Entering kgrobjSetComputeMmio_IMPL\n");
     ChannelDescendant *pChanDes = staticCast(pKernelGraphicsObject, ChannelDescendant);
     MemoryManager *pMemoryManager = GPU_GET_MEMORY_MANAGER(pGpu);
     NvU32 classNum = pChanDes->resourceDesc.externalClassId;

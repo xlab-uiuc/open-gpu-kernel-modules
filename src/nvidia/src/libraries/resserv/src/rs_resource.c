@@ -156,6 +156,7 @@ resControl_IMPL
     RS_RES_CONTROL_PARAMS_INTERNAL *pRsParams
 )
 {
+    NV_PRINTF(LEVEL_ERROR, "NVIDIA-TRACE: Entering resControl_IMPL\n");
     RsServer *pServer = pCallContext->pServer;
     const struct NVOC_EXPORTED_METHOD_DEF   *pEntry;
     NV_STATUS status;
@@ -172,6 +173,28 @@ resControl_IMPL
     }
 
     NV_ASSERT_OR_RETURN(pEntry != NULL, NV_ERR_NOT_SUPPORTED);
+
+    NV_PRINTF(LEVEL_ERROR, "NVIDIA-TRACE: Control command 0x%x - Method ID: 0x%x, Param size: %u bytes", pRsParams->cmd, pEntry->methodId, pEntry->paramSize);
+    #if NV_PRINTF_STRINGS_ALLOWED
+        if (pEntry->func != NULL)
+        {
+            NV_PRINTF(LEVEL_ERROR, "NVIDIA-TRACE: Function Name: %s", pEntry -> func);
+        }
+    #endif
+    
+    if (pEntry->pClassInfo != NULL)
+    {
+        NV_PRINTF(LEVEL_ERROR, "NVIDIA-TRACE: Class ID: 0x%x, Class size: %u bytes", 
+                pEntry->pClassInfo->classId, pEntry->pClassInfo->size);
+
+        
+        #if NV_PRINTF_STRINGS_ALLOWED
+            if (pEntry->pClassInfo->name != NULL)
+            {
+                NV_PRINTF(LEVEL_ERROR, "NVIDIA-TRACE: Class name: %s", pEntry->pClassInfo->name);
+            }
+        #endif
+    }
 
     // Initialize the execution cookie
     serverControl_InitCookie(pEntry, pRsParams->pCookie);

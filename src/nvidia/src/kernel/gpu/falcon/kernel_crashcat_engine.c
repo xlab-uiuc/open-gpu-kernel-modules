@@ -33,6 +33,7 @@ NV_STATUS kcrashcatEngineConfigure_IMPL
     KernelCrashCatEngineConfig *pEngConfig
 )
 {
+    NV_PRINTF(LEVEL_ERROR, "NVIDIA-TRACE: Entering kcrashcatEngineConfigure\n");
     if (!pEngConfig->bEnable)
         return NV_OK;
 

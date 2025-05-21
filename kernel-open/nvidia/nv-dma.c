@@ -270,7 +270,7 @@ NV_STATUS nv_map_dma_map_scatterlist(nv_dma_map_t *dma_map)
         nv_unmap_dma_map_scatterlist(dma_map);
     }
 
-    printk(KERN_INFO "NVIDIA-TRACE: Entering nv_map_dma_map_scatterlist mapped %llu bytes, number of submaps %llu\n",
+    printk(KERN_INFO "NVIDIA-TRACE: Entering nv_map_dma_map_scatterlist mapped %u bytes, number of submaps %u\n",
         total_mapped_size, dma_map->mapping.discontig.submap_count);
     return status;
 }
@@ -306,7 +306,7 @@ void nv_unmap_dma_map_scatterlist(nv_dma_map_t *dma_map)
             total_mapped_size += sg->length;
         }
 
-        printk(KERN_INFO "NVIDIA-TRACE: Entering nv_unmap_dma_map_scatterlist unmapped %llu bytes, num submaps: %llu\n",
+        printk(KERN_INFO "NVIDIA-TRACE: Entering nv_unmap_dma_map_scatterlist unmapped %u bytes, num submaps: %u\n",
             total_mapped_size, dma_map->mapping.discontig.submap_count);
         
     }

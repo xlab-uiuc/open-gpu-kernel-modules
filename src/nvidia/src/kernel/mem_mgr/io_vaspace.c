@@ -261,6 +261,7 @@ _iovaspaceCreateSubmapping
     PMEMORY_DESCRIPTOR pPhysMemDesc
 )
 {
+    NV_PRINTF(LEVEL_ERROR, "NVIDIA-TRACE: Entering memmapperCreateSubmapping\n");
     NV_PRINTF(LEVEL_ERROR, "NVIDIA-TRACE: Entering memmapperExecuteUnmap\n");
     NvU64 rootOffset;
     NV_STATUS status = NV_OK;

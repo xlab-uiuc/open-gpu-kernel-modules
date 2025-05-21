@@ -527,6 +527,7 @@ kdispAllocateSharedMem_IMPL
     KernelDisplay *pKernelDisplay
 )
 {
+    NV_PRINTF(LEVEL_ERROR, "NVIDIA-TRACE: Entering kdispAllocateSharedMem_IMPL\n");
     NV_STATUS rmStatus;
     void *address = NULL;
     RM_API *pRmApi = GPU_GET_PHYSICAL_RMAPI(pGpu);

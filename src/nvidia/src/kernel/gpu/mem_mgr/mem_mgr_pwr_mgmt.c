@@ -263,6 +263,7 @@ _memmgrAllocFbsrReservedRanges
     MemoryManager *pMemoryManager
 )
 {
+    NV_PRINTF(LEVEL_ERROR, "NVIDIA-TRACE: Entering _memmgrAllocFbsrReservedRanges\n");
     NV_STATUS  status     = NV_OK;
     KernelBus *pKernelBus = GPU_GET_KERNEL_BUS(pGpu);
     NvU64      rsvdMemEnd = pMemoryManager->rsvdMemoryBase + pMemoryManager->rsvdMemorySize;
