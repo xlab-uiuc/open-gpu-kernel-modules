@@ -255,11 +255,14 @@ NV_STATUS nv_map_dma_map_scatterlist(nv_dma_map_t *dma_map)
             break;
         }
 
-        if(!submap -> imported) {
+        {
             struct scatterlist *sg;
-            unsigned int j; 
-
-            for_each_sg(submap->sgt.sgl, sg, submap->sg_map_count, j) {
+            unsigned int j;
+            unsigned int count_to_use = submap->imported ? 
+                                        submap->sgt.orig_nents : 
+                                        submap->sg_map_count;
+                
+            for_each_sg(submap->sgt.sgl, sg, count_to_use, j) {
                 total_mapped_size += sg->length;
             }
         }
@@ -270,8 +273,8 @@ NV_STATUS nv_map_dma_map_scatterlist(nv_dma_map_t *dma_map)
         nv_unmap_dma_map_scatterlist(dma_map);
     }
 
-    printk(KERN_INFO "NVIDIA-TRACE: Entering nv_map_dma_map_scatterlist mapped %u bytes, number of submaps %u\n",
-        total_mapped_size, dma_map->mapping.discontig.submap_count);
+    printk(KERN_INFO "NVIDIA-TRACE: Entering nv_map_dma_map_scatterlist mapped %u bytes\n",
+        total_mapped_size);
     return status;
 }
 
