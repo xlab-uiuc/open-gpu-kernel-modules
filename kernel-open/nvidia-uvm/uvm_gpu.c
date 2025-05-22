@@ -3667,7 +3667,7 @@ NV_STATUS uvm_parent_gpu_map_cpu_pages(uvm_parent_gpu_t *parent_gpu,
 
     atomic64_add(size, &parent_gpu->mapped_cpu_pages_size);
     *dma_address_out = dma_addr_to_gpu_addr(parent_gpu, dma_addr);
-
+    printk(KERN_INFO "NVIDIA-TRACE: Entering uvm_parent_gpu_map_cpu_pages, size = %llu bytes\n", size);
     return NV_OK;
 }
 

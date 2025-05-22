@@ -2171,6 +2171,7 @@ nvswitch_os_map_dma_region
     NvU32 direction
 )
 {
+    printk(KERN_INFO "NVIDIA-TRACE: Entering nvswitch_os_map_dma_region");
     int dma_dir;
     struct pci_dev *pdev = (struct pci_dev *)os_handle;
 
